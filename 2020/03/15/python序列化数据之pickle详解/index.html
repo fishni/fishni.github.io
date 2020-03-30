@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>python序列化数据之pickle详解 - fishni</title>
+  
+    <meta name="keywords" content="python网络编程">
+  
+  
+    <meta name="description" content="学习python之pickle详解">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            FISHNI'S BLOG <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-rss fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  更多
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-rss fa-fw'></i>
+        
+        主页
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        分类
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-archive fa-fw'></i>
+        
+        归档
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/03/15/python%E5%BA%8F%E5%88%97%E5%8C%96%E6%95%B0%E6%8D%AE%E4%B9%8Bpickle%E8%AF%A6%E8%A7%A3/">
+        python序列化数据之pickle详解
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://fishni.github.io/" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/avatar/avatar.png">
+    <p>fishni</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/python/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>python&nbsp;/&nbsp;python网络编程</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年3月15日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>学习python之pickle详解</p>
+<a id="more"></a>
+
+<h4 id="序列化和反序列化"><a href="#序列化和反序列化" class="headerlink" title="序列化和反序列化"></a>序列化和反序列化</h4><ul>
+<li><p>便于存储（序列化过程：将文本信息转为==二进制数据流，易存储在硬盘中==）</p>
+</li>
+<li><p>反序列化从硬盘读取的数据，可得到原始数据</p>
+</li>
+<li><p>python程序运行中得到的字符串、列表等数据，要长久保存，方便之后使用（pickle模块可以将对象转换为已知可以传输或存储的格式）</p>
+</li>
+<li><p>python中序列化和反序列化</p>
+<ul>
+<li><p>将Python对象转换为二级制形式叫做序列化（Pickling）</p>
+</li>
+<li><p>将二进制数据流恢复为Python对象叫做反序列化（Unpickling）</p>
+</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/YuHaoLoveByCats/ImgHosting/Images/A01/python_pickle.png" alt="python序列化反序列化"></p>
+</li>
+</ul>
+<h4 id="pickle"><a href="#pickle" class="headerlink" title="pickle"></a>pickle</h4><ul>
+<li><p>提供了一个简单的==持久化==功能，可以将对象以==文件==形式存放在磁盘上</p>
+</li>
+<li><p>只能在python中使用，可以序列化python中几乎所有的数据类型（列表、字典…）</p>
+</li>
+<li><p>pickle序列化后的数据，可读性差</p>
+</li>
+<li><p>pickle序列化和反序列化示例</p>
+<ul>
+<li><p>819pickling_unpickling_example.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="comment"># 定义类Part</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Part</span>:</span></span><br><span class="line">    number = <span class="number">0</span></span><br><span class="line">    name   = <span class="string">""</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, number, name)</span>:</span></span><br><span class="line">        self.number  = number</span><br><span class="line">        self.name    = name</span><br><span class="line">       </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">identify</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"Part Number: %d"</span>%(self.number))</span><br><span class="line">        print(<span class="string">"Part Name: %s"</span>%(self.name))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 实例化part</span></span><br><span class="line">part1=Part(<span class="number">111</span>, <span class="string">"Spindle"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create a file to store the pickled object</span></span><br><span class="line"><span class="comment"># 创建文件存储pickled对象</span></span><br><span class="line">objectRepository = open(<span class="string">"ObjectFile.picl"</span>, <span class="string">"wb"</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment"># Pickle/serialize the python object and store the bytes into a binary file</span></span><br><span class="line"><span class="comment"># 序列化Python对象并存储为二进制字节流</span></span><br><span class="line">pickle.dump(part1, objectRepository, protocol=pickle.HIGHEST_PROTOCOL)</span><br><span class="line">objectRepository.close()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># Unpickle/de-serialize the python object and print the attributes of the object</span></span><br><span class="line"><span class="comment"># 反序列化Python对象并打印对象属性</span></span><br><span class="line">objectRepository    = open(<span class="string">"ObjectFile.picl"</span>, <span class="string">"rb"</span>,);</span><br><span class="line">reconstructedObject = pickle.load(objectRepository)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># Print object attributes</span></span><br><span class="line"><span class="comment"># 打印对象属性</span></span><br><span class="line">reconstructedObject.identify()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line">- 运行结果：</span><br></pre></td></tr></table></figure>
+<p>  (venv) yuhao@fishmouse:~/Envs/venv/project$ python 819pickling_unpickling_example.py<br>  Part Number: 111<br>  Part Name: Spindle</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 序列化的数据</span><br><span class="line"></span><br><span class="line">  &#96;&#96;&#96;python</span><br><span class="line">  &gt;&gt;&gt; with open(&#39;ObjectFile.picl&#39;,&#39;rb&#39;) as f:</span><br><span class="line">  ...     f.read()</span><br><span class="line">  ... </span><br><span class="line">  b&#39;\x80\x04\x959\x00\x00\x00\x00\x00\x00\x00\x8c\x08__main__\x94\x8c\x04Part\x94\x93\x94)\x81\x94&#125;\x94(\x8c\x06number\x94Ko\x8c\x04name\x94\x8c\x07Spindle\x94ub.&#39;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>==序列化==语法</p>
+<ul>
+<li><p><a href="https://pythontic.com/modules/pickle/dump" target="_blank" rel="noopener">pickle.dump参考链接</a></p>
+</li>
+<li><p>pickle.dump(obj,file[,protocol])</p>
+<ul>
+<li>序列化对象，将结果数据流写入到文件对象或者buffer中</li>
+</ul>
+</li>
+<li><p>参数protocol是序列化模式，一共有5种不同的类型，即（0,1,2,3,4）；</p>
+<ul>
+<li>（0,1,2）早期的版本，默认值为0（表示以文本形式序列化），值为1或2（表示以二级制的形式序列化）；</li>
+<li>（3,4）则是python3之后的版本</li>
+<li>查看（3,4）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> pickle</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pickle.HIGHEST_PROTOCOL</span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pickle.DEFAULT_PROTOCOL</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pickle.dump()：转换的字节流写入buffer中</p>
+<ul>
+<li><p>示例：819pickle_dump_example.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> io</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span>:</span></span><br><span class="line">    title       = <span class="string">""</span></span><br><span class="line">    isbn        = <span class="string">""</span></span><br><span class="line">    parts       = <span class="literal">None</span></span><br><span class="line">    chapters    = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, title, isbn, parts, chapters)</span>:</span></span><br><span class="line">        self.title      = title</span><br><span class="line">        self.isbn       = isbn</span><br><span class="line">        self.parts      = parts</span><br><span class="line">        self.chapters   = chapters</span><br><span class="line">       </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">identify</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"Title of the book: %s"</span>%(self.title))</span><br><span class="line">        print(<span class="string">"ISBN of the book: %s"</span>%(self.isbn))</span><br><span class="line">        print(<span class="string">"Parts are:"</span>)</span><br><span class="line">        <span class="keyword">for</span> part <span class="keyword">in</span> self.parts:</span><br><span class="line">            print(part)</span><br><span class="line">        print(<span class="string">"Chapters are:%s"</span>%(self.chapters))</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Part</span>:</span></span><br><span class="line">    partName     = <span class="string">""</span></span><br><span class="line">    beginChapter = <span class="number">-1</span></span><br><span class="line">    endChapter   = <span class="number">-1</span></span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, partName, beginChapter, endChapter)</span>:</span></span><br><span class="line">        self.partName     = partName</span><br><span class="line">        self.beginChapter = beginChapter</span><br><span class="line">        self.endChapter   = endChapter</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        stringRep =  <span class="string">"%s"</span>%(self.partName)       </span><br><span class="line">        <span class="keyword">return</span> stringRep</span><br><span class="line"></span><br><span class="line">part1 = Part(<span class="string">"Part 1"</span>, <span class="number">1</span>, <span class="number">3</span>)</span><br><span class="line">part2 = Part(<span class="string">"Part 2"</span>, <span class="number">4</span>, <span class="number">5</span>)       </span><br><span class="line">part3 = Part(<span class="string">"Part 3"</span>, <span class="number">6</span>, <span class="number">7</span>)</span><br><span class="line"> </span><br><span class="line">bookTitle       = <span class="string">"Book yet to be written"</span>;</span><br><span class="line">bookISBN        = <span class="string">"XXX-X-XX-XXXXXX-X"</span>;</span><br><span class="line">bookParts       = [part1, part2, part3]</span><br><span class="line">bookChapters    = [<span class="string">"Chapter 1"</span>, <span class="string">"Chapter 2"</span>, <span class="string">"Chapter 3"</span>,</span><br><span class="line">                   <span class="string">"Chapter 4"</span>, <span class="string">"Chapter 5"</span>, <span class="string">"Chapter 6"</span>,</span><br><span class="line">                   <span class="string">"Chapter 7"</span>];</span><br><span class="line"></span><br><span class="line">book = Book(bookTitle, bookISBN, bookParts, bookChapters)</span><br><span class="line"><span class="comment"># 创建buffer存储pickle对象</span></span><br><span class="line">pickleBuffer = io.BytesIO()</span><br><span class="line">print(<span class="string">"Pickling of the object into the memory buffer started"</span>)</span><br><span class="line"><span class="comment"># </span></span><br><span class="line">pickle.dump(book,pickleBuffer)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Pickling of the object into the memory buffer ended"</span>)</span><br><span class="line">print(<span class="string">"Pickled buffer beginning address:"</span>)</span><br><span class="line">print(pickleBuffer.getbuffer())</span><br><span class="line">print(<span class="string">"Unpickling of the object from memory started"</span>)</span><br><span class="line"><span class="comment">#</span></span><br><span class="line">unpickledBook = pickle.loads(pickleBuffer.getbuffer())</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Unpickling of the object from memory ended"</span>)</span><br><span class="line">print(<span class="string">"Printing the attributes of unpickled object"</span>)</span><br><span class="line">unpickledBook.identify()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>pickle.dumps()参数</p>
+<p>pickle.dumps(obj, protocol=None,*,fix_imports=True)</p>
+<ul>
+<li>与pickle.dump()区别，pickle.dumps()方法不需要写入文件中，他是直接返回一个序列化的bytes对象</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>==反序列化==语法</p>
+<ul>
+<li><p>pickle.load(file)</p>
+<ul>
+<li>反序列化对象（将文件中数据解析为一个Python对象）</li>
+<li>==注意==：load(file)时，要让Python能够找到类的定义,否则会报错</li>
+<li>注意：参数file，必须是以二进制的形式进行操作（读取）</li>
+<li>示例：819test_pickle.py</li>
+</ul>
+</li>
+<li><p>反序列方法pickle.loads()</p>
+<ul>
+<li><p>参数如下：</p>
+<p>pickle.loads(bytes_object, *,fix_imports=True, encoding=”ASCII”. errors=”strict”)</p>
+</li>
+<li><p><code>pickle.loads()</code>方法是直接从bytes对象中读取序列化的信息，而非从文件中读取。示例如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> pickle</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pickle.dumps([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line"><span class="string">b'\x80\x03]q\x00(K\x01K\x02K\x03e.'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pickle.loads(_)</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#load(file)时，要让Python能够找到类的定义,否则会报错</span></span><br><span class="line"><span class="keyword">import</span> pickle  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>:</span>  </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,n,a)</span>:</span>  </span><br><span class="line">        self.name=n  </span><br><span class="line">      self.age=a  </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(self)</span>:</span>  </span><br><span class="line">      print(self.name+<span class="string">" "</span>+str(self.age))  </span><br><span class="line">aa = Person(<span class="string">"JGood"</span>, <span class="number">2</span>)  </span><br><span class="line">aa.show()  </span><br><span class="line"><span class="comment"># del Person</span></span><br><span class="line">f=open(<span class="string">'p.txt'</span>,<span class="string">'wb'</span>)  </span><br><span class="line">pickle.dump(aa,f,<span class="number">0</span>)  </span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  注释掉删除类对象操作，若未注释则会报错</span><br><span class="line">del Person  </span><br><span class="line">  f&#x3D;open(&#39;p.txt&#39;,&#39;rb&#39;)  </span><br><span class="line">  bb&#x3D;pickle.load(f)  </span><br><span class="line">  f.close()  </span><br><span class="line">  bb.show()</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(venv) yuhao@fishmouse:~&#x2F;Envs&#x2F;venv&#x2F;project$ python 819test_pickle.py </span><br><span class="line">  JGood 2</span><br><span class="line">JGood 2</span><br></pre></td></tr></table></figure>
+<p>未注释结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">  (venv) yuhao@fishmouse:~&#x2F;Envs&#x2F;venv&#x2F;project$ python 819test_pickle.py </span><br><span class="line">  JGood 2</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">    File &quot;819test_pickle.py&quot;, line 15, in &lt;module&gt;</span><br><span class="line">      bb&#x3D;pickle.load(f)  </span><br><span class="line">  AttributeError: Can&#39;t get attribute &#39;Person&#39; on &lt;module &#39;__main__&#39; from &#39;819test_pickle.py&#39;&gt;</span><br><span class="line">  </span><br><span class="line">  [p.txt](p.txt)文件中数据存储格式：</span><br><span class="line">  </span><br><span class="line">  &#96;&#96;&#96;python</span><br><span class="line">  &gt;&gt;&gt; with open(&#39;p.txt&#39;,&#39;rb&#39;) as f:</span><br><span class="line">  ...     f.read()</span><br><span class="line">  ... </span><br><span class="line">  b&#39;ccopy_reg\n_reconstructor\np0\n(c__main__\nPerson\np1\nc__builtin__\nobject\np2\nNtp3\nRp4\n(dp5\nVname\np6\nVJGood\np7\nsVage\np8\nL2L\nsb.&#39;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=http://yoursite.com/2020/03/15/python%E5%BA%8F%E5%88%97%E5%8C%96%E6%95%B0%E6%8D%AE%E4%B9%8Bpickle%E8%AF%A6%E8%A7%A3/>http://yoursite.com/2020/03/15/python%E5%BA%8F%E5%88%97%E5%8C%96%E6%95%B0%E6%8D%AE%E4%B9%8Bpickle%E8%AF%A6%E8%A7%A3/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-30T14:32:58+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年3月30日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python网络编程</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/03/15/python%E5%BA%8F%E5%88%97%E5%8C%96%E6%95%B0%E6%8D%AE%E4%B9%8Bpickle%E8%AF%A6%E8%A7%A3/&title=python序列化数据之pickle详解 - fishni&summary=学习python之pickle详解"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/15/python%E5%BA%8F%E5%88%97%E5%8C%96%E6%95%B0%E6%8D%AE%E4%B9%8Bpickle%E8%AF%A6%E8%A7%A3/&title=python序列化数据之pickle详解 - fishni&summary=学习python之pickle详解"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/15/python%E5%BA%8F%E5%88%97%E5%8C%96%E6%95%B0%E6%8D%AE%E4%B9%8Bpickle%E8%AF%A6%E8%A7%A3/&title=python序列化数据之pickle详解 - fishni&summary=学习python之pickle详解"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2020/03/14/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B01-socket-udp-tcp-rsa%E5%8A%A0%E5%AF%86%E7%9A%84%E5%85%A8%E5%8F%8C%E5%B7%A5%E8%81%8A%E5%A4%A9%E7%A8%8B%E5%BA%8F/'>
+                <p class='title'>python网络编程01<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>学习内容
+了解socket基本概念
+利用socket类方法获取主机、网络及目标服务的信息
+UDP、TCP客户端/服务器编写
+案例：python SOCKET实现RSA加密的全双工聊天程序
+
+
+
+...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'python序列化数据之pickle详解',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#序列化和反序列化"><span class="toc-text">序列化和反序列化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pickle"><span class="toc-text">pickle</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://fishni.github.io/"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+            
+              <a href="https://github.com/fishni"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://volantis.js.org/" target="_blank" class="codename">fishni's blog</a>
+        作为主题
+        
+          ，
+          总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://fishni.github.io/" target="_blank" rel="noopener">Copyright © 2017-2020 Mr.fishmouse</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('') {
+          $('').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("div.fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>python网络编程01 - fishni</title>
+  
+    <meta name="keywords" content="python网络编程">
+  
+  
+    <meta name="description" content="学习内容
+了解socket基本概念
+利用socket类方法获取主机、网络及目标服务的信息
+UDP、TCP客户端/服务器编写
+案例：python SOCKET实现RSA加密的全双工聊天程序
+">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            FISHNI'S BLOG <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-rss fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  更多
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-rss fa-fw'></i>
+        
+        主页
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        分类
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-archive fa-fw'></i>
+        
+        归档
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/03/14/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B01-socket-udp-tcp-rsa%E5%8A%A0%E5%AF%86%E7%9A%84%E5%85%A8%E5%8F%8C%E5%B7%A5%E8%81%8A%E5%A4%A9%E7%A8%8B%E5%BA%8F/">
+        python网络编程01
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://fishni.github.io/" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/avatar/avatar.png">
+    <p>fishni</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/python/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>python&nbsp;/&nbsp;python网络编程</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年3月14日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <h2 id="学习内容"><a href="#学习内容" class="headerlink" title="学习内容"></a>学习内容</h2><ul>
+<li>了解socket基本概念</li>
+<li>利用socket类方法获取主机、网络及目标服务的信息</li>
+<li>UDP、TCP客户端/服务器编写</li>
+<li>案例：python SOCKET实现RSA加密的全双工聊天程序</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="学习步骤"><a href="#学习步骤" class="headerlink" title="学习步骤"></a>学习步骤</h2><h4 id="构建python环境"><a href="#构建python环境" class="headerlink" title="构建python环境"></a>构建python环境</h4><p>同时开发多个python应用程序（共用一个Python，不同版本的包不兼容会产生无用包），利用virtualenv创建“Python虚拟环境”（小型、独立的、隔离功能的Python环境），从而避免产生无用包</p>
+<ul>
+<li>利用virtualenvwrapper管理virtualenv虚拟环境<ul>
+<li>mkvirtualenv venv ：创建虚拟环境venv</li>
+<li>workon                       ：查看当前已有虚拟环境目录</li>
+<li>workon venv            ：进入venv虚拟环境</li>
+<li>deactivate                 ：退出虚拟环境</li>
+<li>rmvirtualenv venv：删除虚拟环境venv</li>
+</ul>
+</li>
+</ul>
+<h4 id="socket概念"><a href="#socket概念" class="headerlink" title="socket概念"></a>socket概念</h4><ul>
+<li>运行在不同机器上的进程通过套接字发送报文来进行通信，套接字充当了两个进程通信的“中间人”，观察下图（OSI模型中）：</li>
+<li><img src="https://cdn.jsdelivr.net/gh/YuHaoLoveByCats/ImgHosting/Images/A03/socket.png" alt="socket"></li>
+<li>套接字是个通信端点，操作系统使用整数来标识套接字，Python使用socket.socket对象表示套接字（该对象内部表示的是操作系统标识套接字的整数，可利用fileno()方法查看），调用socket.socket对象的方法请求使用套接字的系统调用是，该对象会自动使用内部维护的套接字整数标识符</li>
+<li>socket.socket对象的fileno()方法</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> socket</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s = socket.socket()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s.fileno()</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>IP地址、端口号<ul>
+<li>端口号（port）传输层协议内容、用来标识一个进程</li>
+<li>一个端口号只能被一个进程占用</li>
+<li>IP地址 + 端口号能标识网络上的某一台主机的某一个进程</li>
+</ul>
+</li>
+<li>套接字组成：IP地址和端口号就构成了一个网络中的唯一标识符，即套接字</li>
+<li>套接字类型（常用的两种）<ul>
+<li>流套接字：创建socket对象时（用socket.SOCK_STREAM）<ul>
+<li>面向连接、可靠的数据传输服务。能够保证数据无差错、无重复、按顺序发送</li>
+</ul>
+</li>
+<li>数据包套接字：创建socket对象时，使用socket.SOCK_DGRAM<ul>
+<li>提供无连接服务。无需建立连接，只需将目的地址信息打包后发送；该服务使用UDP进行传输，延迟小且效率高，缺点不能保证数据传输的可靠性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="利用socket类方法获取主机、网络及目标服务的信息"><a href="#利用socket类方法获取主机、网络及目标服务的信息" class="headerlink" title="利用socket类方法获取主机、网络及目标服务的信息"></a>利用socket类方法获取主机、网络及目标服务的信息</h4><ul>
+<li><p>获取主机名、地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> socket</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.gethostname()</span><br><span class="line"><span class="string">'fishmouse'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.gethostbyname(_)</span><br><span class="line"><span class="string">'127.0.1.1'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取远程设备IP地址（如获取：<a href="http://www.baidu.com）" target="_blank" rel="noopener">www.baidu.com）</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.gethostbyname(<span class="string">'www.baidu.com'</span>)</span><br><span class="line"><span class="string">'14.215.177.38'</span></span><br></pre></td></tr></table></figure>
+
+<p>可看到socket.gethostbyname具有==域名解析的作用==，ping一下看通不通</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(venv) yuhao@fishmouse:~&#x2F;Envs&#x2F;venv&#x2F;project$ ping 14.215.177.38</span><br><span class="line">PING 14.215.177.38 (14.215.177.38) 56(84) bytes of data.</span><br><span class="line">64 bytes from 14.215.177.38: icmp_seq&#x3D;1 ttl&#x3D;55 time&#x3D;37.9 ms</span><br><span class="line">64 bytes from 14.215.177.38: icmp_seq&#x3D;2 ttl&#x3D;55 time&#x3D;39.4 ms</span><br><span class="line">64 bytes from 14.215.177.38: icmp_seq&#x3D;3 ttl&#x3D;55 time&#x3D;34.8 ms</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>IP地址格式转换（打包成32位二进制格式）：socket类方法inet_aton、inet_ntoa</p>
+<ul>
+<li><p>inet_aton()使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>ip_addr =<span class="string">'127.0.0.1'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.inet_aton(ip_addr)</span><br><span class="line"><span class="string">b'\x7f\x00\x00\x01'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> binascii</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>binascii.hexlify(_)</span><br><span class="line"><span class="string">b'7f000001'</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>观察看到，转换后的32位二进制格式，并调用binasci.hexlify以16进制形式表示二进制数据</p>
+<p>10进制结果，单个字节转换</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="keyword">import</span> struct</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.unpack(<span class="string">'B'</span>,<span class="string">b'\x7f'</span>)[<span class="number">0</span>]</span><br><span class="line"><span class="number">127</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>inet_ntoa()使用：32位二进制包转换为IPv4地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a的主机字节序----------网络字节序 ---------b的主机字节序&gt;&gt;&gt; ip_addr =<span class="string">'127.0.0.1'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.inet_aton(ip_addr)</span><br><span class="line"><span class="string">b'\x7f\x00\x00\x01'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.inet_ntoa(_)</span><br><span class="line"><span class="string">'127.0.0.1'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>通过指定的端口和协议找到服务名</p>
+<ul>
+<li><p>socket.getservbyport()</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.getservbyport(<span class="number">80</span>)</span><br><span class="line"><span class="string">'http'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.getservbyport(<span class="number">53</span>)</span><br><span class="line"><span class="string">'domain'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.getservbyport(<span class="number">25</span>)</span><br><span class="line"><span class="string">'smtp'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.getservbyport(<span class="number">21</span>)</span><br><span class="line"><span class="string">'ftp'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.getservbyport(<span class="number">3306</span>)</span><br><span class="line"><span class="string">'mysql'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>socket.getservbyname() ：通过服务名获取端口</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.getservbyname(<span class="string">'ssh'</span>)</span><br><span class="line"><span class="number">22</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.getservbyname(<span class="string">'http'</span>)</span><br><span class="line"><span class="number">80</span></span><br></pre></td></tr></table></figure>
+
+<p>linux系统中，etc/services文件中可查看相关服务和端口</p>
+</li>
+<li><p>主机字节序和网络字节序之间的转换</p>
+<p>不同主机a，b之间通信，数据格式需转换</p>
+<p>a的固有数据存储——-标准化——–转化成b的固有格式</p>
+<p>也即为：</p>
+<p>==a的主机字节序———-网络字节序 ———b的主机字节序==</p>
+<ul>
+<li><p>主机字节序</p>
+<p>主机内部，内存中数据的处理方式，可以分为两种：</p>
+<ul>
+<li><p>大端字节序：按照内存的增长方向，高位数据存储在高位内存中</p>
+</li>
+<li><p>小端字节序：按照内存的增长方向，高位数据存储在低位内存中</p>
+<p><img src="python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B01-socket-udp-tcp-rsa%E5%8A%A0%E5%AF%86%E7%9A%84%E5%85%A8%E5%8F%8C%E5%B7%A5%E8%81%8A%E5%A4%A9%E7%A8%8B%E5%BA%8F/%E6%95%B0%E6%8D%AE%E5%A4%A7%E5%B0%8F%E7%AB%AF.png" alt=""></p>
+</li>
+</ul>
+</li>
+<li><p>socket.ntohl()、socket.htonl()、ntohs()、htons()</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>data = <span class="number">1234</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.htonl(data)</span><br><span class="line"><span class="number">3523477504</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.htons(data)</span><br><span class="line"><span class="number">53764</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.ntohl(data)</span><br><span class="line"><span class="number">3523477504</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.ntohs(data)</span><br><span class="line"><span class="number">53764</span>	</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>socket.ntohs(<span class="number">53764</span>)</span><br><span class="line"><span class="number">1234</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>设定并获取默认的套接字超时时间</p>
+<ul>
+<li><p>socket.gettimeout()、socket.settimeout()</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>s = socket.socket()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s.gettimeout()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s.settimeout(<span class="number">100</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s.gettimeout()</span><br><span class="line"><span class="number">100.0</span></span><br></pre></td></tr></table></figure>
+
+<p>默认套接字超时时间为0</p>
+</li>
+</ul>
+</li>
+<li><p>套接字错误异常处理</p>
+<ul>
+<li>try…except  套接字异常类型 as 参数…</li>
+</ul>
+</li>
+<li><p>argparse：命令项选项与参数解析的模块</p>
+<ul>
+<li>parser=argparse.ArgumentParser()：创建解析对象</li>
+<li>parser.add_argument()：向对象中添加关注的命令行参数和选项</li>
+<li>given_args = parser.parse_args()：对象解析</li>
+</ul>
+</li>
+<li><p>套接字发送和接收的缓冲区大小修改</p>
+<ul>
+<li>socket中getsockopt()、setsockopt()方法</li>
+</ul>
+</li>
+<li><p>套接字阻塞模式和非阻塞模式</p>
+<ul>
+<li>s= socket.socket()</li>
+<li>s.setblocking(1)：设为阻塞模式</li>
+<li>s.setblocking(0)：设为非阻塞模式</li>
+</ul>
+<p>默认情况下，TCP套接字处于阻塞模式</p>
+</li>
+</ul>
+<h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><ul>
+<li><p>多路复用：允许多个会话共享同一介质或机制的一种解决方案</p>
+</li>
+<li><p>UDP支持多路复用：UDP协议提供端口号，用于对目标为同一机器上不同服务的多个数据包进行适当的多路分解</p>
+</li>
+<li><p>TCP：多路复用、可靠传输</p>
+</li>
+<li><p>UDP机制：仅使用IP地址和端口进行标识，以此将数据包发送至目标地址</p>
+</li>
+<li><p>使用自环接口的UDP服务器和 客户端</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># UDP client and server on localhost</span></span><br><span class="line"><span class="comment"># 814udp_local.py </span></span><br><span class="line"><span class="keyword">import</span> argparse, socket</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line">MAX_BYTES = <span class="number">65535</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># server</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">server</span><span class="params">(port)</span>:</span></span><br><span class="line">    sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)</span><br><span class="line">    sock.bind((<span class="string">'127.0.0.1'</span>,port))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># getsockname()返回sock示例对象的（地址，端口)</span></span><br><span class="line">    print(<span class="string">"Listening at &#123;&#125;"</span>.format(sock.getsockname()))</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        data, address = sock.recvfrom(MAX_BYTES)</span><br><span class="line">        text = data.decode(<span class="string">'ascii'</span>)</span><br><span class="line">        </span><br><span class="line">        print(<span class="string">"The client at &#123;&#125; says &#123;!r&#125;"</span>.format(address,text))</span><br><span class="line"></span><br><span class="line">        text = <span class="string">'Your data was &#123;&#125; bytes long '</span>.format(len(data))</span><br><span class="line">        data = text.encode(<span class="string">'ascii'</span>)</span><br><span class="line">        sock.sendto(data,address)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">client</span><span class="params">(port)</span>:</span></span><br><span class="line">    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line">    text = <span class="string">'The time is &#123;&#125;'</span>.format(datetime.now())</span><br><span class="line">    data = text.encode(<span class="string">'ascii'</span>)</span><br><span class="line">   </span><br><span class="line">    sock.sendto(data,(<span class="string">'127.0.0.1'</span>,port))</span><br><span class="line">    </span><br><span class="line">	<span class="comment"># sock.getsockname()获取当前进程的（地址，端口）元组信息</span></span><br><span class="line">    print(<span class="string">'The OS assigned me the address &#123;&#125;'</span>.format(sock.getsockname()))</span><br><span class="line">    data, address = sock.recvfrom(MAX_BYTES)</span><br><span class="line"></span><br><span class="line">    text = data.decode()</span><br><span class="line">    <span class="comment"># format格式化字符串</span></span><br><span class="line">    print(<span class="string">'The server &#123;&#125; replied &#123;!r&#125;'</span>.format(address,text))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 字典</span></span><br><span class="line">    choices = &#123;<span class="string">'client'</span>:client,<span class="string">'server'</span>:server&#125;</span><br><span class="line">    <span class="comment"># 创建参数解析对象</span></span><br><span class="line">    parser = argparse.ArgumentParser(description=<span class="string">'Send and receive UDP locally'</span>)</span><br><span class="line">    <span class="comment">#添加要解析的参数</span></span><br><span class="line">    parser.add_argument(<span class="string">'role'</span>,choices=choices,help =<span class="string">'which role to play'</span>)</span><br><span class="line">    parser.add_argument(<span class="string">'-p'</span>,metavar=<span class="string">'PORT'</span>,type=int,default=<span class="number">1060</span>,help=<span class="string">'UDP port (default 1060)'</span>)</span><br><span class="line">    <span class="comment"># 参数解析</span></span><br><span class="line">    args = parser.parse_args()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 调用服务端或客户端函数</span></span><br><span class="line">    function = choices[args.role]</span><br><span class="line">    function(args.p)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>先运行服务端</p>
+<ul>
+<li><p>python 814udp_local.py server</p>
+<p>结果：</p>
+<p>Listening at (‘127.0.0.1’, 1060)<br>The client at (‘127.0.0.1’, 60945) says ‘The time is 2019-08-16 16:34:56.276877’</p>
+</li>
+</ul>
+</li>
+<li><p>再运行客户端</p>
+<ul>
+<li><p>python 814udp_local.py client</p>
+<p>The OS assigned me the address (‘0.0.0.0’, 60945)<br>The server (‘127.0.0.1’, 1060) replied ‘Your data was 38 bytes long ‘</p>
+</li>
+</ul>
+</li>
+<li><p>混杂客户端与垃圾回复</p>
+<p>814udp_local.py代码中，客户端程序存在安全隐患，如fg果服务端响应延迟一会，攻击者伪装成服务器的一个响应，客户端并没有检查是否是真正服务器的响应</p>
+<ul>
+<li><p>先运行服务器，再将服务器暂停，创建一个快速发送信息的响应给客户端，再==fg命令==将暂停的服务器开启</p>
+<p><img src="python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B01-socket-udp-tcp-rsa%E5%8A%A0%E5%AF%86%E7%9A%84%E5%85%A8%E5%8F%8C%E5%B7%A5%E8%81%8A%E5%A4%A9%E7%A8%8B%E5%BA%8F/%E6%B7%B7%E6%9D%82%E5%AE%A2%E6%88%B7%E7%AB%AF.png" alt=""></p>
+</li>
+<li><p>客户端</p>
+<p><img src="python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B01-socket-udp-tcp-rsa%E5%8A%A0%E5%AF%86%E7%9A%84%E5%85%A8%E5%8F%8C%E5%B7%A5%E8%81%8A%E5%A4%A9%E7%A8%8B%E5%BA%8F/%E6%B7%B7%E6%9D%82%E5%AE%A2%E6%88%B7%E7%AB%AF1.png" alt=""></p>
+<p>观察到，客户端收到的数据实际上是伪装的数据，真正的服务器的响应没到客户端</p>
+</li>
+<li><p>混杂客户端</p>
+<p>不考虑地址是否正确，接收并处理所有收到的数据包的网络监听客户端在技术上叫 作混杂( promiscuous )客户端</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="python-SOCKET实现RSA加密的全双工聊天程序实现"><a href="#python-SOCKET实现RSA加密的全双工聊天程序实现" class="headerlink" title="python SOCKET实现RSA加密的全双工聊天程序实现"></a>python SOCKET实现RSA加密的全双工聊天程序实现</h4><ul>
+<li><p>题目背景</p>
+<p>RSA加密解密是利用非对称秘钥解决传输过程中机密性的问题，将之用在聊天程序上，其中使用rsa模块，发送方生产公钥和私钥，然后使用公钥将信息加密后，利用pickle模块封装加密后的消息和私钥，然后发送给接收方，接收方同样通过pickle模块将消息进行解封，使用发送过来的私钥将消息解密，并将内容打印在屏幕上</p>
+</li>
+<li><p>题目要点</p>
+<ul>
+<li><p>传输协议：TCP套接字创建客户端和服务端_</p>
+<p>sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</p>
+</li>
+<li><p>数据传输格式：pickle序列化数据</p>
+<ul>
+<li><p>pickle.dumps()序列化</p>
+</li>
+<li><p>pickle.loads()反序列化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> pickle</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>encryptdata = <span class="string">'hello'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>key = <span class="number">882321</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>message = pickle.dumps([encryptdata,key])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(message)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">bytes</span>'&gt;</span></span><br><span class="line"><span class="class">&gt;&gt;&gt; <span class="title">message</span></span></span><br><span class="line"><span class="class"><span class="title">b</span>'\<span class="title">x80</span>\<span class="title">x03</span>]<span class="title">q</span>\<span class="title">x00</span><span class="params">(X\x05\x00\x00\x00helloq\x01J\x91v\r\x00e.<span class="string">'</span></span></span></span><br><span class="line"><span class="class"><span class="params"><span class="string">&gt;&gt;&gt; origndata = pickle.loads(message)</span></span></span></span><br><span class="line"><span class="class"><span class="params"><span class="string">&gt;&gt;&gt; origndata</span></span></span></span><br><span class="line"><span class="class"><span class="params"><span class="string">['</span>hello<span class="string">', 882321]</span></span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>数据加密方式：RSA加解密</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;data = <span class="string">'hello'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> rsa</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>(PubKey,PrivateKey) = rsa.newkeys(<span class="number">512</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>encryptdata = rsa.encrypt(data.encode(),PubKey)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>encryptdata</span><br><span class="line"><span class="string">b'=\\\x1c\x93]^(Z/\xac\x81\xfd\xffj!\x0b:r\xb0\x1b\xf9\x97VZ\xdf\xe1\x9e2\xb4\x05G4\x01\x9f\xc8\xfd\x1e\x00\xa1\xb7\xbdU\x98\xbc\x1e5\xa1yy\xee$\xcd\xf8\x10\xf4\xba\t\x84\xba\x13\x99hs\x8d'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>decryptdata = rsa.decrypt(encryptdata,PrivateKey)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>decryptdata</span><br><span class="line"><span class="string">b'hello'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>题目图解</p>
+</li>
+</ul>
+<p><img src="python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B01-socket-udp-tcp-rsa%E5%8A%A0%E5%AF%86%E7%9A%84%E5%85%A8%E5%8F%8C%E5%B7%A5%E8%81%8A%E5%A4%A9%E7%A8%8B%E5%BA%8F/rsa%E5%8A%A0%E5%AF%86.png" alt=""></p>
+</li>
+<li><p>代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rsa</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"> </span><br><span class="line">PORT = <span class="number">4396</span></span><br><span class="line">BUFF = <span class="number">1024</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">RsaEncrypt</span><span class="params">(str)</span>:</span></span><br><span class="line">    <span class="comment"># 利用rsa产生公钥、私钥</span></span><br><span class="line">    (PubKey, PrivateKey) = rsa.newkeys(<span class="number">512</span>)</span><br><span class="line">    content = str.encode(<span class="string">'utf8'</span>)</span><br><span class="line">    <span class="comment"># 使用公钥加密</span></span><br><span class="line">    Encrypt_Str = rsa.encrypt(content, PubKey)</span><br><span class="line">    <span class="comment"># 返回加密信息和私钥</span></span><br><span class="line">    <span class="keyword">return</span> (Encrypt_Str, PrivateKey)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">RsaDecrypt</span><span class="params">(str, pk)</span>:</span></span><br><span class="line">    Decrypt_Str = rsa.decrypt(str, pk)</span><br><span class="line">    Decrypt_Str_1 = Decrypt_Str.decode(<span class="string">'utf8'</span>)</span><br><span class="line">    <span class="keyword">return</span> Decrypt_Str_1</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">SendMessage</span><span class="params">(Sock, test)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        SendData = input()</span><br><span class="line">        <span class="comment"># 加密要发送的数据</span></span><br><span class="line">        (encryptdata, PrivateKey) = RsaEncrypt(SendData)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 打印加密后的数据</span></span><br><span class="line">        print(<span class="string">'encrypted data is '</span> + str(encryptdata))</span><br><span class="line">       </span><br><span class="line">        <span class="comment"># pickel封装加密后的数据和私钥</span></span><br><span class="line">        Message = pickle.dumps([encryptdata, PrivateKey])</span><br><span class="line">        <span class="keyword">if</span> len(SendData) &gt; <span class="number">0</span>:</span><br><span class="line">            Sock.send(Message)</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">RecvMessage</span><span class="params">(Sock, test)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment"># 接收数据</span></span><br><span class="line">        Message = Sock.recv(BUFF)</span><br><span class="line">        <span class="comment"># pickle解封数据</span></span><br><span class="line">        (recvdata, PrivateKey) = pickle.loads(Message)</span><br><span class="line">        <span class="comment"># 对加密的数据解密</span></span><br><span class="line">        decryptdata = RsaDecrypt(recvdata, PrivateKey)</span><br><span class="line">        <span class="keyword">if</span> len(Message)&gt;<span class="number">0</span>:</span><br><span class="line">            print(<span class="string">"receive message:"</span> + decryptdata)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    type = input(<span class="string">'please input server or client:'</span>)</span><br><span class="line">    <span class="keyword">if</span> type == <span class="string">'server'</span>:</span><br><span class="line">        <span class="comment"># 创建套接字</span></span><br><span class="line">        ServerSock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)</span><br><span class="line">        <span class="comment"># 端口绑定</span></span><br><span class="line">        ServerSock.bind((<span class="string">'127.0.0.1'</span>,PORT))</span><br><span class="line">		<span class="comment"># 服务器允许连接的个数</span></span><br><span class="line">        ServerSock.listen(<span class="number">5</span>)</span><br><span class="line">        print(<span class="string">"listening......"</span>)</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            ConSock,addr = ServerSock.accept()</span><br><span class="line">            print(<span class="string">'connection succeed'</span> + <span class="string">'\n'</span> + <span class="string">'you can chat online'</span>)</span><br><span class="line">            <span class="comment"># 多线程运用</span></span><br><span class="line">            thread_1 = threading.Thread(target = SendMessage, args = (ConSock, <span class="literal">None</span>))</span><br><span class="line">            thread_2 = threading.Thread(target = RecvMessage, args = (ConSock, <span class="literal">None</span>))</span><br><span class="line">            thread_1.start()</span><br><span class="line">            thread_2.start()</span><br><span class="line">    <span class="keyword">elif</span> type == <span class="string">'client'</span>:</span><br><span class="line">        ClientSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">        ServerAddr = input(<span class="string">"please input the server's ip address:"</span>)</span><br><span class="line">        ClientSock.connect((ServerAddr, PORT))</span><br><span class="line">        print(<span class="string">'connection succeed, chat start!'</span>)</span><br><span class="line">        thread_3 = threading.Thread(target = SendMessage, args = (ClientSock, <span class="literal">None</span>))</span><br><span class="line">        thread_4 = threading.Thread(target = RecvMessage, args = (ClientSock, <span class="literal">None</span>))</span><br><span class="line">        thread_3.start()</span><br><span class="line">        thread_4.start()</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结果演示</p>
+<ul>
+<li><p>先启动server进行监听</p>
+<p><img src="https://cdn.jsdelivr.net/gh/YuHaoLoveByCats/ImgHosting/Images/A03/serverlisten.png" alt=""></p>
+</li>
+<li><p>启动客户端连接server</p>
+<p><img src="https://cdn.jsdelivr.net/gh/YuHaoLoveByCats/ImgHosting/Images/A03/client.png" alt=""></p>
+</li>
+<li><p>客户端向服务器发送消息</p>
+<p><img src="https://cdn.jsdelivr.net/gh/YuHaoLoveByCats/ImgHosting/Images/A03/clientsend.png" alt=""></p>
+</li>
+<li><p>服务器端接收到消息，并将消息打印在屏幕上</p>
+<p><img src="https://cdn.jsdelivr.net/gh/YuHaoLoveByCats/ImgHosting/Images/A03/serversend.png" alt=""></p>
+</li>
+</ul>
+</li>
+<li><p>分析</p>
+<p>综上，该程序利用的是TCP套接字保证了传输的可靠性，并利用多线程进行信息交互，pickle封装数据，rsa产生公钥、私钥、和加/解密等操作</p>
+</li>
+</ul>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=http://yoursite.com/2020/03/14/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B01-socket-udp-tcp-rsa%E5%8A%A0%E5%AF%86%E7%9A%84%E5%85%A8%E5%8F%8C%E5%B7%A5%E8%81%8A%E5%A4%A9%E7%A8%8B%E5%BA%8F/>http://yoursite.com/2020/03/14/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B01-socket-udp-tcp-rsa%E5%8A%A0%E5%AF%86%E7%9A%84%E5%85%A8%E5%8F%8C%E5%B7%A5%E8%81%8A%E5%A4%A9%E7%A8%8B%E5%BA%8F/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-30T13:51:24+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年3月30日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python网络编程</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2020/03/14/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B01-socket-udp-tcp-rsa%E5%8A%A0%E5%AF%86%E7%9A%84%E5%85%A8%E5%8F%8C%E5%B7%A5%E8%81%8A%E5%A4%A9%E7%A8%8B%E5%BA%8F/&title=python网络编程01 - fishni&summary=学习内容
+了解socket基本概念
+利用socket类方法获取主机、网络及目标服务的信息
+UDP、TCP客户端/服务器编写
+案例：python SOCKET实现RSA加密的全双工聊天程序
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/14/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B01-socket-udp-tcp-rsa%E5%8A%A0%E5%AF%86%E7%9A%84%E5%85%A8%E5%8F%8C%E5%B7%A5%E8%81%8A%E5%A4%A9%E7%A8%8B%E5%BA%8F/&title=python网络编程01 - fishni&summary=学习内容
+了解socket基本概念
+利用socket类方法获取主机、网络及目标服务的信息
+UDP、TCP客户端/服务器编写
+案例：python SOCKET实现RSA加密的全双工聊天程序
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/14/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B01-socket-udp-tcp-rsa%E5%8A%A0%E5%AF%86%E7%9A%84%E5%85%A8%E5%8F%8C%E5%B7%A5%E8%81%8A%E5%A4%A9%E7%A8%8B%E5%BA%8F/&title=python网络编程01 - fishni&summary=学习内容
+了解socket基本概念
+利用socket类方法获取主机、网络及目标服务的信息
+UDP、TCP客户端/服务器编写
+案例：python SOCKET实现RSA加密的全双工聊天程序
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/03/15/python%E5%BA%8F%E5%88%97%E5%8C%96%E6%95%B0%E6%8D%AE%E4%B9%8Bpickle%E8%AF%A6%E8%A7%A3/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>python序列化数据之pickle详解</p>
+                <p class='content'>学习python之pickle详解
+
+
+序列化和反序列化
+便于存储（序列化过程：将文本信息转为==二进制数据流，易存储在硬盘中==）
+
+反序列化从硬盘读取的数据，可得到原始数据
+
+python程...</p>
+              </a>
+            
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'python网络编程01',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#学习内容"><span class="toc-text">学习内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#学习步骤"><span class="toc-text">学习步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#构建python环境"><span class="toc-text">构建python环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#socket概念"><span class="toc-text">socket概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#利用socket类方法获取主机、网络及目标服务的信息"><span class="toc-text">利用socket类方法获取主机、网络及目标服务的信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UDP"><span class="toc-text">UDP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#python-SOCKET实现RSA加密的全双工聊天程序实现"><span class="toc-text">python SOCKET实现RSA加密的全双工聊天程序实现</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://fishni.github.io/"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+            
+              <a href="https://github.com/fishni"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://volantis.js.org/" target="_blank" class="codename">fishni's blog</a>
+        作为主题
+        
+          ，
+          总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://fishni.github.io/" target="_blank" rel="noopener">Copyright © 2017-2020 Mr.fishmouse</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('') {
+          $('').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("div.fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
