@@ -16,8 +16,15 @@
 
   <!-- 页面元数据 -->
   
-    <title>所有分类 - fishni</title>
+    <title>【文件上传（二）：前端检测绕过】2.2提交报文修改检测 - fishni</title>
   
+    <meta name="keywords" content="fileupload">
+  
+  
+    <meta name="description" content="本文主要内容
+提交报文修改检测
+绕过示例
+">
   
 
   <!-- feed -->
@@ -285,58 +292,316 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      <section class="post-list ">
-        <div class='post-wrapper'>
-          <article id="archive-page" class="post article white-box shadow">
-            <section class="archive">
-              <div class="archive-item archive-year mark">
-                <h2>所有分类</h2>
-              </div>
-              <div class="archive-item archive-post mark all-categories">
-                
-                  
-                    <a class="" href="/categories/python/">
-                      <time><i class='fas fa-folder-open fa-fw' aria-hidden="true"></i>&nbsp;&nbsp;python</time>
-                      <span class="title">
-                        (2)
-                      </span>
-                    </a>
-                  
-                    <a class=" child" href="/categories/python/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
-                      <time><i class='fas fa-folder-open fa-fw' aria-hidden="true"></i>&nbsp;&nbsp;python网络编程</time>
-                      <span class="title">
-                        (2)
-                      </span>
-                    </a>
-                  
-                    <a class="" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">
-                      <time><i class='fas fa-folder-open fa-fw' aria-hidden="true"></i>&nbsp;&nbsp;网络安全</time>
-                      <span class="title">
-                        (4)
-                      </span>
-                    </a>
-                  
-                    <a class=" child" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%8F%8A%E5%88%A9%E7%94%A8/">
-                      <time><i class='fas fa-folder-open fa-fw' aria-hidden="true"></i>&nbsp;&nbsp;文件上传漏洞原理及利用</time>
-                      <span class="title">
-                        (4)
-                      </span>
-                    </a>
-                  
-                
-              </div>
-              <br>
-              
-            </section>
-          </article>
-        </div>
-      </section>
-    
+
   
+    <article id="post" class="post white-box shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/">
+        【文件上传（二）：前端检测绕过】2.2提交报文修改检测
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://fishni.github.io/" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/avatar/avatar.png">
+    <p>fishni</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%8F%8A%E5%88%A9%E7%94%A8/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>网络安全&nbsp;/&nbsp;文件上传漏洞原理及利用</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年3月26日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <h3 id="本文主要内容"><a href="#本文主要内容" class="headerlink" title="本文主要内容"></a>本文主要内容</h3><ul>
+<li>提交报文修改检测</li>
+<li>绕过示例</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="0x01-提交报文修改检测（前端检测通用）"><a href="#0x01-提交报文修改检测（前端检测通用）" class="headerlink" title="0x01 提交报文修改检测（前端检测通用）"></a>0x01 提交报文修改检测（前端检测通用）</h3><ul>
+<li><p>首先选择正常的文件进行上传</p>
+</li>
+<li><p>而后通过BurpSuite进行截包改包或改包重放完成文件上传</p>
+<p>  这种方法前端绕过检测中通用，无需理会具体前端的检测代码，直接绕过前端进行上传报文的修改并提交</p>
+</li>
+</ul>
+<h3 id="0x02-示例"><a href="#0x02-示例" class="headerlink" title="0x02 示例"></a>0x02 示例</h3><p>（1）环境<br>   <img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass01.png" alt=""></p>
+<p>（2）选择本地一张含phpinfo()函数的图片（phpinfo.jpg）,使用burpsuite截包<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass06.png" alt=""></p>
+<p>（3）burpsuite进行重放<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass07.png" alt=""></p>
+<ul>
+<li><p>原始<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass08.png" alt=""></p>
+</li>
+<li><p>修改后：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass09.png" alt=""></p>
+</li>
+</ul>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/>https://fishni.github.io/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-31T17:37:46+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年3月31日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/fileupload/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>fileupload</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/&title=【文件上传（二）：前端检测绕过】2.2提交报文修改检测 - fishni&summary=本文主要内容
+提交报文修改检测
+绕过示例
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/&title=【文件上传（二）：前端检测绕过】2.2提交报文修改检测 - fishni&summary=本文主要内容
+提交报文修改检测
+绕过示例
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/&title=【文件上传（二）：前端检测绕过】2.2提交报文修改检测 - fishni&summary=本文主要内容
+提交报文修改检测
+绕过示例
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/03/27/3.1%20%E6%9C%8D%E5%8A%A1%E7%AB%AFMIME%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>【文件上传（三）：服务端检测绕过】3.1服务端MIME类型检测绕过</p>
+                <p class='content'>本文内容
+文件头content-type字段校验（image/gif等）绕过
+
+
+
+0x01 服务端一般检测的内容
+上传的文件名（扩展名、黑白名单）
+MIME/TYPE （浏览器根据文件扩展名自...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/03/26/2.1%20%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/'>
+                <p class='title'>【文件上传（二）：前端检测绕过】2.1客户端检测绕过<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本文主要内容
+主要客户端检测绕过类型
+前端js检测绕过示例
+
+
+
+0x01 客户端检测绕过（1）JavaScript检测：通过浏览器提交上传请求前，触发检测用JS脚本进行检测。
+例如：普通的表单...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '【文件上传（二）：前端检测绕过】2.2提交报文修改检测',
+      tools: true
+    }
+  </script>
+
 
 </div>
 <aside class='l_side'>
@@ -347,6 +612,20 @@
     
     
 
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#本文主要内容"><span class="toc-text">本文主要内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-提交报文修改检测（前端检测通用）"><span class="toc-text">0x01 提交报文修改检测（前端检测通用）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-示例"><span class="toc-text">0x02 示例</span></a></li></ol>
+    </div>
+  </section>
 
 
   

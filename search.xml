@@ -4,6 +4,114 @@
   
     
     <entry>
+      <title>【文件上传（三）：服务端检测绕过】3.1服务端MIME类型检测绕过</title>
+      <link href="/2020/03/27/3.1%20%E6%9C%8D%E5%8A%A1%E7%AB%AFMIME%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/"/>
+      <url>/2020/03/27/3.1%20%E6%9C%8D%E5%8A%A1%E7%AB%AFMIME%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/</url>
+      
+        <content type="html"><![CDATA[<h3 id="本文内容"><a href="#本文内容" class="headerlink" title="本文内容"></a>本文内容</h3><ul><li>文件头content-type字段校验（image/gif等）绕过</li></ul><a id="more"></a><h3 id="0x01-服务端一般检测的内容"><a href="#0x01-服务端一般检测的内容" class="headerlink" title="0x01 服务端一般检测的内容"></a>0x01 服务端一般检测的内容</h3><ul><li>上传的文件名（扩展名、黑白名单）</li><li>MIME/TYPE （浏览器根据文件扩展名自动生成）<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20331upload01.png" alt="部分burpsuite截取的部分展示"></li></ul><h3 id="0x02-MIME了解"><a href="#0x02-MIME了解" class="headerlink" title="0x02 MIME了解"></a>0x02 MIME了解</h3><ul><li><p>MIME (Multipurpose Internet Mail Extensions) 是描述消息内容类型的因特网标准。</p></li><li><p>MIME 消息能包含文本、图像、音频、视频以及其他应用程序专用的数据。</p></li><li><p>浏览器会自动根据所上传的文件的扩展名，对应到相应的MIME类型上</p></li><li><p>常见的白名单MIME/TYPE<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20331upload02.png" alt=""></p></li></ul><h3 id="0x03-实例分析"><a href="#0x03-实例分析" class="headerlink" title="0x03 实例分析"></a>0x03 实例分析</h3><ul><li>环境：windows+phpstudy+burpsuite</li><li>由于本地127.0.0.1burpsuite截不到包故采用本地网络地址</li></ul><h4 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=<span class="string">"Content-Type"</span> content=<span class="string">"text/html; charset=utf-8"</span>/&gt;</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$is_upload = <span class="keyword">false</span>;</span><br><span class="line">$msg = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'submit'</span>])) &#123;</span><br><span class="line">        <span class="keyword">if</span> (($_FILES[<span class="string">'upload_file'</span>][<span class="string">'type'</span>] == <span class="string">'image/jpeg'</span>) || ($_FILES[<span class="string">'upload_file'</span>][<span class="string">'type'</span>] == <span class="string">'image/png'</span>) || ($_FILES[<span class="string">'upload_file'</span>][<span class="string">'type'</span>] == <span class="string">'image/gif'</span>)) &#123;</span><br><span class="line">            $temp_file = $_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>];</span><br><span class="line">            $img_path = <span class="string">'uploads/'</span> . $_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>];          </span><br><span class="line">            <span class="keyword">if</span> (move_uploaded_file($temp_file, $img_path)) &#123;</span><br><span class="line">                $is_upload = <span class="keyword">true</span>;</span><br><span class="line">$msg= <span class="string">"&lt;br/&gt;成功上传至:&lt;b&gt; "</span>.$img_path.<span class="string">"&lt;/b&gt;"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $msg = <span class="string">'上传出错！'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $msg = <span class="string">'文件类型不正确，请重新上传！'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;div id=<span class="string">"upload_panel"</span>&gt;</span><br><span class="line">    &lt;ol&gt;</span><br><span class="line"></span><br><span class="line">        &lt;li&gt;</span><br><span class="line">            &lt;h3&gt;上传区&lt;/h3&gt;</span><br><span class="line">            &lt;form enctype=<span class="string">"multipart/form-data"</span> method=<span class="string">"post"</span> onsubmit=<span class="string">"return checkFile()"</span>&gt;</span><br><span class="line">                &lt;p&gt;请选择要上传的图片：&lt;p&gt;</span><br><span class="line">                &lt;input class="input_file" type="file" name="upload_file"/&gt;</span><br><span class="line">                &lt;input class="button" type="submit" name="submit" value="上传"/&gt;</span><br><span class="line">            &lt;/form&gt;</span><br><span class="line">            &lt;div id=<span class="string">"msg"</span>&gt;</span><br><span class="line">                <span class="meta">&lt;?php</span> </span><br><span class="line">                    <span class="keyword">if</span>($msg != <span class="keyword">null</span>)&#123;</span><br><span class="line">                        <span class="keyword">echo</span> <span class="string">"提示："</span>.$msg;</span><br><span class="line">                    &#125;</span><br><span class="line">                <span class="meta">?&gt;</span></span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div id=<span class="string">"img"</span>&gt;</span><br><span class="line">                <span class="meta">&lt;?php</span></span><br><span class="line">                    <span class="keyword">if</span>($is_upload)&#123;</span><br><span class="line">                        <span class="keyword">echo</span> <span class="string">'&lt;img src="'</span>.$img_path.<span class="string">'" width="250px" /&gt;'</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                <span class="meta">?&gt;</span></span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">    &lt;/ol&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure><ul><li><p>尝试上传一个含phpinfo的文件（phpinfo.php）<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20331upload04.png" alt=""></p></li><li><p>使用burpsuite截断修改content-type，重新提交报文<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20331upload05.png" alt=""></p></li><li><p>将burpsuite截断关闭，访问上传的文件<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20331upload06.png" alt=""></p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络安全 </category>
+          
+          <category> 文件上传漏洞原理及利用 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> fileupload </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>【文件上传（二）：前端检测绕过】2.2提交报文修改检测</title>
+      <link href="/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/"/>
+      <url>/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/</url>
+      
+        <content type="html"><![CDATA[<h3 id="本文主要内容"><a href="#本文主要内容" class="headerlink" title="本文主要内容"></a>本文主要内容</h3><ul><li>提交报文修改检测</li><li>绕过示例</li></ul><a id="more"></a><h3 id="0x01-提交报文修改检测（前端检测通用）"><a href="#0x01-提交报文修改检测（前端检测通用）" class="headerlink" title="0x01 提交报文修改检测（前端检测通用）"></a>0x01 提交报文修改检测（前端检测通用）</h3><ul><li><p>首先选择正常的文件进行上传</p></li><li><p>而后通过BurpSuite进行截包改包或改包重放完成文件上传</p><p>  这种方法前端绕过检测中通用，无需理会具体前端的检测代码，直接绕过前端进行上传报文的修改并提交</p></li></ul><h3 id="0x02-示例"><a href="#0x02-示例" class="headerlink" title="0x02 示例"></a>0x02 示例</h3><p>（1）环境<br>   <img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass01.png" alt=""></p><p>（2）选择本地一张含phpinfo()函数的图片（phpinfo.jpg）,使用burpsuite截包<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass06.png" alt=""></p><p>（3）burpsuite进行重放<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass07.png" alt=""></p><ul><li><p>原始<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass08.png" alt=""></p></li><li><p>修改后：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass09.png" alt=""></p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络安全 </category>
+          
+          <category> 文件上传漏洞原理及利用 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> fileupload </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>【文件上传（二）：前端检测绕过】2.1客户端检测绕过</title>
+      <link href="/2020/03/26/2.1%20%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/"/>
+      <url>/2020/03/26/2.1%20%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/</url>
+      
+        <content type="html"><![CDATA[<h3 id="本文主要内容"><a href="#本文主要内容" class="headerlink" title="本文主要内容"></a>本文主要内容</h3><ul><li>主要客户端检测绕过类型</li><li>前端js检测绕过示例</li></ul><a id="more"></a><h3 id="0x01-客户端检测绕过"><a href="#0x01-客户端检测绕过" class="headerlink" title="0x01 客户端检测绕过"></a>0x01 客户端检测绕过</h3><p>（1）JavaScript检测：通过浏览器提交上传请求前，触发检测用JS脚本进行检测。</p><pre><code>例如：普通的表单上传</code></pre><p>（2）Flash AS脚本检测：上传用Flash，提交上传请求前，触发检测用AS脚本进行检测。</p><pre><code>例如:DZ的头像上传</code></pre><p>（3）APP上传检测：检测写在APP客户端代码中，或者所调用的HTML页面中</p><ul><li>客户端检测一般只检测文件扩展名<blockquote><p>客户端进行的检测，可通过对客户端代码的一些修改或直接拦截修改报文即可绕过，所以这种上传限制约等于没有</p></blockquote></li></ul><h3 id="0x02-前端JavaScript检测绕过"><a href="#0x02-前端JavaScript检测绕过" class="headerlink" title="0x02 前端JavaScript检测绕过"></a>0x02 前端JavaScript检测绕过</h3><ul><li>查看onchange、onsubmit等事件<ul><li>onchange事件会在域的内容改变时发生</li><li>onsubmit事件会在表单中的确认按钮被点击时发生</li></ul></li><li>删除掉相关事件中的检测函数</li></ul><h3 id="0x03-测试案例"><a href="#0x03-测试案例" class="headerlink" title="0x03 测试案例"></a>0x03 测试案例</h3><p>（1）环境</p><pre><code>windows+phpstudy+uploadlab</code></pre><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass01.png" alt=""></p><p>（2）尝试上传含phpinfo()函数的php文件（phpinfo.php）</p><p>   <img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass02.png" alt=""></p><p>（3）F12审查元素代码，找到事件触发函数<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass03.png" alt=""></p><p>（4）删除onsubmit，重新提交，并访问上传的文件<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass04.png" alt=""></p><p>（5）查看网页源代码可找到上传文件路径相关信息<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass05.png" alt=""></p><p>（6）js校验代码如下</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> file = <span class="built_in">document</span>.getElementsByName(<span class="string">'upload_file'</span>)[<span class="number">0</span>].value;</span><br><span class="line">        <span class="keyword">if</span> (file == <span class="literal">null</span> || file == <span class="string">""</span>) &#123;</span><br><span class="line">            alert(<span class="string">"请选择要上传的文件!"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//定义允许上传的文件类型</span></span><br><span class="line">        <span class="keyword">var</span> allow_ext = <span class="string">".jpg|.png|.gif"</span>;</span><br><span class="line">        <span class="comment">//提取上传文件的类型</span></span><br><span class="line">        <span class="keyword">var</span> ext_name = file.substring(file.lastIndexOf(<span class="string">"."</span>));</span><br><span class="line">        <span class="comment">//判断上传文件类型是否允许上传</span></span><br><span class="line">        <span class="keyword">if</span> (allow_ext.indexOf(ext_name) == <span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">var</span> errMsg = <span class="string">"该文件不允许上传，请上传"</span> + allow_ext + <span class="string">"类型的文件,当前文件类型为："</span> + ext_name;</span><br><span class="line">            alert(errMsg);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络安全 </category>
+          
+          <category> 文件上传漏洞原理及利用 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> fileupload </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>【文件上传（一）】1.1文件上传漏洞原理及流程</title>
+      <link href="/2020/03/25/1.1%20%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%8F%8A%E6%B5%81%E7%A8%8B/"/>
+      <url>/2020/03/25/1.1%20%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%8F%8A%E6%B5%81%E7%A8%8B/</url>
+      
+        <content type="html"><![CDATA[<h3 id="本文主要内容"><a href="#本文主要内容" class="headerlink" title="本文主要内容"></a>本文主要内容</h3><ul><li>文件上传流程、漏洞原因</li><li>burpsuite简单安装</li><li>dvwa文件上传简单示例</li></ul><a id="more"></a><h3 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h3><p>流程：</p><ul><li>1.前端选择文件，进行提交</li><li>2.浏览器形成POST MultiPart报文发送到服务器</li><li>3.服务器中间件接收到报文，解析后交给相关后端代码进行处理</li><li>4.后端代码将上传的文件内容写入到临时文件中（PHP特有）</li><li>5.写入到文件中，文件名为提交的文件名或以一定规则生成的文件名</li></ul><h3 id="文件上传漏洞产生原因"><a href="#文件上传漏洞产生原因" class="headerlink" title="文件上传漏洞产生原因"></a>文件上传漏洞产生原因</h3><ul><li>文件上传未对上传的文件进行严格的验证和过滤，容易造成任意文件上传，包括上传动态文件（asp/php/jsp等等）</li><li>如果上传的目标目录没有限制执行权限，导致上传的动态文件（比如：webshell）可以正常执行并且可以访问，即造成了文件上传漏洞。</li></ul><h3 id="存在上传漏洞的必要条件"><a href="#存在上传漏洞的必要条件" class="headerlink" title="存在上传漏洞的必要条件"></a>存在上传漏洞的必要条件</h3><ul><li>存在上传点</li><li>可以上传动态文件</li><li>上传目录有执行权限，并且上传的文件可执行</li><li>可访问到上传的动态文件</li></ul><h3 id="上传检测流程"><a href="#上传检测流程" class="headerlink" title="上传检测流程"></a>上传检测流程</h3><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330upload04.png" alt=""></p><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330upload05.png" alt=""></p><h3 id="BurpSuite简单安装"><a href="#BurpSuite简单安装" class="headerlink" title="BurpSuite简单安装"></a>BurpSuite简单安装</h3><ul><li>下载jdk</li><li>官网下载Burp Suite 2.1 </li><li>参考链接：<a href="https://bbs.ichunqiu.com/forum.php?mod=viewthread&amp;tid=54760&amp;highlight=burpsuite" target="_blank" rel="noopener">https://bbs.ichunqiu.com/forum.php?mod=viewthread&amp;tid=54760&amp;highlight=burpsuite</a></li></ul><ul><li><p>简单代理配置</p><ul><li><p>火狐浏览器：选项-》网络设置-》设置<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330burpsuite01.png" alt=""></p></li><li><p>burpsuite设置：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330burpsuite02.png" alt=""></p></li></ul></li></ul><h3 id="使burpsuite支持对DVWA环境（本地环境）进行抓包（此方法仅尝试成功一次，貌似不可行）"><a href="#使burpsuite支持对DVWA环境（本地环境）进行抓包（此方法仅尝试成功一次，貌似不可行）" class="headerlink" title="使burpsuite支持对DVWA环境（本地环境）进行抓包（此方法仅尝试成功一次，貌似不可行）"></a>使burpsuite支持对DVWA环境（本地环境）进行抓包（此方法仅尝试成功一次，貌似不可行）</h3><ul><li><p>在火狐浏览器url栏输入：about:config</p></li><li><p>然后在搜索栏输入：network.proxy.allow_hijacking_localhost<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330burpsuite03.png" alt=""></p></li></ul><h3 id="dvwa文件上传low简单示例"><a href="#dvwa文件上传low简单示例" class="headerlink" title="dvwa文件上传low简单示例"></a>dvwa文件上传low简单示例</h3><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330upload01.png" alt=""></p><ul><li>burpsuite截包<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330upload02.png" alt=""></li></ul><h3 id="使burpsuite支持对DVWA环境（本地环境）进行抓包（采用了本地地址ip的访问方式）"><a href="#使burpsuite支持对DVWA环境（本地环境）进行抓包（采用了本地地址ip的访问方式）" class="headerlink" title="使burpsuite支持对DVWA环境（本地环境）进行抓包（采用了本地地址ip的访问方式）"></a>使burpsuite支持对DVWA环境（本地环境）进行抓包（采用了本地地址ip的访问方式）</h3><ul><li>将代理都修改为端口9999</li><li>测试：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20331upload01.png" alt=""></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络安全 </category>
+          
+          <category> 文件上传漏洞原理及利用 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> fileupload </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>python序列化数据之pickle详解</title>
       <link href="/2020/03/15/python%E5%BA%8F%E5%88%97%E5%8C%96%E6%95%B0%E6%8D%AE%E4%B9%8Bpickle%E8%AF%A6%E8%A7%A3/"/>
       <url>/2020/03/15/python%E5%BA%8F%E5%88%97%E5%8C%96%E6%95%B0%E6%8D%AE%E4%B9%8Bpickle%E8%AF%A6%E8%A7%A3/</url>
