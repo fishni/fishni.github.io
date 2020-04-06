@@ -16,15 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>【文件上传（二）：前端检测绕过】2.2提交报文修改检测 - fishni</title>
+    <title>【python-Web服务器】1.1 HTTP协议简介 - fishni</title>
   
-    <meta name="keywords" content="fileupload">
+    <meta name="keywords" content="HTTP,Web">
   
   
-    <meta name="description" content="本文主要内容
-提交报文修改检测
-绕过示例
-">
+    <meta name="description" content="本文主要结合浏览器开发者工具理解HTTP协议，分析浏览器与服务器之间的请求和响应。">
   
 
   <!-- feed -->
@@ -308,8 +305,8 @@
         
   
     <h1 class="title">
-      <a href="/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/">
-        【文件上传（二）：前端检测绕过】2.2提交报文修改检测
+      <a href="/2020/04/06/1.1%20HTTP%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/">
+        【python-Web服务器】1.1 HTTP协议简介
       </a>
     </h1>
   
@@ -335,9 +332,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%8F%8A%E5%88%A9%E7%94%A8/' rel="nofollow">
+    <a href='/categories/python/Web%E6%9C%8D%E5%8A%A1%E5%99%A8/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>网络安全&nbsp;/&nbsp;文件上传漏洞原理及利用</p>
+      <p>python&nbsp;/&nbsp;Web服务器</p>
     </a>
   </div>
 
@@ -348,7 +345,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年3月26日</p>
+    <p>发布于：2020年4月6日</p>
   </a>
 </div>
 
@@ -370,28 +367,83 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <h3 id="本文主要内容"><a href="#本文主要内容" class="headerlink" title="本文主要内容"></a>本文主要内容</h3><ul>
-<li>提交报文修改检测</li>
-<li>绕过示例</li>
-</ul>
+          <p>本文主要结合浏览器开发者工具理解HTTP协议，分析浏览器与服务器之间的请求和响应。</p>
 <a id="more"></a>
 
-<h3 id="0x01-提交报文修改检测（前端检测通用）"><a href="#0x01-提交报文修改检测（前端检测通用）" class="headerlink" title="0x01 提交报文修改检测（前端检测通用）"></a>0x01 提交报文修改检测（前端检测通用）</h3><ul>
-<li><p>首先选择正常的文件进行上传</p>
-</li>
-<li><p>而后通过BurpSuite进行截包改包或改包重放完成文件上传</p>
-<p>  这种方法前端绕过检测中通用，无需理会具体前端的检测代码，直接绕过前端进行上传报文的修改并提交</p>
-</li>
-</ul>
-<h3 id="0x02-示例"><a href="#0x02-示例" class="headerlink" title="0x02 示例"></a>0x02 示例</h3><p>（1）环境<br>   <img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass01.png" alt=""></p>
-<p>（2）选择本地一张含phpinfo()函数的图片（phpinfo.jpg）,使用burpsuite截包<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass06.png" alt=""></p>
-<p>（3）burpsuite进行重放<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass07.png" alt=""></p>
+<h3 id="0x01-使用谷歌-火狐浏览器分析"><a href="#0x01-使用谷歌-火狐浏览器分析" class="headerlink" title="0x01 使用谷歌/火狐浏览器分析"></a>0x01 使用谷歌/火狐浏览器分析</h3><ul>
+<li><p>在Web应用中，服务器把网页传给浏览器，实际上就是把网页的HTML代码发送给浏览器，让浏览器显示出来。而浏览器和服务器之间的传输协议是HTTP,所以：</p>
 <ul>
-<li><p>原始<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass08.png" alt=""></p>
+<li>HTML是一种用来定义网页的文本</li>
+<li>HTTP是在网络上传输HTML的协议，用于浏览器和服务器的通信</li>
+</ul>
 </li>
-<li><p>修改后：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass09.png" alt=""></p>
+<li><p>Chrome浏览器提供了完整的调试工具，非常适合Web开发。在Chrome浏览器（更多工具–&gt;开发者工具）或者Windows下F12<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20406python01.png" alt=""><br>说明</p>
+<ul>
+<li>Elements显示网页的结构</li>
+<li>Network显示浏览器和服务器的通信</li>
+</ul>
 </li>
 </ul>
+<p>点击Network，确保第一个小红灯亮着，Chrome就会记录所有浏览器和服务器之间的通信：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20406python02.png" alt=""></p>
+<h3 id="0x02-HTTP协议分析"><a href="#0x02-HTTP协议分析" class="headerlink" title="0x02 HTTP协议分析"></a>0x02 HTTP协议分析</h3><p>当在地址栏输入<code>www.baidu.com</code>时,浏览器显示百度首页。在这个过 程中，浏览器都干了哪些事情呢？通过Network的记录，我们就可以知道。 在Network中，找到<code>www.baidu.com</code>那条记录，点击，右侧将显示Request Headers，点击右侧的view-source，我们就可以看到浏览器发给百度服务器的请求：</p>
+<h4 id="2-1-浏览器请求"><a href="#2-1-浏览器请求" class="headerlink" title="2.1 浏览器请求"></a>2.1 浏览器请求</h4><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20406python03.png" alt=""></p>
+<ul>
+<li>说明：（最主要的头两⾏分析如下）<ul>
+<li>第⼀⾏<code>GET / HTTP/1.1</code>：GET表示⼀个读取请求，将从服务器获得⽹⻚数据，/表示URL的路径，URL 总是以/开头，/就表示⾸⻚，最后的HTTP/1.1指示采⽤的HTTP协议版本是 1.1。⽬前HTTP协议的版本就是1.1，但是⼤部分服务器也⽀持1.0版本，主 要区别在于1.1版本允许多个HTTP请求复⽤⼀个TCP连接，以加快传输速 度。</li>
+<li>从第⼆⾏开始，每⼀⾏都类似于Xxx: abcdefg：<br><code>Host: www.baidu.com</code>，表示请求的域名是<code>www.baidu.com</code>。如果⼀台服务器有多个⽹站，服务器就需 要通过Host来区分浏览器请求的是哪个⽹站。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-2-服务器响应"><a href="#2-2-服务器响应" class="headerlink" title="2.2 服务器响应"></a>2.2 服务器响应</h4><p>继续找到Response Headers，点击view-source，显示服务器返回的原始响应数据：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20406python04.png" alt=""></p>
+<ul>
+<li>HTTP响应分为Header和Body两部分（Body是可选项），我们在Network中 看到的Header最重要的⼏⾏如下：<ul>
+<li><code>HTTP/1.1 200 OK</code>：200表示⼀个成功的响应，后⾯的OK是说明。</li>
+</ul>
+</li>
+<li>如果返回的不是200，那么往往有其他的功能，例如<ul>
+<li>失败的响应有404    Not    Found：网⻚不存在</li>
+<li>500    Internal Server    Error：服务器内部出错 </li>
+<li>等等…</li>
+</ul>
+</li>
+<li><code>Content-Type:text/html</code>：Content-Type指示响应的内容，这⾥是text/html表示HTML⽹⻚。<blockquote>
+<p>请注意，浏览器就是依靠Content-Type来判断响应的内容是网页还是图⽚，是视频还是⾳乐。浏览器并不靠URL来判断响应的内容，所以，即使URL是    <code>http://www.baidu.com/meimei.jpg</code>，它也不⼀定就是图⽚。</p>
+</blockquote>
+</li>
+<li>HTTP响应的Body就是HTML源码，右键查看网页源码，就是查看响应的body<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20406python05.png" alt=""></li>
+</ul>
+<h5 id="浏览器解析过程"><a href="#浏览器解析过程" class="headerlink" title="浏览器解析过程"></a>浏览器解析过程</h5><blockquote>
+<p>当浏览器读取到百度⾸⻚的HTML源码后，它会解析HTML，显示⻚⾯，然后，根据HTML⾥⾯的各种链接，再发送HTTP请求给百度服务器，拿到相应的图⽚、视频、Flash、JavaScript脚本、CSS等各种资源，最终显示出⼀个完整的⻚⾯。所以我们在Network下⾯能看到很多额外的HTTP请求</p>
+</blockquote>
+<h3 id="0x03-总结"><a href="#0x03-总结" class="headerlink" title="0x03 总结"></a>0x03 总结</h3><h4 id="3-1-HTTP请求"><a href="#3-1-HTTP请求" class="headerlink" title="3.1 HTTP请求"></a>3.1 HTTP请求</h4><h5 id="步骤1：浏览器⾸先向服务器发送HTTP请求，请求包括："><a href="#步骤1：浏览器⾸先向服务器发送HTTP请求，请求包括：" class="headerlink" title="步骤1：浏览器⾸先向服务器发送HTTP请求，请求包括："></a>步骤1：浏览器⾸先向服务器发送HTTP请求，请求包括：</h5><ul>
+<li>⽅法：GET还是POST，GET仅请求资源，POST会附带⽤户数据；</li>
+<li>路径：/full/url/path；</li>
+<li>域名：由Host头指定；</li>
+<li>以及其他相关的Header；</li>
+</ul>
+<p>如果是POST，那么请求还包括⼀个Body，包含⽤户数据</p>
+<h5 id="步骤2：服务器向浏览器返回HTTP响应，响应包括："><a href="#步骤2：服务器向浏览器返回HTTP响应，响应包括：" class="headerlink" title="步骤2：服务器向浏览器返回HTTP响应，响应包括："></a>步骤2：服务器向浏览器返回HTTP响应，响应包括：</h5><ul>
+<li>响应代码：200表示成功，3xx表示重定向，4xx表示客户端发送的请求 有错误，5xx表示服务器端处理时发⽣了错误；</li>
+<li>响应类型：由Content-Type指定；</li>
+<li>以及其他相关的Header；</li>
+</ul>
+<p>通常服务器的HTTP响应会携带内容，也就是有⼀个Body，包含响应的 内容，⽹⻚的HTML源码就在Body中。</p>
+<h5 id="步骤3：如果浏览器还需要继续向服务器请求其他资源，-⽐如图⽚，就再次发出HTTP请求，重复步骤1、2"><a href="#步骤3：如果浏览器还需要继续向服务器请求其他资源，-⽐如图⽚，就再次发出HTTP请求，重复步骤1、2" class="headerlink" title="步骤3：如果浏览器还需要继续向服务器请求其他资源， ⽐如图⽚，就再次发出HTTP请求，重复步骤1、2"></a>步骤3：如果浏览器还需要继续向服务器请求其他资源， ⽐如图⽚，就再次发出HTTP请求，重复步骤1、2</h5><blockquote>
+<p>Web采⽤的HTTP协议采⽤了⾮常简单的请求-响应模式，从⽽⼤⼤简化 了开发。当我们编写⼀个⻚⾯时，我们只需要在HTTP请求中把HTML 发送出去，不需要考虑如何附带图⽚、视频等，浏览器如果需要请求图 ⽚和视频，它会发送另⼀个HTTP请求，因此，⼀个HTTP请求只处理 ⼀个资源(此时就可以理解为TCP协议中的短连接，每个链接只获取⼀ 个资源，如需要多个就需要建⽴多个链接)</p>
+</blockquote>
+<h4 id="3-2-HTTP格式"><a href="#3-2-HTTP格式" class="headerlink" title="3.2 HTTP格式"></a>3.2 HTTP格式</h4><p>每个HTTP请求和响应都遵循相同的格式，⼀个HTTP包含Header和Body两 部分，其中Body是可选的。<br>HTTP协议是⼀种⽂本协议，所以，它的格式也⾮常简单</p>
+<h5 id="HTTP-GET请求的格式："><a href="#HTTP-GET请求的格式：" class="headerlink" title="HTTP    GET请求的格式："></a>HTTP    GET请求的格式：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET	&#x2F;path	HTTP&#x2F;1.1	</span><br><span class="line">Header1:	Value1			</span><br><span class="line">Header2:	Value2			</span><br><span class="line">Header3:	Value3</span><br></pre></td></tr></table></figure>
+<p>每个Header⼀⾏⼀个，换⾏符是\r\n</p>
+<h5 id="HTTP-POST请求的格式："><a href="#HTTP-POST请求的格式：" class="headerlink" title="HTTP    POST请求的格式："></a>HTTP    POST请求的格式：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST	&#x2F;path	HTTP&#x2F;1.1</span><br><span class="line">Header1:	Value1</span><br><span class="line">Header2:	Value2</span><br><span class="line">Header3:	Value3</span><br><span class="line"></span><br><span class="line">body	data	goes	here...</span><br></pre></td></tr></table></figure>
+<p>当遇到连续两个\r\n时，Header部分结束，后⾯的数据全部是Body</p>
+<h5 id="HTTP响应的格式："><a href="#HTTP响应的格式：" class="headerlink" title="HTTP响应的格式："></a>HTTP响应的格式：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">200	OK				</span><br><span class="line">Header1:	Value1				</span><br><span class="line">Header2:	Value2				</span><br><span class="line">Header3:	Value3</span><br><span class="line">				</span><br><span class="line">body	data	goes	here...</span><br></pre></td></tr></table></figure>
+<p>HTTP响应如果包含body，也是通过\r\n\r\n来分隔的</p>
+<blockquote>
+<p>请再次注意，Body的数据类型由Content-Type头来确定，如果是⽹⻚，Body就是⽂本，如果是图⽚，Body就是图⽚的⼆进制数据。</p>
+</blockquote>
+<blockquote>
+<p>当存在Content-Encoding时，Body数据是被压缩的，最常⻅的压缩⽅式是gzip，所以，看到Content-Encoding:gzip时，需要将Body数据先解压缩，才能得到真正的数据。压缩的⽬的在于减少Body的⼤⼩，加快⽹络传输。</p>
+</blockquote>
 
           
             <br>
@@ -411,7 +463,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://fishni.github.io/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/>https://fishni.github.io/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/</a></p>
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/04/06/1.1%20HTTP%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/>https://fishni.github.io/2020/04/06/1.1%20HTTP%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/</a></p>
           
         
       </blockquote>
@@ -460,10 +512,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-31T17:37:46+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-06T17:10:19+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年3月31日</p>
+    <p>更新于：2020年4月6日</p>
   </a>
 </div>
 
@@ -472,7 +524,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/fileupload/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>fileupload</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/HTTP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>HTTP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Web/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Web</p></a></div>
 
 
         
@@ -490,10 +542,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/&title=【文件上传（二）：前端检测绕过】2.2提交报文修改检测 - fishni&summary=本文主要内容
-提交报文修改检测
-绕过示例
-"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/04/06/1.1%20HTTP%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/&title=【python-Web服务器】1.1 HTTP协议简介 - fishni&summary=本文主要结合浏览器开发者工具理解HTTP协议，分析浏览器与服务器之间的请求和响应。"
           
           >
           
@@ -505,10 +554,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/&title=【文件上传（二）：前端检测绕过】2.2提交报文修改检测 - fishni&summary=本文主要内容
-提交报文修改检测
-绕过示例
-"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/04/06/1.1%20HTTP%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/&title=【python-Web服务器】1.1 HTTP协议简介 - fishni&summary=本文主要结合浏览器开发者工具理解HTTP协议，分析浏览器与服务器之间的请求和响应。"
           
           >
           
@@ -520,10 +566,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/&title=【文件上传（二）：前端检测绕过】2.2提交报文修改检测 - fishni&summary=本文主要内容
-提交报文修改检测
-绕过示例
-"
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/04/06/1.1%20HTTP%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/&title=【python-Web服务器】1.1 HTTP协议简介 - fishni&summary=本文主要结合浏览器开发者工具理解HTTP协议，分析浏览器与服务器之间的请求和响应。"
           
           >
           
@@ -547,32 +590,13 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/2020/03/26/2.1%20%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>【文件上传（二）：前端检测绕过】2.1客户端检测绕过</p>
-                <p class='content'>本文主要内容
-主要客户端检测绕过类型
-前端js检测绕过示例
-
-
-
-0x01 客户端检测绕过（1）JavaScript检测：通过浏览器提交上传请求前，触发检测用JS脚本进行检测。
-例如：普通的表单...</p>
-              </a>
             
-            
-              <a class='next' href='/2020/03/25/1.1%20%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%8F%8A%E6%B5%81%E7%A8%8B/'>
-                <p class='title'>【文件上传（一）】1.1文件上传漏洞原理及流程<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>本文主要内容
-文件上传流程、漏洞原因
-burpsuite简单安装
-dvwa文件上传简单示例
+              <a class='next' href='/2020/04/06/1.1%20XSS%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%8E%9F%E7%90%86/'>
+                <p class='title'>【XSS（一）】1.1 XSS介绍与原理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本文主要整理了XSS相关知识，XSS类别、利用、危害以及简单的实例分析。
 
 
-
-文件上传流程：
-
-1.前端选择文件，进行提交
-2.浏览器形成POST MultiPart报文发送...</p>
+0x01 基础知识1.1 XSS简介跨站脚本（Cross-Site Scripting，XSS）是一种经常出现在 W...</p>
               </a>
             
           </div>
@@ -600,7 +624,7 @@ dvwa文件上传简单示例
 
   <script>
     window.subData = {
-      title: '【文件上传（二）：前端检测绕过】2.2提交报文修改检测',
+      title: '【python-Web服务器】1.1 HTTP协议简介',
       tools: true
     }
   </script>
@@ -626,7 +650,7 @@ dvwa文件上传简单示例
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#本文主要内容"><span class="toc-text">本文主要内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-提交报文修改检测（前端检测通用）"><span class="toc-text">0x01 提交报文修改检测（前端检测通用）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-示例"><span class="toc-text">0x02 示例</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-使用谷歌-火狐浏览器分析"><span class="toc-text">0x01 使用谷歌&#x2F;火狐浏览器分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-HTTP协议分析"><span class="toc-text">0x02 HTTP协议分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-浏览器请求"><span class="toc-text">2.1 浏览器请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-服务器响应"><span class="toc-text">2.2 服务器响应</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#浏览器解析过程"><span class="toc-text">浏览器解析过程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-总结"><span class="toc-text">0x03 总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-HTTP请求"><span class="toc-text">3.1 HTTP请求</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#步骤1：浏览器⾸先向服务器发送HTTP请求，请求包括："><span class="toc-text">步骤1：浏览器⾸先向服务器发送HTTP请求，请求包括：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#步骤2：服务器向浏览器返回HTTP响应，响应包括："><span class="toc-text">步骤2：服务器向浏览器返回HTTP响应，响应包括：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#步骤3：如果浏览器还需要继续向服务器请求其他资源，-⽐如图⽚，就再次发出HTTP请求，重复步骤1、2"><span class="toc-text">步骤3：如果浏览器还需要继续向服务器请求其他资源， ⽐如图⽚，就再次发出HTTP请求，重复步骤1、2</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-HTTP格式"><span class="toc-text">3.2 HTTP格式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#HTTP-GET请求的格式："><span class="toc-text">HTTP    GET请求的格式：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HTTP-POST请求的格式："><span class="toc-text">HTTP    POST请求的格式：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HTTP响应的格式："><span class="toc-text">HTTP响应的格式：</span></a></li></ol></li></ol></li></ol>
     </div>
   </section>
 
