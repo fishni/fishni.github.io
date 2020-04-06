@@ -524,7 +524,7 @@
 <h3 id="2-2-反射型XSS-Medium等级"><a href="#2-2-反射型XSS-Medium等级" class="headerlink" title="2.2 反射型XSS-Medium等级"></a>2.2 反射型XSS-Medium等级</h3><ul>
 <li><p><strong>先利用alert进行弹窗测试</strong> </p>
 <p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20406dvwaxss05.png" alt=""></p>
-<p><strong>发现页面没有反应，有可能是被过滤了，浏览器虽然会过滤<script>标签关键字，但是只过滤一次，所以可以想办法绕过</strong> </p>
+<p><strong>发现页面没有反应，有可能是被过滤了，浏览器虽然会过滤·<code>&lt;script&gt;</code>标签关键字，但是只过滤一次，所以可以想办法绕过</strong> </p>
 </li>
 <li><p>绕过1： 通过构造两个标签，即嵌套</p>
 <p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20406dvwaxss06.png" alt=""></p>
@@ -573,11 +573,11 @@
 <li>代码采用了Anti-CSRF token机制</li>
 <li>htmlspecialchars() 函数把预定义的字符转换为 HTML 实体。</li>
 <li>预定义的字符是：<ul>
-<li>& （和号）成为 &</li>
-<li>" （双引号）成为 "</li>
-<li>' （单引号）成为 '</li>
-<li>< （小于）成为 <</li>
-<li>&gt; （大于）成为 ></li>
+<li>&amp; （和号）成为 &amp;</li>
+<li>“ （双引号）成为 “</li>
+<li>‘ （单引号）成为 ‘</li>
+<li>&lt; （小于）成为 &lt;</li>
+<li>&gt; （大于）成为 &gt;</li>
 </ul>
 </li>
 </ul>
@@ -593,7 +593,7 @@
 </li>
 <li><p>HTML转义：对用户输入的内容进行HTML转义，转义后可以确保用户输入的内容在浏览器中作为文本显示，而不是作为代码解析。 </p>
 </li>
-<li><p>一些前端框架中，都会有一份 decodingMap， 用于对用户输入所包含的特殊字符或标签进行编码或过滤，如 <，>，script，防止 XSS 攻击：</p>
+<li><p>一些前端框架中，都会有一份 decodingMap， 用于对用户输入所包含的特殊字符或标签进行编码或过滤，如 &lt;，&gt;，script，防止 XSS 攻击：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; vuejs 中的 decodingMap</span><br><span class="line">&#x2F;&#x2F; 在 vuejs 中，如果输入带 script 标签的内容，会直接过滤掉</span><br><span class="line">const decodingMap &#x3D; &#123;</span><br><span class="line">  &#39;&lt;&#39;: &#39;&lt;&#39;,</span><br><span class="line">  &#39;&gt;&#39;: &#39;&gt;&#39;,</span><br><span class="line">  &#39;&quot;&#39;: &#39;&quot;&#39;,</span><br><span class="line">  &#39;&amp;&#39;: &#39;&amp;&#39;,</span><br><span class="line">  &#39;</span><br><span class="line">  &#39;: &#39;\n&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 </li>
@@ -669,7 +669,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-06T12:33:35+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-06T12:41:44+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2020年4月6日</p>
@@ -804,7 +804,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-基础知识"><span class="toc-text">0x01 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-XSS简介"><span class="toc-text">1.1 XSS简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-XSS分类"><span class="toc-text">1.2 XSS分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#反射型"><span class="toc-text">反射型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#存储型"><span class="toc-text">存储型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DOM型"><span class="toc-text">DOM型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-XSS-利用方式"><span class="toc-text">1.3 XSS 利用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cookies-窃取"><span class="toc-text">Cookies 窃取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#会话劫持"><span class="toc-text">会话劫持</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#钓鱼"><span class="toc-text">钓鱼</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#网页挂马"><span class="toc-text">网页挂马</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DOS-与-DDOS¶"><span class="toc-text">DOS 与 DDOS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#XSS-蠕虫-¶"><span class="toc-text">XSS 蠕虫 </span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Self-XSS-变废为宝的场景-¶"><span class="toc-text">Self-XSS 变废为宝的场景 </span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-正则表达式规则"><span class="toc-text">1.4 正则表达式规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-简单实例分析"><span class="toc-text">0x02 简单实例分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-反射型XSS-Low等级"><span class="toc-text">2.1 反射型XSS-Low等级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-反射型XSS-Medium等级"><span class="toc-text">2.2 反射型XSS-Medium等级</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-基础知识"><span class="toc-text">0x01 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-XSS简介"><span class="toc-text">1.1 XSS简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-XSS分类"><span class="toc-text">1.2 XSS分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#反射型"><span class="toc-text">反射型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#存储型"><span class="toc-text">存储型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DOM型"><span class="toc-text">DOM型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-XSS-利用方式"><span class="toc-text">1.3 XSS 利用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cookies-窃取"><span class="toc-text">Cookies 窃取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#会话劫持"><span class="toc-text">会话劫持</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#钓鱼"><span class="toc-text">钓鱼</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#网页挂马"><span class="toc-text">网页挂马</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DOS-与-DDOS¶"><span class="toc-text">DOS 与 DDOS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#XSS-蠕虫-¶"><span class="toc-text">XSS 蠕虫 </span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Self-XSS-变废为宝的场景-¶"><span class="toc-text">Self-XSS 变废为宝的场景 </span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-正则表达式规则"><span class="toc-text">1.4 正则表达式规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-简单实例分析"><span class="toc-text">0x02 简单实例分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-反射型XSS-Low等级"><span class="toc-text">2.1 反射型XSS-Low等级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-反射型XSS-Medium等级"><span class="toc-text">2.2 反射型XSS-Medium等级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-反射型XSS-High等级"><span class="toc-text">2.3 反射型XSS-High等级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-防范措施"><span class="toc-text">0x03 防范措施</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-HttpOnly-防止劫取-Cookie"><span class="toc-text">3.1 HttpOnly 防止劫取 Cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-用户端输入检查"><span class="toc-text">3.2 用户端输入检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-服务端输出检查"><span class="toc-text">3.3 服务端输出检查</span></a></li></ol></li></ol>
     </div>
   </section>
 
