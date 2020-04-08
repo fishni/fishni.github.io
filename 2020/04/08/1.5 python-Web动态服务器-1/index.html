@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>【python-Web服务器】1.4 python-Web动态服务器-1 - fishni</title>
+  
+    <meta name="keywords" content="Web,python">
+  
+  
+    <meta name="description" content="本文主要内容
+服务器动态资源请求相关知识（WSGI）
+python实现Web动态服务器示例
+">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            FISHNI'S BLOG <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-rss fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  更多
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-rss fa-fw'></i>
+        
+        主页
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        分类
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-archive fa-fw'></i>
+        
+        归档
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/04/08/1.5%20python-Web%E5%8A%A8%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1/">
+        【python-Web服务器】1.4 python-Web动态服务器-1
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://fishni.github.io/" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/ghost1.jpg">
+    <p>fishni</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/python/Web%E6%9C%8D%E5%8A%A1%E5%99%A8/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>python&nbsp;/&nbsp;Web服务器</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年4月8日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <h2 id="本文主要内容"><a href="#本文主要内容" class="headerlink" title="本文主要内容"></a>本文主要内容</h2><ul>
+<li>服务器动态资源请求相关知识（WSGI）</li>
+<li>python实现Web动态服务器示例</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="0x01-服务器动态资源请求"><a href="#0x01-服务器动态资源请求" class="headerlink" title="0x01 服务器动态资源请求"></a>0x01 服务器动态资源请求</h2><h3 id="1-1-浏览器请求动态页面过程"><a href="#1-1-浏览器请求动态页面过程" class="headerlink" title="1.1 浏览器请求动态页面过程"></a>1.1 浏览器请求动态页面过程</h3><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20408web01.png" alt=""></p>
+<h3 id="1-2-WSGI"><a href="#1-2-WSGI" class="headerlink" title="1.2 WSGI"></a>1.2 WSGI</h3><blockquote>
+<p>Web服务器网关接口（Python Web Server Gateway Interface，缩写为WSGI）是为Python语言定义的Web服务器和Web应用程序或框架之间的一种简单而通用的接口</p>
+</blockquote>
+<p>怎么在你刚建立的Web服务器上运⾏⼀个Django应用和Flask应用，如何不做任何改变而适应不同的web架构呢？</p>
+<p>在以前，选择Python web架构会受制于可用的web服务器    ，反之亦然。 如果架构和服务器可以协同⼯作，那就好了：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20408web02.png" alt=""></p>
+<p>但有可能面对（或者曾有过）下⾯的问题，当要把⼀个服务器和⼀个架构结合起来时，却发现他们不是被设计成协同⼯作的：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20408web03.png" alt=""></p>
+<p>那么，怎么可以不修改服务器和架构代码⽽确保可以在多个架构下运⾏web 服务器呢？答案就是Python    Web    Server    Gateway    Interface    (或简称 WSGI，读作“wizgy”)。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20408web04.png" alt=""></p>
+<ul>
+<li>WSGI允许开发者将选择web框架和web服务器分开。可以混合匹配web服务 器和web框架，选择⼀个适合的配对。⽐如,可以在Gunicorn或者 Nginx/uWSGI    或者Waitress上运⾏Django,Flask,或    Pyramid。真正的混合 匹配，得益于WSGI同时⽀持服务器和架构：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20408web05.png" alt=""></li>
+</ul>
+<p>web服务器必须具备WSGI接⼝，所有的现代Python  Web框架都已具备WSGI接口，它让你不对代码作修改就能使服务器和特点的web框架协同⼯作。<br>WSGI由web服务器支持，⽽web框架允许你选择适合自己的配对，但它同样对于服务器和框架开发者提供便利使他们可以专注于自己偏爱的领域和专长 而不至于相互牵制。其他语言也有类似接⼝：java有Servlet    API，Ruby有 Rack。</p>
+<h3 id="1-3-定义WSGI接口"><a href="#1-3-定义WSGI接口" class="headerlink" title="1.3 定义WSGI接口"></a>1.3 定义WSGI接口</h3><p>WSGI接⼝定义⾮常简单，它只要求Web开发者实现⼀个函数，就可以响应 HTTP请求。我们来看⼀个最简单的Web版本的“Hello    World!”：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">apllication</span><span class="params">(environ, start_response)</span>:</span></span><br><span class="line">    start_reponse(<span class="string">'200 ok'</span>,[(<span class="string">'Content-Type'</span>,<span class="string">'text/html'</span>)])</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Hello World!'</span></span><br></pre></td></tr></table></figure>
+
+<p>上⾯的pplication()函数就是符合WSGI标准的⼀个HTTP处理函数，它接收两个参数：</p>
+<ul>
+<li>environ：一个包含所有HTTP请求信息的dict对象</li>
+<li>start_response：一个发送HTTP响应的函数</li>
+</ul>
+<p>整个application()函数本身没有涉及到任何解析HTTP的部分，也就是说，把底层web服务器解析部分和应用程序逻辑部分进行了分离，这样开发者就可以专⼼做⼀个领域了</p>
+<p>不过，这个application()函数怎么调用？如果我们自己调用，两个参数environ和start_response我们没法提供，返回的str也没法发给浏览器。</p>
+<p>所以application()函数必须由WSGI服务器来调用。有很多符合WSGI规范的服务器。而我们此时的web服务器项目的目的就是做一个可以解析静态网页还可以解析动态网页的服务器</p>
+<h2 id="0x02-python-Web动态服务器示例"><a href="#0x02-python-Web动态服务器示例" class="headerlink" title="0x02 python-Web动态服务器示例"></a>0x02 python-Web动态服务器示例</h2><h3 id="2-1-本地Pycharm布置目录"><a href="#2-1-本地Pycharm布置目录" class="headerlink" title="2.1 本地Pycharm布置目录"></a>2.1 本地Pycharm布置目录</h3><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20408web06.png" alt=""></p>
+<h3 id="2-2-web服务器代码（04-dynamic-web-server-py）"><a href="#2-2-web服务器代码（04-dynamic-web-server-py）" class="headerlink" title="2.2 web服务器代码（04_dynamic_web_server.py）"></a>2.2 web服务器代码（04_dynamic_web_server.py）</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置静态文件根目录</span></span><br><span class="line">HTML_ROOT_DIR = <span class="string">"./html"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置动态执行文件目录</span></span><br><span class="line">WSGI_PYTHON_DIR = <span class="string">"./wsgipython"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HTTPserver</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""init"""</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">        self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.server_socket.listen(<span class="number">128</span>)</span><br><span class="line">        <span class="string">"""多进程处理请求"""</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            client_socket, client_address = self.server_socket.accept()</span><br><span class="line">            print(<span class="string">"[%s,%s]用户连接上了"</span> % client_address)</span><br><span class="line">            handle_client_process = Process(target=self.handle_client, args=(client_socket,))</span><br><span class="line">            handle_client_process.start()</span><br><span class="line">            client_socket.close()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start_response</span><span class="params">(self,status,headers)</span>:</span></span><br><span class="line">        <span class="comment"># 分析： start_response 处理响应的状态码和头部信息</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">           status = "200 OK"</span></span><br><span class="line"><span class="string">      headers = [</span></span><br><span class="line"><span class="string">          ("Content-Type", "text/plain")</span></span><br><span class="line"><span class="string">      ]</span></span><br><span class="line"><span class="string">      star</span></span><br><span class="line"><span class="string">          """</span></span><br><span class="line">        response_headers = <span class="string">"HTTP/1.1 "</span>+ status + <span class="string">"\r\n"</span></span><br><span class="line">        <span class="keyword">for</span> header <span class="keyword">in</span> headers:</span><br><span class="line">            response_headers += <span class="string">"%s: %s\r\n"</span> % header</span><br><span class="line">        self.response_headers = response_headers</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handle_client</span><span class="params">(self, client_socket)</span>:</span></span><br><span class="line">        <span class="string">"""处理客户端请求"""</span></span><br><span class="line">        <span class="comment"># 获取客户端数据</span></span><br><span class="line">        request_data = client_socket.recv(<span class="number">2048</span>)</span><br><span class="line">        print(<span class="string">"request data:"</span>,request_data)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 处理请求数据</span></span><br><span class="line">        request_lines = request_data.splitlines()</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> request_lines:</span><br><span class="line">            print(line)</span><br><span class="line">        <span class="comment"># 解析请求报文</span></span><br><span class="line">        <span class="comment"># "GET / HTTP/1.1"</span></span><br><span class="line">        request_start_line = request_lines[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 提取用户请求的文件名</span></span><br><span class="line">        file_name = re.match(<span class="string">r"\w+ +(/[^ ]*)"</span>,request_start_line.decode(<span class="string">"utf-8"</span>)).group(<span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 提取用户请求的方法</span></span><br><span class="line">        method = re.match(<span class="string">r"(\w+) +/[^ ]* "</span>, request_start_line.decode(<span class="string">"utf-8"</span>)).group(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># "/ctime.py"</span></span><br><span class="line">        <span class="comment"># "/sayhello.py"</span></span><br><span class="line">        <span class="comment"># 判断是否为动态资源请求</span></span><br><span class="line">        <span class="keyword">if</span> file_name.endswith(<span class="string">".py"</span>):</span><br><span class="line">            <span class="comment"># try使用提升容错率：也即访问的资源不存在时给出提示</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="comment"># __import__魔术方法，导入已经创建的py模块，类似import</span></span><br><span class="line">                <span class="comment"># m这里以模块使用</span></span><br><span class="line">                m = __import__(file_name[<span class="number">1</span>:<span class="number">-3</span>])</span><br><span class="line">            <span class="keyword">except</span> Exception:</span><br><span class="line">                <span class="comment"># 使用self.response_headers为服务器添加属性</span></span><br><span class="line">                self.response_headers = <span class="string">"HTTP/1.1 404 Not Found\r\n"</span></span><br><span class="line">                response_body= <span class="string">"not found"</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># 字典表示请求的相关信息</span></span><br><span class="line">                env = &#123;</span><br><span class="line">                    <span class="string">"PATH_INFO"</span>:file_name,</span><br><span class="line">                    <span class="string">"METHOD"</span>:method</span><br><span class="line">                &#125;</span><br><span class="line">                response_body = m.application(env,self.start_response)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># response 服务器响应浏览器请求的数据</span></span><br><span class="line">            response = self.response_headers+ <span class="string">"\r\n"</span> + response_body</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="string">"/"</span> == file_name:</span><br><span class="line">                file_name= <span class="string">"/index.html"</span></span><br><span class="line">            <span class="comment"># 打开文件</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                file = open(HTML_ROOT_DIR+file_name,<span class="string">"rb"</span>)</span><br><span class="line">            <span class="keyword">except</span> IOError:</span><br><span class="line">                <span class="comment"># 构造响应数据</span></span><br><span class="line">                response_start_line = <span class="string">"HTTP/1.1 404 Not Found\r\n"</span></span><br><span class="line">                response_headers = <span class="string">"Server: My testserver\r\n"</span></span><br><span class="line">                response_body = <span class="string">"file is not found!"</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                file_data = file.read()</span><br><span class="line">                file.close()</span><br><span class="line">                <span class="comment"># 构造响应数据</span></span><br><span class="line">                response_start_line = <span class="string">"HTTP/1.1 200 0k\r\n"</span></span><br><span class="line">                response_headers = <span class="string">"Server: My testserver\r\n"</span></span><br><span class="line">                response_body = file_data.decode(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            response = response_start_line + response_headers+ <span class="string">"\r\n"</span>+ response_body</span><br><span class="line">            print(<span class="string">"response:"</span>,response)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 向客户端发送数据</span></span><br><span class="line">        client_socket.send(bytes(response,<span class="string">"utf-8"</span>))</span><br><span class="line">        <span class="comment"># 关闭客户端连接</span></span><br><span class="line">        client_socket.close()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bind</span><span class="params">(self,port)</span>:</span></span><br><span class="line">        self.server_socket.bind((<span class="string">""</span>, port))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 利用sys模块导入路径</span></span><br><span class="line">    sys.path.insert(<span class="number">1</span>, WSGI_PYTHON_DIR)</span><br><span class="line">    http_server = HTTPserver()</span><br><span class="line">    http_server.bind(<span class="number">8000</span>)</span><br><span class="line">    http_server.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-动态执行脚本（ctime-py）代码："><a href="#2-3-动态执行脚本（ctime-py）代码：" class="headerlink" title="2.3 动态执行脚本（ctime.py）代码："></a>2.3 动态执行脚本（ctime.py）代码：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># "/ctime.py?timezone=e8"</span></span><br><span class="line"><span class="comment"># "/ctime.py?timezone=e1"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">application</span><span class="params">(env, start_response)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># env.get("Method")</span></span><br><span class="line">    <span class="comment"># env.get("PATH_INFO")</span></span><br><span class="line">    <span class="comment"># env.get("QUERY_STRING")</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    分析1：env保存的是http的请求，apllication 函数利用env相关信息进行处理</span></span><br><span class="line"><span class="string">    分析2： 浏览器动态请求的页面，再次通过服务器响应至浏览器端，状态码，和头部信息需在apllication中处理</span></span><br><span class="line"><span class="string">    分析3：start_response函数用来处理响应的状态status和响应头headers返回至dynamic_web_server服务器</span></span><br><span class="line"><span class="string">    分析4：return 返回内容，也即是响应体response_body内容</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    status = <span class="string">"200 OK"</span></span><br><span class="line">    headers = [</span><br><span class="line">        (<span class="string">"Content-Type"</span>, <span class="string">"text/plain"</span>)</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    start_response(status, headers)</span><br><span class="line">    <span class="keyword">return</span> time.ctime()</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-执行流程图"><a href="#2-4-执行流程图" class="headerlink" title="2.4 执行流程图"></a>2.4 执行流程图</h3><ul>
+<li>大概画了一下<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20408web08.png" alt=""></li>
+</ul>
+<h3 id="2-5-测试"><a href="#2-5-测试" class="headerlink" title="2.5 测试"></a>2.5 测试</h3><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20408web07.png" alt=""></p>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/04/08/1.5%20python-Web%E5%8A%A8%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1/>https://fishni.github.io/2020/04/08/1.5%20python-Web%E5%8A%A8%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/wechat.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/qq.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-08T14:27:16+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年4月8日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Web/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Web</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/04/08/1.5%20python-Web%E5%8A%A8%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1/&title=【python-Web服务器】1.4 python-Web动态服务器-1 - fishni&summary=本文主要内容
+服务器动态资源请求相关知识（WSGI）
+python实现Web动态服务器示例
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/04/08/1.5%20python-Web%E5%8A%A8%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1/&title=【python-Web服务器】1.4 python-Web动态服务器-1 - fishni&summary=本文主要内容
+服务器动态资源请求相关知识（WSGI）
+python实现Web动态服务器示例
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/04/08/1.5%20python-Web%E5%8A%A8%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1/&title=【python-Web服务器】1.4 python-Web动态服务器-1 - fishni&summary=本文主要内容
+服务器动态资源请求相关知识（WSGI）
+python实现Web动态服务器示例
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2020/04/08/1.4%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-3-%E4%BD%BF%E2%BD%A4%E7%B1%BB/'>
+                <p class='title'>【python-Web服务器】1.4 python-Web静态服务器-3-使用类<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本文主要内容
+文件打开方式，文本与二进制区别
+用类封装简单的Web静态服务器
+
+
+
+0x01 文件打开方式，文本与二进制区别
+文本文件，操作系统会对\n进行一些隐式变换，因此文本文件直接跨平台使...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '【python-Web服务器】1.4 python-Web动态服务器-1',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#本文主要内容"><span class="toc-text">本文主要内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-服务器动态资源请求"><span class="toc-text">0x01 服务器动态资源请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-浏览器请求动态页面过程"><span class="toc-text">1.1 浏览器请求动态页面过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-WSGI"><span class="toc-text">1.2 WSGI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-定义WSGI接口"><span class="toc-text">1.3 定义WSGI接口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-python-Web动态服务器示例"><span class="toc-text">0x02 python-Web动态服务器示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-本地Pycharm布置目录"><span class="toc-text">2.1 本地Pycharm布置目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-web服务器代码（04-dynamic-web-server-py）"><span class="toc-text">2.2 web服务器代码（04_dynamic_web_server.py）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-动态执行脚本（ctime-py）代码："><span class="toc-text">2.3 动态执行脚本（ctime.py）代码：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-执行流程图"><span class="toc-text">2.4 执行流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-测试"><span class="toc-text">2.5 测试</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://fishni.github.io/"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+            
+              <a href="https://github.com/fishni"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://volantis.js.org/" target="_blank" class="codename">fishni's blog</a>
+        作为主题
+        
+          ，
+          总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://fishni.github.io/">Copyright © 2017-2020 Mr.fishmouse</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('') {
+          $('').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("div.fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
