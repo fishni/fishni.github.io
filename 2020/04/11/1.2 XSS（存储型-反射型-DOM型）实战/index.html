@@ -16,12 +16,16 @@
 
   <!-- 页面元数据 -->
   
-    <title>【python-Web服务器】1.3 python-Web静态服务器-2-显示需要的页面 - fishni</title>
+    <title>【XSS（一）】1.2 XSS（存储型-反射型-DOM型）实战 - fishni</title>
   
-    <meta name="keywords" content="Web,python">
+    <meta name="keywords" content="PHP,XSS">
   
   
-    <meta name="description" content="本文使用python写个可以显示需要页面的Web静态服务器。">
+    <meta name="description" content="本文主要内容
+存储型、反射型、DOM型造成XSS漏洞的简单原理、危害、攻击流程
+利用EasyAdmin极简版的实战测试案例
+几种XSS辅助测试工具
+">
   
 
   <!-- feed -->
@@ -305,8 +309,8 @@
         
   
     <h1 class="title">
-      <a href="/2020/04/06/1.3%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-2-%E6%98%BE%E7%A4%BA%E9%9C%80%E8%A6%81%E7%9A%84%E9%A1%B5%E9%9D%A2/">
-        【python-Web服务器】1.3 python-Web静态服务器-2-显示需要的页面
+      <a href="/2020/04/11/1.2%20XSS%EF%BC%88%E5%AD%98%E5%82%A8%E5%9E%8B-%E5%8F%8D%E5%B0%84%E5%9E%8B-DOM%E5%9E%8B%EF%BC%89%E5%AE%9E%E6%88%98/">
+        【XSS（一）】1.2 XSS（存储型-反射型-DOM型）实战
       </a>
     </h1>
   
@@ -332,9 +336,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/python/Web%E6%9C%8D%E5%8A%A1%E5%99%A8/' rel="nofollow">
+    <a href='/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/XSS%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E5%8F%8A%E5%88%A9%E7%94%A8/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>python&nbsp;/&nbsp;Web服务器</p>
+      <p>网络安全&nbsp;/&nbsp;XSS漏洞原理及利用</p>
     </a>
   </div>
 
@@ -345,7 +349,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年4月6日</p>
+    <p>发布于：2020年4月11日</p>
   </a>
 </div>
 
@@ -367,11 +371,121 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>本文使用python写个可以显示需要页面的Web静态服务器。</p>
+          <h2 id="本文主要内容"><a href="#本文主要内容" class="headerlink" title="本文主要内容"></a>本文主要内容</h2><ul>
+<li>存储型、反射型、DOM型造成XSS漏洞的简单原理、危害、攻击流程</li>
+<li>利用EasyAdmin极简版的实战测试案例</li>
+<li>几种XSS辅助测试工具</li>
+</ul>
 <a id="more"></a>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">HTML_ROOT_DIR = <span class="string">"./html"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_client</span><span class="params">(client_socket)</span>:</span></span><br><span class="line">    <span class="string">"""处理客户端请求"""</span></span><br><span class="line">    <span class="comment"># 获取客户端数据</span></span><br><span class="line">    request_data = client_socket.recv(<span class="number">1024</span>)</span><br><span class="line">    print(<span class="string">"request data:"</span>,request_data)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 处理请求数据</span></span><br><span class="line">    request_lines = request_data.splitlines()</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> request_lines:</span><br><span class="line">        print(line)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># "GET / HTTP/1.1"</span></span><br><span class="line">    request_start_line = request_lines[<span class="number">0</span>]</span><br><span class="line">    file_name = re.match(<span class="string">r"\w+ +(/[^ ]*)"</span>,request_start_line.decode(<span class="string">"utf-8"</span>)).group(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="string">"/"</span> == file_name:</span><br><span class="line">        file_name= <span class="string">"/index.html"</span></span><br><span class="line">    <span class="comment"># 打开文件</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        file = open(HTML_ROOT_DIR+file_name,<span class="string">"rb"</span>)</span><br><span class="line">    <span class="keyword">except</span> IOError:</span><br><span class="line">        <span class="comment"># 构造响应数据</span></span><br><span class="line">        response_start_line = <span class="string">"HTTP/1.1 404 Not Found\r\n"</span></span><br><span class="line">        response_headers = <span class="string">"Server: My testserver\r\n"</span></span><br><span class="line">        response_body = <span class="string">"file is not found!"</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        file_data = file.read()</span><br><span class="line">        file.close()</span><br><span class="line">        <span class="comment"># 构造响应数据</span></span><br><span class="line">        response_start_line = <span class="string">"HTTP/1.1 200 0k\r\n"</span></span><br><span class="line">        response_headers = <span class="string">"Server: My testserver\r\n"</span></span><br><span class="line">        response_body = file_data.decode(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    response = response_start_line + response_headers+ <span class="string">"\r\n"</span>+ response_body</span><br><span class="line">    print(<span class="string">"response:"</span>,response)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 向客户端发送数据</span></span><br><span class="line">    client_socket.send(bytes(response,<span class="string">"utf-8"</span>))</span><br><span class="line">    <span class="comment"># 关闭客户端连接</span></span><br><span class="line">    client_socket.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)</span><br><span class="line">    server_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,<span class="number">1</span>)</span><br><span class="line">    server_socket.bind((<span class="string">""</span>,<span class="number">8000</span>))</span><br><span class="line">    server_socket.listen(<span class="number">128</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        client_socket, client_address = server_socket.accept()</span><br><span class="line">        print(<span class="string">"[%s,%s]用户连接上了"</span>%client_address)</span><br><span class="line">        handle_client_process = Process(target=handle_client, args=(client_socket,))</span><br><span class="line">        handle_client_process.start()</span><br><span class="line">        client_socket.close()</span><br></pre></td></tr></table></figure>
+<h2 id="认识危害"><a href="#认识危害" class="headerlink" title="认识危害"></a>认识危害</h2><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss00.png" alt=""></p>
+<h2 id="0x01-发现XSS"><a href="#0x01-发现XSS" class="headerlink" title="0x01 发现XSS"></a>0x01 发现XSS</h2><h3 id="1-1-XSS位置"><a href="#1-1-XSS位置" class="headerlink" title="1.1 XSS位置"></a>1.1 XSS位置</h3><ul>
+<li>直接插入到SCRIPT标签里</li>
+<li>插入到HTML注释里</li>
+<li>插入到HTML标签的属性里</li>
+<li>插入到HTML标签的名字</li>
+<li>作为HTML标签的名字</li>
+<li>直接插入到CSS里</li>
+<li>……</li>
+</ul>
+<h3 id="1-2-手工发现"><a href="#1-2-手工发现" class="headerlink" title="1.2 手工发现"></a>1.2 手工发现</h3><ul>
+<li><p>参数中提交XSS payload代码</p>
+</li>
+<li><p>在所有可以提交参数并能在页面返回的位置上</p>
+<ul>
+<li>URL的每一个参数</li>
+<li>URL本身</li>
+<li>表单</li>
+<li>搜索框</li>
+<li>……</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-3-常见业务场景"><a href="#1-3-常见业务场景" class="headerlink" title="1.3 常见业务场景"></a>1.3 常见业务场景</h3><ul>
+<li>重灾区：评论区、留言区、个人信息、订单信息等</li>
+<li>针对型：站内信、网页即时通讯、私信、意见反馈等</li>
+<li>存在风险：搜索框、当前目录、图片属性等</li>
+</ul>
+<h2 id="实战环境配置"><a href="#实战环境配置" class="headerlink" title="实战环境配置"></a>实战环境配置</h2><ul>
+<li><p>EasyAdmin极简版安装：[下载链接](链接：<a href="https://pan.baidu.com/s/1mEIcBSoFBBjN9DgIDzyxcg" target="_blank" rel="noopener">https://pan.baidu.com/s/1mEIcBSoFBBjN9DgIDzyxcg</a><br>提取码：qpzn)</p>
+</li>
+<li><p>下载后，本地windows+phpstudy，放置在WWW目录下</p>
+</li>
+<li><p>访问，之后创建数据库，即可完成配置</p>
+</li>
+</ul>
+<h2 id="0x01-存储型XSS实战"><a href="#0x01-存储型XSS实战" class="headerlink" title="0x01 存储型XSS实战"></a>0x01 存储型XSS实战</h2><h3 id="1-1-存储型XSS攻击流程"><a href="#1-1-存储型XSS攻击流程" class="headerlink" title="1.1 存储型XSS攻击流程"></a>1.1 存储型XSS攻击流程</h3><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss01.png" alt=""></p>
+<h3 id="1-2-利用easyadmin进行测试"><a href="#1-2-利用easyadmin进行测试" class="headerlink" title="1.2 利用easyadmin进行测试"></a>1.2 利用easyadmin进行测试</h3><ul>
+<li><p>利用img标签，<code>&lt;img src=x onerror=alert(&quot;xss&quot;)&gt;</code>进行测试存在漏洞的地方</p>
+</li>
+<li><p>经测试，发现在添加标签时，出现弹窗</p>
+</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss02.png" alt=""></p>
+<ul>
+<li>发布后，当点击该帖子，即可弹窗</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss03.png" alt=""></p>
+<ul>
+<li>点击开发者工具，可发现对添加的图片标签进行解析了，但并未解析出来，故执行了onerror事件，弹窗</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss04.png" alt=""></p>
+<h2 id="0x02-反射型XSS实战"><a href="#0x02-反射型XSS实战" class="headerlink" title="0x02 反射型XSS实战"></a>0x02 反射型XSS实战</h2><h3 id="2-1-反射型XSS攻击流程"><a href="#2-1-反射型XSS攻击流程" class="headerlink" title="2.1 反射型XSS攻击流程"></a>2.1 反射型XSS攻击流程</h3><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss05.png" alt=""></p>
+<h3 id="2-2-利用easyadmin测试"><a href="#2-2-利用easyadmin测试" class="headerlink" title="2.2 利用easyadmin测试"></a>2.2 利用easyadmin测试</h3><blockquote>
+<p>攻击者在URL中插入XSS代码，服务端将URL中的XSS代码输出到页面上，攻击者将带有XSS代码的URL发送给用户，用户打开后受到XSS攻击</p>
+</blockquote>
+<ul>
+<li>寻址存在URL的输入点，测试搜索栏</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss06.png" alt=""></p>
+<ul>
+<li>闭合title，并测试弹窗</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss07.png" alt=""><br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss08.png" alt=""></p>
+<ul>
+<li>寻找其他输入点</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss09.png" alt=""></p>
+<ul>
+<li>尖括号闭合，测试<code>&quot;&gt;&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;</code></li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss10.png" alt=""></p>
+<h2 id="0x03DOM型XSS实战"><a href="#0x03DOM型XSS实战" class="headerlink" title="0x03DOM型XSS实战"></a>0x03DOM型XSS实战</h2><h3 id="3-1-测试环境"><a href="#3-1-测试环境" class="headerlink" title="3.1 测试环境"></a>3.1 测试环境</h3><ul>
+<li>ubuntu+docker+pikachu之xss平台</li>
+</ul>
+<h3 id="3-2-DOM型xss测试"><a href="#3-2-DOM型xss测试" class="headerlink" title="3.2 DOM型xss测试"></a>3.2 DOM型xss测试</h3><ul>
+<li>DOM型xss-x初始化界面：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss11.png" alt=""></p>
+<ul>
+<li>步骤一：输入111，URL发生变化</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss12.png" alt=""></p>
+<ul>
+<li>再点击新出现的，URL又发生变化</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss13.png" alt=""></p>
+<ul>
+<li>步骤二：F12审查源码</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss14.png" alt=""></p>
+<ul>
+<li>步骤三：审查domxss()函数</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss15.png" alt=""></p>
+<pre><code>分析：JS代码，定义了一个domxss函数，利用 window.location.search 获取浏览器中URL的内容，然后赋值给 str，然后经过URL解码和字符串分隔，取出URL中的参数内容，再把 “+” 替换为 “ ”（空格），赋值给 xss最后把 xss 拼接到 a 标签中，然后写到 Id 为 dom 的 div 标签中；跟前面的DOM型xss不同的是，它的输入是从浏览器的URL中获取的，很像反射型XSS(get)</code></pre><ul>
+<li>步骤四：构造payload：<code>#&#39; onclick=&quot;alert(&#39;xss&#39;)&quot;&gt;</code></li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss16.png" alt=""></p>
+<ul>
+<li>尝试payload：<code>#&#39;&gt;&lt;img src=&quot;#&quot; onmouseover=&quot;alert(&#39;xss&#39;)&quot;&gt;</code></li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20411xss17.png" alt=""></p>
+<h2 id="0x04-XSS辅助测试工具"><a href="#0x04-XSS辅助测试工具" class="headerlink" title="0x04 XSS辅助测试工具"></a>0x04 XSS辅助测试工具</h2><h3 id="4-1-BeEF"><a href="#4-1-BeEF" class="headerlink" title="4.1 BeEF"></a>4.1 BeEF</h3><p><a href="http://beefproject.com" target="_blank" rel="noopener">http://beefproject.com</a></p>
+<h3 id="4-2-XSS’OR"><a href="#4-2-XSS’OR" class="headerlink" title="4.2 XSS’OR"></a>4.2 XSS’OR</h3><p><a href="http://xssor.io" target="_blank" rel="noopener">http://xssor.io</a></p>
+<h3 id="4-3-IE-Tester"><a href="#4-3-IE-Tester" class="headerlink" title="4.3 IE Tester"></a>4.3 IE Tester</h3><p><a href="https://www.my-debugbar.com/wiki/IETester/HomePage" target="_blank" rel="noopener">https://www.my-debugbar.com/wiki/IETester/HomePage</a></p>
+<h3 id="等等……"><a href="#等等……" class="headerlink" title="等等…….."></a>等等……..</h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="http://blog.nsfocus.net/xss-start-finish/#34" target="_blank" rel="noopener">http://blog.nsfocus.net/xss-start-finish/#34</a></li>
+</ul>
 
           
             <br>
@@ -391,7 +505,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://fishni.github.io/2020/04/06/1.3%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-2-%E6%98%BE%E7%A4%BA%E9%9C%80%E8%A6%81%E7%9A%84%E9%A1%B5%E9%9D%A2/>https://fishni.github.io/2020/04/06/1.3%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-2-%E6%98%BE%E7%A4%BA%E9%9C%80%E8%A6%81%E7%9A%84%E9%A1%B5%E9%9D%A2/</a></p>
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/04/11/1.2%20XSS%EF%BC%88%E5%AD%98%E5%82%A8%E5%9E%8B-%E5%8F%8D%E5%B0%84%E5%9E%8B-DOM%E5%9E%8B%EF%BC%89%E5%AE%9E%E6%88%98/>https://fishni.github.io/2020/04/11/1.2%20XSS%EF%BC%88%E5%AD%98%E5%82%A8%E5%9E%8B-%E5%8F%8D%E5%B0%84%E5%9E%8B-DOM%E5%9E%8B%EF%BC%89%E5%AE%9E%E6%88%98/</a></p>
           
         
       </blockquote>
@@ -440,10 +554,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-08T21:09:52+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-11T14:17:14+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年4月8日</p>
+    <p>更新于：2020年4月11日</p>
   </a>
 </div>
 
@@ -452,7 +566,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Web/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Web</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/XSS/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>XSS</p></a></div>
 
 
         
@@ -470,7 +584,11 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/04/06/1.3%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-2-%E6%98%BE%E7%A4%BA%E9%9C%80%E8%A6%81%E7%9A%84%E9%A1%B5%E9%9D%A2/&title=【python-Web服务器】1.3 python-Web静态服务器-2-显示需要的页面 - fishni&summary=本文使用python写个可以显示需要页面的Web静态服务器。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/04/11/1.2%20XSS%EF%BC%88%E5%AD%98%E5%82%A8%E5%9E%8B-%E5%8F%8D%E5%B0%84%E5%9E%8B-DOM%E5%9E%8B%EF%BC%89%E5%AE%9E%E6%88%98/&title=【XSS（一）】1.2 XSS（存储型-反射型-DOM型）实战 - fishni&summary=本文主要内容
+存储型、反射型、DOM型造成XSS漏洞的简单原理、危害、攻击流程
+利用EasyAdmin极简版的实战测试案例
+几种XSS辅助测试工具
+"
           
           >
           
@@ -482,7 +600,11 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/04/06/1.3%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-2-%E6%98%BE%E7%A4%BA%E9%9C%80%E8%A6%81%E7%9A%84%E9%A1%B5%E9%9D%A2/&title=【python-Web服务器】1.3 python-Web静态服务器-2-显示需要的页面 - fishni&summary=本文使用python写个可以显示需要页面的Web静态服务器。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/04/11/1.2%20XSS%EF%BC%88%E5%AD%98%E5%82%A8%E5%9E%8B-%E5%8F%8D%E5%B0%84%E5%9E%8B-DOM%E5%9E%8B%EF%BC%89%E5%AE%9E%E6%88%98/&title=【XSS（一）】1.2 XSS（存储型-反射型-DOM型）实战 - fishni&summary=本文主要内容
+存储型、反射型、DOM型造成XSS漏洞的简单原理、危害、攻击流程
+利用EasyAdmin极简版的实战测试案例
+几种XSS辅助测试工具
+"
           
           >
           
@@ -494,7 +616,11 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/04/06/1.3%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-2-%E6%98%BE%E7%A4%BA%E9%9C%80%E8%A6%81%E7%9A%84%E9%A1%B5%E9%9D%A2/&title=【python-Web服务器】1.3 python-Web静态服务器-2-显示需要的页面 - fishni&summary=本文使用python写个可以显示需要页面的Web静态服务器。"
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/04/11/1.2%20XSS%EF%BC%88%E5%AD%98%E5%82%A8%E5%9E%8B-%E5%8F%8D%E5%B0%84%E5%9E%8B-DOM%E5%9E%8B%EF%BC%89%E5%AE%9E%E6%88%98/&title=【XSS（一）】1.2 XSS（存储型-反射型-DOM型）实战 - fishni&summary=本文主要内容
+存储型、反射型、DOM型造成XSS漏洞的简单原理、危害、攻击流程
+利用EasyAdmin极简版的实战测试案例
+几种XSS辅助测试工具
+"
           
           >
           
@@ -518,22 +644,13 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/2020/04/06/1.1%20HTTP%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>【python-Web服务器】1.1 HTTP协议简介</p>
-                <p class='content'>本文主要结合浏览器开发者工具理解HTTP协议，分析浏览器与服务器之间的请求和响应。
-
-
-0x01 使用谷歌/火狐浏览器分析
-在Web应用中，服务器把网页传给浏览器，实际上就是把网页的HTML代码...</p>
-              </a>
             
-            
-              <a class='next' href='/2020/04/06/1.1%20XSS%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%8E%9F%E7%90%86/'>
-                <p class='title'>【XSS（一）】1.1 XSS介绍与原理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>本文主要整理了XSS相关知识，XSS类别、利用、危害以及简单的实例分析。
+              <a class='next' href='/2020/04/10/1.6%20python-Web%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%A1%86%E6%9E%B6-%E5%AE%9E%E7%8E%B0/'>
+                <p class='title'>【python-Web服务器】1.6 python-Web服务器框架-实现<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本文主要内容：将Web框架和Web服务器结合实现简单的服务器，及相关python知识的了解
 
 
-0x01 基础知识1.1 XSS简介跨站脚本（Cross-Site Scripting，XSS）是一种经常出现在 W...</p>
+0x01 服务器代码（MyWebServer.py）12345678910111213141516...</p>
               </a>
             
           </div>
@@ -561,7 +678,7 @@
 
   <script>
     window.subData = {
-      title: '【python-Web服务器】1.3 python-Web静态服务器-2-显示需要的页面',
+      title: '【XSS（一）】1.2 XSS（存储型-反射型-DOM型）实战',
       tools: true
     }
   </script>
@@ -576,6 +693,20 @@
     
     
 
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#本文主要内容"><span class="toc-text">本文主要内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#认识危害"><span class="toc-text">认识危害</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-发现XSS"><span class="toc-text">0x01 发现XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-XSS位置"><span class="toc-text">1.1 XSS位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-手工发现"><span class="toc-text">1.2 手工发现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-常见业务场景"><span class="toc-text">1.3 常见业务场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实战环境配置"><span class="toc-text">实战环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-存储型XSS实战"><span class="toc-text">0x01 存储型XSS实战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-存储型XSS攻击流程"><span class="toc-text">1.1 存储型XSS攻击流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-利用easyadmin进行测试"><span class="toc-text">1.2 利用easyadmin进行测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-反射型XSS实战"><span class="toc-text">0x02 反射型XSS实战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-反射型XSS攻击流程"><span class="toc-text">2.1 反射型XSS攻击流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-利用easyadmin测试"><span class="toc-text">2.2 利用easyadmin测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03DOM型XSS实战"><span class="toc-text">0x03DOM型XSS实战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-测试环境"><span class="toc-text">3.1 测试环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-DOM型xss测试"><span class="toc-text">3.2 DOM型xss测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-XSS辅助测试工具"><span class="toc-text">0x04 XSS辅助测试工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-BeEF"><span class="toc-text">4.1 BeEF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-XSS’OR"><span class="toc-text">4.2 XSS’OR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-IE-Tester"><span class="toc-text">4.3 IE Tester</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#等等……"><span class="toc-text">等等……..</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
 
 
   
