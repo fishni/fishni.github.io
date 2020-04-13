@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>【python-正则】1.1Python正则表达式学习-1 - fishni</title>
+  
+    <meta name="keywords" content="python,正则表达式">
+  
+  
+    <meta name="description" content="本文主要内容：正则表达式概述、re模块操作、表示字符、原始字符串、表示数量、表示边界、 匹配分组、re模块的高级用法、贪婪和非贪婪、小练习
+
+dd
+dd
+
+">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            FISHNI'S BLOG <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-rss fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  更多
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-rss fa-fw'></i>
+        
+        主页
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        分类
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-archive fa-fw'></i>
+        
+        归档
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/04/13/1.1%20Python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0-1/">
+        【python-正则】1.1Python正则表达式学习-1
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://fishni.github.io/" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/ghost1.jpg">
+    <p>fishni</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/python/Python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>python&nbsp;/&nbsp;Python正则表达式</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年4月13日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>本文主要内容：正则表达式概述、re模块操作、表示字符、原始字符串、表示数量、表示边界、 匹配分组、re模块的高级用法、贪婪和非贪婪、小练习</p>
+<ul>
+<li>dd</li>
+<li>dd</li>
+<li></li>
+</ul>
+<a id="more"></a>
+
+<h2 id="0x01-正则表达式概述"><a href="#0x01-正则表达式概述" class="headerlink" title="0x01 正则表达式概述"></a>0x01 正则表达式概述</h2><p>正则表达式，又称正规表示式、正规表示法、正规表达式、 规则表达式、 常规表示法（英语：Regular Expression，在代码中常简写为regex、 regexp或RE），是计算机科学的一个概念。正则表达式使用单个字符串来描述、 匹配一系列匹配某个句法规则的字符串。 在很多⽂本编辑器里，正则表达式通常被用来检索、替换那些匹配某个模式的文本。</p>
+<p>Regular Expression的“Regular”⼀般被译为“正则”、 “正规”、 “常规”。 此处的“Regular”即是“规则”、 “规律”的意思， Regular Expression即“描述某种规则的表达式”之意。</p>
+<h2 id="0x02-re模块操作"><a href="#0x02-re模块操作" class="headerlink" title="0x02 re模块操作"></a>0x02 re模块操作</h2><blockquote>
+<p>在Python中需要通过正则表达式对字符串进⾏匹配的时候，可以使⽤⼀个模<br>块，名字为re</p>
+</blockquote>
+<h3 id="2-1-re模块的使用过程"><a href="#2-1-re模块的使用过程" class="headerlink" title="2.1 re模块的使用过程"></a>2.1 re模块的使用过程</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入re模块</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用match方法进行匹配操作</span></span><br><span class="line">result = re.match(正则表达式，要匹配的字符串)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果上⼀步匹配到数据的话， 可以使⽤group⽅法来提取数据</span></span><br><span class="line">result.group()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>re.match是进行正则匹配检查的方法，若字符串匹配正则表达式，则match方法返回匹配对象（Match Object）,否则返回None（注意不是空字符串””）</p>
+</li>
+<li><p>匹配对象Match Object对象具有group方法，用来返回字符串的匹配部分</p>
+</li>
+</ul>
+<h3 id="2-2-re模块示例"><a href="#2-2-re模块示例" class="headerlink" title="2.2 re模块示例"></a>2.2 re模块示例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#匹配hello开头的字符串</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">result = re.match(<span class="string">"hello"</span>,<span class="string">"hello world"</span>)</span><br><span class="line"><span class="comment"># 查看Match  object对象</span></span><br><span class="line">result</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&lt;re.Match object; span=(0, 5), match=&apos;hello&apos;&gt;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;hello&apos;</code></pre><h2 id="0x03-表示字符"><a href="#0x03-表示字符" class="headerlink" title="0x03 表示字符"></a>0x03 表示字符</h2><p>正则表达式单字符匹配常用的模式</p>
+<table>
+<thead>
+<tr>
+<th align="center">字符</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">.</td>
+<td align="left">匹配任意1个字符（除了\n）</td>
+</tr>
+<tr>
+<td align="center">[]</td>
+<td align="left">匹配[]中列举的字符</td>
+</tr>
+<tr>
+<td align="center">\d</td>
+<td align="left">匹配数字，即0-9</td>
+</tr>
+<tr>
+<td align="center">\D</td>
+<td align="left">匹配非数字，即不是数字</td>
+</tr>
+<tr>
+<td align="center">\s</td>
+<td align="left">匹配空白，即空格、tab键</td>
+</tr>
+<tr>
+<td align="center">\S</td>
+<td align="left">匹配非空白</td>
+</tr>
+<tr>
+<td align="center">\w</td>
+<td align="left">匹配单词字符，即a-z、A-Z、0-9、_</td>
+</tr>
+<tr>
+<td align="center">\W</td>
+<td align="left">匹配非单词字符</td>
+</tr>
+</tbody></table>
+<h3 id="3-1-示例1："><a href="#3-1-示例1：" class="headerlink" title="3.1 示例1：."></a>3.1 示例1：.</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">ret1 = re.match(<span class="string">"."</span>,<span class="string">"a"</span>)</span><br><span class="line"></span><br><span class="line">ret1.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;a&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret2 = re.match(<span class="string">"."</span>,<span class="string">"bca"</span>)</span><br><span class="line">ret2.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;b&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret3 = re.match(<span class="string">"."</span>,<span class="string">"@18"</span>)</span><br><span class="line">ret3.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;@&apos;</code></pre><h3 id="3-2-示例2："><a href="#3-2-示例2：" class="headerlink" title="3.2 示例2：[]"></a>3.2 示例2：[]</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果hello的首字符⼩写， 那么正则表达式需要⼩写的h</span></span><br><span class="line">ret1 = re.match(<span class="string">"h"</span>,<span class="string">"hello Python"</span>)</span><br><span class="line">ret1.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;h&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果hello的首字符大写，则正则表达式则需要大写的H</span></span><br><span class="line">ret2 = re.match(<span class="string">"H"</span>,<span class="string">"Hello Python"</span>)</span><br><span class="line">ret2.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;H&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 大小写都可以</span></span><br><span class="line">ret3 = re.match(<span class="string">"[hH]"</span>,<span class="string">"hello Python"</span>)</span><br><span class="line">ret3.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;h&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret4 = re.match(<span class="string">"[hH]"</span>,<span class="string">"Hello Python"</span>)</span><br><span class="line">ret4.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;H&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 匹配0-9第一种写法</span></span><br><span class="line">ret5 = re.match(<span class="string">"[0123456789]"</span>,<span class="string">"7Hello"</span>)</span><br><span class="line">ret5.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;7&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 匹配0-9第二种写法</span></span><br><span class="line">ret6= re.match(<span class="string">"[0-9]"</span>,<span class="string">"7Hello"</span>)</span><br><span class="line">ret6.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;7&apos;</code></pre><h3 id="3-3-示例3：-d"><a href="#3-3-示例3：-d" class="headerlink" title="3.3 示例3：\d"></a>3.3 示例3：\d</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 普通匹配</span></span><br><span class="line">ret1 = re.match(<span class="string">"hello2"</span>,<span class="string">"hello2world"</span>)</span><br><span class="line">ret1.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;hello2&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用\d匹配</span></span><br><span class="line">ret2 = re.match(<span class="string">"hello\d"</span>,<span class="string">"hello2world"</span>)</span><br><span class="line">ret2.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;hello2&apos;</code></pre><h2 id="0x04-原始字符串"><a href="#0x04-原始字符串" class="headerlink" title="0x04 原始字符串"></a>0x04 原始字符串</h2><h3 id="4-1-各种示例"><a href="#4-1-各种示例" class="headerlink" title="4. 1 各种示例"></a>4. 1 各种示例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 比如：想打印出\n,一个反斜杠时，当作换行符进行打印</span></span><br><span class="line">s= <span class="string">"\ndd"</span></span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>打印：dd</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s= <span class="string">"\\ndd"</span></span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
+
+<pre><code>打印：\ndd</code></pre><ul>
+<li>mm = “c:\a\b\c”</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mm= <span class="string">"c:\\a\\b\\c"</span></span><br><span class="line">mm</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;c:\\a\\b\\c&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(mm)</span><br></pre></td></tr></table></figure>
+
+<pre><code>打印：c:\a\b\c</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这里匹配需四个反斜杠，方能匹配字符串中两个反斜杠</span></span><br><span class="line">re.match(<span class="string">"c:\\\\"</span>,mm).group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;c:\\&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret = re.match(<span class="string">"c:\\\\a"</span>,mm).group()</span><br><span class="line">print(ret)</span><br></pre></td></tr></table></figure>
+
+<pre><code>打印：c:\a</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用r</span></span><br><span class="line">ret =re.match(<span class="string">r"c:\\a"</span>,mm).group()</span><br><span class="line">print(ret)</span><br></pre></td></tr></table></figure>
+
+<pre><code>打印：c:\a</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret = re.match(<span class="string">r"c:\a"</span>,mm).group()</span><br><span class="line">print(ret)</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>打印：
+---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-45-1a051863b698&gt; in &lt;module&gt;
+----&gt; 1 ret = re.match(r&quot;c:\a&quot;,mm).group()
+      2 print(ret)
+
+
+AttributeError: &apos;NoneType&apos; object has no attribute &apos;group&apos;</code></pre><h3 id="4-2-示例说明"><a href="#4-2-示例说明" class="headerlink" title="4.2 示例说明"></a>4.2 示例说明</h3><p>Python字符串前面加上<strong>r</strong> 表示原生字符串</p>
+<p>与大多数编程语言相同，正则表达式里使用”\n”作为转义字符，这就可能造成反斜杠困扰。加入匹配文本中的字符串”\“，那么使用编程语言表示的正则表达式里将需要4个反斜杠“\\”：前两个和后两个分别用于在编程语言里转义反斜杠，转换成两个反斜杠后再在正则表达式里转义成一个反斜杠</p>
+<p>Python里的原生字符串很好的解决了这个问题，不再担心漏写反斜杠，写出的表达式更直观</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mm= <span class="string">"c:\\a\\b\\c"</span></span><br><span class="line">ret = re.match(<span class="string">r"c:\\a"</span>,mm).group()</span><br><span class="line">print(ret)</span><br></pre></td></tr></table></figure>
+
+<pre><code>打印：c:\a</code></pre><h2 id="0x05-表示数量"><a href="#0x05-表示数量" class="headerlink" title="0x05 表示数量"></a>0x05 表示数量</h2><p>匹配多个字符的相关格式</p>
+<table>
+<thead>
+<tr>
+<th align="center">字符</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">*</td>
+<td align="left">匹配前一个字符出现0次或者无限次，即可有可无</td>
+</tr>
+<tr>
+<td align="center">+</td>
+<td align="left">匹配前一个字符出现1次或者无限次，即至少有1次</td>
+</tr>
+<tr>
+<td align="center">?</td>
+<td align="left">匹配前一个字符出现1次或者0次, 即要么有1次，要么没有</td>
+</tr>
+<tr>
+<td align="center">{m}</td>
+<td align="left">匹配前一个字符出现m次</td>
+</tr>
+<tr>
+<td align="center">{m,}</td>
+<td align="left">匹配前一个字符至少出现m次</td>
+</tr>
+<tr>
+<td align="center">{m,n}</td>
+<td align="left">匹配前一个字符出现从m到n次</td>
+</tr>
+</tbody></table>
+<h3 id="5-1-示例1："><a href="#5-1-示例1：" class="headerlink" title="5.1 示例1：*"></a>5.1 示例1：*</h3><p>需求：匹配出，一个字符串第一个字母为大写字符，后面都是小写字母并且这些小写字母可有可无</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">ret = re.match(<span class="string">"[A-Z][a-z]*"</span>,<span class="string">"Mm"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;Mm&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># *前无匹配字符时是可以的</span></span><br><span class="line">ret = re.match(<span class="string">"[A-Z][a-z]*"</span>,<span class="string">"M"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;M&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># *前字符的匹配有连续多个</span></span><br><span class="line">ret = re.match(<span class="string">"[A-Z][a-z]*"</span>,<span class="string">"Mabcdef"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;Mabcdef&apos;</code></pre><h3 id="5-2-示例2："><a href="#5-2-示例2：" class="headerlink" title="5.2 示例2：+"></a>5.2 示例2：+</h3><p>需求：匹配出，变量名是否有效</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [a-zA-Z]+表示与[a-zA-Z]至少匹配成功一个字母，[\w]* 表示*前字符可有0个或多个</span></span><br><span class="line">ret = re.match(<span class="string">"[a-zA-Z]+[\w]*"</span>,<span class="string">"name1"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;name1&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret = re.match(<span class="string">"[a-zA-Z_]+[\w]*"</span>,<span class="string">"_name"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;_name&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret = re.match(<span class="string">"[a-zA-Z_]+[\w]*"</span>,<span class="string">"2_name"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>打印:
+---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-65-572ee7f143b4&gt; in &lt;module&gt;
+      1 ret = re.match(&quot;[a-zA-Z_]+[\w]*&quot;,&quot;2_name&quot;)
+----&gt; 2 ret.group()
+
+
+AttributeError: &apos;NoneType&apos; object has no attribute &apos;group&apos;</code></pre><h3 id="5-3-示例3：？"><a href="#5-3-示例3：？" class="headerlink" title="5.3 示例3：？"></a>5.3 示例3：？</h3><p>需求：匹配出，0-99之间的数字</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret = re.match(<span class="string">"[1-9]?[0-9]"</span>,<span class="string">"7"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;7&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret = re.match(<span class="string">"[1-9]?[0-9]"</span>,<span class="string">"33"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;33&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 结果原因：第一个数字[1-9]未匹配到，？出现0次或1次；所以后一个[0-9]匹配了0</span></span><br><span class="line">ret =re.match(<span class="string">"[1-9]?[0-9]"</span>,<span class="string">"09"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;0&apos;</code></pre><h3 id="5-4-示例4：-m"><a href="#5-4-示例4：-m" class="headerlink" title="5.4 示例4：{m}"></a>5.4 示例4：{m}</h3><p>需求：匹配出，8-20位的密码，可以大小写英文字母、数字、下划线</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">ret =re.match(<span class="string">"[a-zA-Z0-9_]&#123;6&#125;"</span>,<span class="string">"12a3g45678"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;12a3g4&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret = re.match(<span class="string">"[a-zA-Z0-9_]&#123;8,20&#125;"</span>,<span class="string">"1ad12fffs39d739473920_d398sd"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;1ad12fffs39d73947392&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [\w]==[a-zA-Z0-9_]，当然其他也有各自的等价表示方法</span></span><br><span class="line">ret = re.match(<span class="string">"[\w]&#123;8,20&#125;"</span>,<span class="string">"1ad12fffs39d739473920_d398sd"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;1ad12fffs39d73947392&apos;</code></pre><ul>
+<li>简单练习，匹配出163的邮箱地址，且@符号之前有4-20位，例如<code>hello@163.com</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 简单练习，匹配163邮箱地址(不完善)</span></span><br><span class="line">ret =re.match(<span class="string">"[\w]&#123;4,20&#125;@163\.com"</span>,<span class="string">"hell0@163.com"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;hell0@163.com&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 思考如何匹配以。。。结尾</span></span><br><span class="line">ret = re.match(<span class="string">"[\w]&#123;4,20&#125;@163\.com"</span>,<span class="string">"hello@163.comddddd"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;hello@163.com&apos;</code></pre><h2 id="0x06-表示边界"><a href="#0x06-表示边界" class="headerlink" title="0x06 表示边界"></a>0x06 表示边界</h2><table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">^</td>
+<td align="left">匹配字符串开头</td>
+</tr>
+<tr>
+<td align="left">$</td>
+<td align="left">匹配字符串结尾</td>
+</tr>
+<tr>
+<td align="left">\b</td>
+<td align="left">匹配一个单词的边界</td>
+</tr>
+<tr>
+<td align="left">\B</td>
+<td align="left">匹配非单词边界</td>
+</tr>
+</tbody></table>
+<h3 id="6-1-示例1："><a href="#6-1-示例1：" class="headerlink" title="6.1 示例1：$"></a>6.1 示例1：$</h3><p>需求：匹配163.com的邮箱地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正确的地址</span></span><br><span class="line">ret = re.match(<span class="string">"[\w]&#123;4,20&#125;@163\.com"</span>,<span class="string">"xiaoWang@163.com"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;xiaoWang@163.com&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不正确的地址</span></span><br><span class="line">ret = re.match(<span class="string">"[\w]&#123;4,20&#125;@163\.com"</span>,<span class="string">"xiaoWang@163.comheihhh"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;xiaowang@163.com&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过$来确定末尾,从而过滤不正确地址</span></span><br><span class="line">ret = re.match(<span class="string">"[\w]&#123;4,20&#125;@163\.com$"</span>,<span class="string">"xiaoWang@163.comheihhh"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>打印：
+---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-93-83efc35bff7d&gt; in &lt;module&gt;
+      1 # 通过$来确定末尾
+      2 ret = re.match(&quot;[\w]{4,20}@163\.com$&quot;,&quot;xiaoWang@163.comheihhh&quot;)
+----&gt; 3 ret.group()
+
+
+AttributeError: &apos;NoneType&apos; object has no attribute &apos;group&apos;</code></pre><h3 id="6-2-示例2：-b"><a href="#6-2-示例2：-b" class="headerlink" title="6.2 示例2：\b"></a>6.2 示例2：\b</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.match(<span class="string">r".*\bver\b"</span>,<span class="string">"ho ver abc"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;ho ver&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当单词右边没有边界时，使用\b出错</span></span><br><span class="line">re.match(<span class="string">r".*\bver\b"</span>,<span class="string">"ho verabc"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>Out:
+---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-95-d65bbce81439&gt; in &lt;module&gt;
+----&gt; 1 re.match(r&quot;.*\bver\b&quot;,&quot;ho verabc&quot;).group()
+
+
+AttributeError: &apos;NoneType&apos; object has no attribute &apos;group&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当指定单词左边无边界时，也出错</span></span><br><span class="line">re.match(<span class="string">r".*\bver\b"</span>,<span class="string">"hover abc"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-96-53f69a15373e&gt; in &lt;module&gt;
+----&gt; 1 re.match(r&quot;.*\bver\b&quot;,&quot;hover abc&quot;).group()
+
+
+AttributeError: &apos;NoneType&apos; object has no attribute &apos;group&apos;</code></pre><h3 id="6-3-示例3：-B"><a href="#6-3-示例3：-B" class="headerlink" title="6.3 示例3：\B"></a>6.3 示例3：\B</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.match(<span class="string">r".*\Bver\B"</span>,<span class="string">"hoverabc"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;hover&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当指定词有左边界时，出错</span></span><br><span class="line">re.match(<span class="string">r".*\Bver\B"</span>,<span class="string">"ho verabc"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>Out:
+---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-98-a9d342249fa1&gt; in &lt;module&gt;
+      1 # 当指定词有左边界时，出错
+----&gt; 2 re.match(r&quot;.*\Bver\B&quot;,&quot;ho verabc&quot;).group()
+
+
+AttributeError: &apos;NoneType&apos; object has no attribute &apos;group&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当指定的词，有右边界时，\B出错</span></span><br><span class="line">re.match(<span class="string">r".*\Bver\B"</span>,<span class="string">"hover abc"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>Out:
+---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-99-aae06b891466&gt; in &lt;module&gt;
+----&gt; 1 re.match(r&quot;.*\Bver\B&quot;,&quot;hover abc&quot;).group()
+
+
+AttributeError: &apos;NoneType&apos; object has no attribute &apos;group&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当指定的词，左右都有边界时，\B出错</span></span><br><span class="line">re.match(<span class="string">r".*\Bver\B"</span>,<span class="string">"ho ver abc"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>Out:
+---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-101-9630adaf466f&gt; in &lt;module&gt;
+      1 # 当指定的词，左右都有边界时，\B出错
+----&gt; 2 re.match(r&quot;.*\Bver\B&quot;,&quot;ho ver abc&quot;).group()
+
+
+AttributeError: &apos;NoneType&apos; object has no attribute &apos;group&apos;</code></pre><h2 id="0x07-匹配分组"><a href="#0x07-匹配分组" class="headerlink" title="0x07 匹配分组"></a>0x07 匹配分组</h2><table>
+<thead>
+<tr>
+<th align="center">字符</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="center">(ab)</td>
+<td align="left">将括号中字符作为一个分组</td>
+</tr>
+<tr>
+<td align="center">\num</td>
+<td align="left">引用分组num匹配到的字符串</td>
+</tr>
+<tr>
+<td align="center">(?P<code>&lt;name&gt;</code>)</td>
+<td align="left">分组起别名</td>
+</tr>
+<tr>
+<td align="center">(?P=name)</td>
+<td align="left">引用别名为name分组匹配到的字符串</td>
+</tr>
+</tbody></table>
+<h3 id="7-1-示例1："><a href="#7-1-示例1：" class="headerlink" title="7.1 示例1：|"></a>7.1 示例1：|</h3><p>需求：匹配出0-100之间的数字</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">ret = re.match(<span class="string">"[1-9]?\d"</span>,<span class="string">"8"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;8&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.match(<span class="string">"[1-9]?\d"</span>,<span class="string">"78"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;78&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不确定的情况下</span></span><br><span class="line">re.match(<span class="string">"[1-9]?\d"</span>,<span class="string">"08"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;0&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修正之后的</span></span><br><span class="line">re.match(<span class="string">"[1-9]?\d$"</span>,<span class="string">"08"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>Out:
+---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-106-70c347cddb39&gt; in &lt;module&gt;
+      1 # 修正之后的
+----&gt; 2 re.match(&quot;[1-9]?\d$&quot;,&quot;08&quot;).group()
+
+
+AttributeError: &apos;NoneType&apos; object has no attribute &apos;group&apos;</code></pre><ul>
+<li>添加 |</li>
+</ul>
+<p>可匹配0到100（包括0和100）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加 |</span></span><br><span class="line">re.match(<span class="string">"[1-9]?\d$|100"</span>,<span class="string">"100"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;100&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.match(<span class="string">"[1-9]?\d$|100"</span>,<span class="string">"0"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;0&apos;</code></pre><h3 id="7-2-示例2："><a href="#7-2-示例2：" class="headerlink" title="7.2 示例2：()"></a>7.2 示例2：()</h3><p>需求：匹配出163、126、qq邮箱直接的数字</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.match(<span class="string">"\w&#123;4,20&#125;@163\.com"</span>,<span class="string">"test@163.com"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;test@163.com&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用 （）分组</span></span><br><span class="line">re.match(<span class="string">"\w&#123;4,20&#125;@(163|126|qq)\.com"</span>,<span class="string">"test@126.com"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;test@126.com&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.match(<span class="string">"\w&#123;4,20&#125;@(163|126|qq)\.com"</span>,<span class="string">"test@gmail.com"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>Out:
+---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-111-d286dbf8fcf2&gt; in &lt;module&gt;
+----&gt; 1 re.match(&quot;\w{4,20}@(163|126|qq)\.com&quot;,&quot;test@gmail.com&quot;).group()
+
+
+AttributeError: &apos;NoneType&apos; object has no attribute &apos;group&apos;</code></pre><ul>
+<li>练习：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret = re.match(<span class="string">"([^-]*)-(\d+)"</span>,<span class="string">"010-12345678"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;010-12345678&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ret.groups()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:(&apos;010&apos;, &apos;12345678&apos;)</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ret.group()默认ret.group(0)</span></span><br><span class="line">ret.group(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;010&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ret.group(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;12345678&apos;</code></pre><h3 id="7-3-示例3："><a href="#7-3-示例3：" class="headerlink" title="7.3 示例3：\"></a>7.3 示例3：\</h3><p>需求：匹配出<code>&lt;html&gt;hh&lt;/html&gt;</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 能够完成对正确的字符串的匹配</span></span><br><span class="line">re.match(<span class="string">"&lt;[a-zA-Z]*&gt;\w*&lt;/[a-zA-Z]*&gt;"</span>,<span class="string">"&lt;html&gt;hh&lt;/html&gt;"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;&lt;html&gt;hh&lt;/html&gt;&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 遇到非正常的html格式字符串，匹配出错</span></span><br><span class="line">re.match(<span class="string">"&lt;[a-zA-Z]*&gt;\w*&lt;/[a-zA-Z]*&gt;"</span>, <span class="string">"&lt;html&gt;hh&lt;/htmlbalabala&gt;"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;&lt;html&gt;hh&lt;/htmlbalabala&gt;&apos;</code></pre><ul>
+<li>思路：如果在第一对&lt;&gt;中是什么，按理说后面的那对&lt;&gt;中就应该是什么</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过引用分组中匹配到的数据即可,但是要注意是元字符串，即类似r""这种格式</span></span><br><span class="line">re.match(<span class="string">r"&lt;([a-zA-Z]*)&gt;\w*&lt;/\1&gt;"</span>,<span class="string">"&lt;html&gt;hh&lt;/html&gt;"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;&lt;html&gt;hh&lt;/html&gt;&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 因为2对&lt;&gt;中的数据不一致，所以没匹配出来</span></span><br><span class="line">re.match(<span class="string">r"&lt;([a-zA-Z]*)&gt;\w*&lt;/\1&gt;"</span>,<span class="string">"&lt;html&gt;hh&lt;/htmlddd&gt;"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>Out:
+---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-126-f2f15b62f076&gt; in &lt;module&gt;
+      1 # 因为2对&lt;&gt;中的数据不一致，所以没匹配出来
+----&gt; 2 re.match(r&quot;&lt;([a-zA-Z]*)&gt;\w*&lt;/\1&gt;&quot;,&quot;&lt;html&gt;hh&lt;/htmlddd&gt;&quot;).group()
+
+
+AttributeError: &apos;NoneType&apos; object has no attribute &apos;group&apos;</code></pre><h3 id="7-4-number"><a href="#7-4-number" class="headerlink" title="7.4 \number"></a>7.4 \number</h3><p>需求：匹配出<code>&lt;html&gt;&lt;h1&gt;www.baidu.com&lt;/h1&gt;&lt;/html&gt;</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.match(<span class="string">r"&lt;(\w*&gt;)&lt;(\w*)&gt;.*&lt;/\2&gt;&lt;/\1"</span>,<span class="string">"&lt;html&gt;&lt;h1&gt;www.baidu.com&lt;/h1&gt;&lt;/html&gt;"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;&lt;html&gt;&lt;h1&gt;www.baidu.com&lt;/h1&gt;&lt;/html&gt;&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.match(<span class="string">r"&lt;(\w*&gt;)&lt;(\w*)&gt;.*&lt;/\2&gt;&lt;/\1"</span>,<span class="string">"&lt;html&gt;&lt;h1&gt;www.baidu.com&lt;/h2&gt;&lt;/html&gt;"</span>).group()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>Out:
+---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-128-1cf071943a2d&gt; in &lt;module&gt;
+----&gt; 1 re.match(r&quot;&lt;(\w*&gt;)&lt;(\w*)&gt;.*&lt;/\2&gt;&lt;/\1&quot;,&quot;&lt;html&gt;&lt;h1&gt;www.baidu.com&lt;/h2&gt;&lt;/html&gt;&quot;).group()
+
+
+AttributeError: &apos;NoneType&apos; object has no attribute &apos;group&apos;</code></pre><h3 id="7-5-示例5-（-P-lt-name-gt-）-P-name"><a href="#7-5-示例5-（-P-lt-name-gt-）-P-name" class="headerlink" title="7.5 示例5:（?P&lt;name&gt;）(?P=name)"></a>7.5 示例5:<code>（?P&lt;name&gt;）(?P=name)</code></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret = re.match(<span class="string">r"&lt;(?P&lt;name1&gt;\w*)&gt;&lt;(?P&lt;name2&gt;\w*)&gt;.*&lt;/(?P=name2)&gt;&lt;/(?P=name1)&gt;"</span>, <span class="string">"&lt;html&gt;&lt;h1&gt;www.itcast.cn&lt;/h1&gt;&lt;/html&gt;"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;&lt;html&gt;&lt;h1&gt;www.itcast.cn&lt;/h1&gt;&lt;/html&gt;&apos;</code></pre><ul>
+<li>注意：<code>(?P&lt;name&gt;)和(?P=name)</code>中的字母p大写</li>
+</ul>
+<h2 id="0x08-re模块的高级用法"><a href="#0x08-re模块的高级用法" class="headerlink" title="0x08 re模块的高级用法"></a>0x08 re模块的高级用法</h2><h3 id="search"><a href="#search" class="headerlink" title="search"></a>search</h3><p>需求：匹配出文章的阅读次数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret =re.search(<span class="string">r"\d+"</span>,<span class="string">"阅读次数为9999"</span>)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;9999&apos;</code></pre><h3 id="findall"><a href="#findall" class="headerlink" title="findall"></a>findall</h3><p>需求：统计出python、c、c++相应文章阅读的次数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret = re.findall(<span class="string">r"\d+"</span>,<span class="string">"python=9999,c=7890,c++=1234"</span>)</span><br><span class="line">ret</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:[&apos;9999&apos;, &apos;7890&apos;, &apos;1234&apos;]</code></pre><h3 id="sub"><a href="#sub" class="headerlink" title="sub"></a>sub</h3><blockquote>
+<p>将匹配到的数据进行替换</p>
+</blockquote>
+<p>需求：将匹配到的阅读次数加1</p>
+<ul>
+<li>方法1</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sub（要匹配的模式，要替换的内容，被替换的内容）</span></span><br><span class="line">ret =re.sub(<span class="string">r"\d+"</span>,<span class="string">"998"</span>,<span class="string">"python=997"</span>)</span><br><span class="line">ret</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>OUt:&apos;python=998&apos;</code></pre><ul>
+<li>方法2 </li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sub可传递函数，将匹配到的内容再以参数形式传给定义的函数</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(temp)</span>:</span></span><br><span class="line">    print(temp)</span><br><span class="line">    strNum = temp.group()</span><br><span class="line">    num =int(strNum) +<span class="number">1</span> </span><br><span class="line">    <span class="keyword">return</span> str(num)</span><br><span class="line"></span><br><span class="line">ret =re.sub(<span class="string">r"\d+"</span>,add,<span class="string">"python=997"</span>)</span><br><span class="line">ret</span><br></pre></td></tr></table></figure>
+
+<pre><code>Out:&lt;re.Match object; span=(7, 10), match=&apos;997&apos;&gt;
+
+
+
+
+
+Out:&apos;python=998&apos;</code></pre><ul>
+<li>练习:从下面的字符串中取出文本</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">&lt;p&gt;岗位职责： &lt;&#x2F;p&gt;</span><br><span class="line">&lt;p&gt;完成推荐算法、 数据统计、 接⼝、 后台等服务器端相关⼯作&lt;&#x2F;p&gt;</span><br><span class="line">&lt;p&gt;&lt;br&gt;&lt;&#x2F;p&gt;</span><br><span class="line">&lt;p&gt;必备要求： &lt;&#x2F;p&gt;</span><br><span class="line">&lt;p&gt;良好的⾃我驱动⼒和职业素养， ⼯作积极主动、 结果导向&lt;&#x2F;p&gt;</span><br><span class="line">&lt;p&gt;&amp;nbsp;&lt;br&gt;&lt;&#x2F;p&gt;</span><br><span class="line">&lt;p&gt;技术要求： &lt;&#x2F;p&gt;</span><br><span class="line">&lt;p&gt;1、 ⼀年以上 Python 开发经验， 掌握⾯向对象分析和设计， 了解设计模式&lt;&#x2F;p</span><br><span class="line">&gt; &lt;</span><br><span class="line">p&gt;2、 掌握HTTP协议， 熟悉MVC、 MVVM等概念以及相关WEB开发框架&lt;&#x2F;p&gt;</span><br><span class="line">&lt;p&gt;3、 掌握关系数据库开发设计， 掌握 SQL， 熟练使⽤ MySQL&#x2F;PostgreSQL 中</span><br><span class="line">的⼀种&lt;br&gt;&lt;&#x2F;p&gt;</span><br><span class="line">&lt;p&gt;4、 掌握NoSQL、 MQ， 熟练使⽤对应技术解决⽅案&lt;&#x2F;p&gt;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">s=<span class="string">"""&lt;div&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;岗位职责：&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;完成推荐算法、 数据统计、 接口、 后台等服务器端相关工作&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;&lt;br&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;必备要求： &lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;良好的自我驱动力和职业素养， 工作积极主动、 结果导向&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;&amp;nbsp;&lt;br&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;技术要求： &lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;1、 一年以上 Python 开发经验， 掌握面向对象分析和设计， 了解设计模式&lt;/p&gt; </span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">ret =re.sub(<span class="string">r"&lt;/?\w*&gt;"</span>,<span class="string">""</span>,s)</span><br><span class="line">ret</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:
+&apos;\n岗位职责：\n完成推荐算法、 数据统计、 接口、 后台等服务器端相关工作\n\n必备要求： \n良好的自我驱动力和职业素养， 工作积极主动、 结果导向\n&amp;nbsp;\n技术要求： \n1、 一年以上 Python 开发经验， 掌握面向对象分析和设计， 了解设计模式 \n&apos;</code></pre><h3 id="split"><a href="#split" class="headerlink" title="split"></a>split</h3><blockquote>
+<p>根据匹配进行切割字符串，并返回一个列表</p>
+</blockquote>
+<p>需求：切割字符串“info:dddd 33 shandong”</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret =re.split(<span class="string">r":| "</span>,<span class="string">"info:dddd 33 shandong"</span>)</span><br><span class="line">ret</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:[&apos;info&apos;, &apos;dddd&apos;, &apos;33&apos;, &apos;shandong&apos;]</code></pre><h2 id="0x09-Python贪婪和非贪婪"><a href="#0x09-Python贪婪和非贪婪" class="headerlink" title="0x09 Python贪婪和非贪婪"></a>0x09 Python贪婪和非贪婪</h2><p>Python里数量词默认是贪婪的（在少数语言里也可能是默认非贪婪），总是尝试匹配尽可能多的字符；</p>
+<p>非贪婪相反，总是尝试匹配尽可能少的字符。</p>
+<p>在<code>*</code>、<code>?</code>、<code>+</code>、<code>{m,n}</code>后面加上<code>？</code>，使贪婪变成非贪婪</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">"this is a number 234-235-22-423"</span></span><br><span class="line">r = re.match(<span class="string">".+(\d+-\d+-\d+-\d+)"</span>,s)</span><br><span class="line">r.group(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;4-235-22-423&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 变为非贪婪</span></span><br><span class="line">r = re.match(<span class="string">".+?(\d+-\d+-\d+-\d+)"</span>,s)</span><br><span class="line">r.group(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;234-235-22-423&apos;</code></pre><ul>
+<li><p>说明：<br>正则表达式模式中使用到通配字， 那它在从左到右的顺序求值时， 会尽量“抓取”满足匹配最长字符串， 在我们上面的例子里面， “.+”会从字符串的起始处抓取满足模式的最长字符， 其中包括我们想得到的第一个整型字段的中的大部分，“\d+”只需一位字符就可以匹配， 所以它匹配了数字“4”， 而“.+”则匹配了从字符串起始到这个第一位数字4之前的所有字符。</p>
+</li>
+<li><p>解决方式：非贪婪操作符“？”,这个操作符可以用在<code>*</code>、<code>?</code>、<code>+</code>、<code>{m,n}</code>后面，要求正则匹配的越少越好。</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.match(<span class="string">r"aa(\d+)"</span>,<span class="string">"aa2343ddd"</span>).group(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;2343&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.match(<span class="string">r"aa(\d+?)"</span>,<span class="string">"aa2343ddd"</span>).group(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;2&apos;</code></pre><h3 id="练习1"><a href="#练习1" class="headerlink" title="练习1"></a>练习1</h3><p>提取下面文本中图片链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel&#x3D;&quot;apple-touch-icon-precomposed&quot; href&#x3D;&quot;https:&#x2F;&#x2F;s.mozhe.cn&#x2F;static&#x2F;ico&#x2F;apple-touch-icon.png&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s= <span class="string">"""&lt;link rel="apple-touch-icon-precomposed" href="https://s.mozhe.cn/static/ico/apple-touch-icon.png"&gt; &lt;link rel="apple-touch-icon-precomposed" href="https://s.mozhe.cn/static/ico/apple-touch-icon.png"&gt;"""</span></span><br><span class="line">ret =re.search(<span class="string">r"https:.+?\.png"</span>,s)</span><br><span class="line">ret.group()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;https://s.mozhe.cn/static/ico/apple-touch-icon.png&apos;</code></pre><h3 id="练习2"><a href="#练习2" class="headerlink" title="练习2"></a>练习2</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.baidu.com&#x2F;s?wd&#x3D;dd&amp;rsv_spt&#x3D;1</span><br><span class="line">正则后变为：</span><br><span class="line">https:&#x2F;&#x2F;www.baidu.com&#x2F;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s= <span class="string">"""https://www.baidu.com/s?wd=dd&amp;rsv_spt=1"""</span></span><br><span class="line">re.sub(<span class="string">r"https://.+?/"</span>, <span class="string">""</span>, s)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;s?wd=dd&amp;rsv_spt=1&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用匿名函数lambda作为处理函数</span></span><br><span class="line">re.sub(<span class="string">r"(https://.+?/).*"</span>,<span class="keyword">lambda</span> x: x.group(<span class="number">1</span>),s)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Out:&apos;https://www.baidu.com/&apos;</code></pre>
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/04/13/1.1%20Python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0-1/>https://fishni.github.io/2020/04/13/1.1%20Python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0-1/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/wechat.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/qq.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-13T18:39:45+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年4月13日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>正则表达式</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/04/13/1.1%20Python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0-1/&title=【python-正则】1.1Python正则表达式学习-1 - fishni&summary=本文主要内容：正则表达式概述、re模块操作、表示字符、原始字符串、表示数量、表示边界、 匹配分组、re模块的高级用法、贪婪和非贪婪、小练习
+
+dd
+dd
+
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/04/13/1.1%20Python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0-1/&title=【python-正则】1.1Python正则表达式学习-1 - fishni&summary=本文主要内容：正则表达式概述、re模块操作、表示字符、原始字符串、表示数量、表示边界、 匹配分组、re模块的高级用法、贪婪和非贪婪、小练习
+
+dd
+dd
+
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/04/13/1.1%20Python%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0-1/&title=【python-正则】1.1Python正则表达式学习-1 - fishni&summary=本文主要内容：正则表达式概述、re模块操作、表示字符、原始字符串、表示数量、表示边界、 匹配分组、re模块的高级用法、贪婪和非贪婪、小练习
+
+dd
+dd
+
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2020/04/11/1.2%20XSS%EF%BC%88%E5%AD%98%E5%82%A8%E5%9E%8B-%E5%8F%8D%E5%B0%84%E5%9E%8B-DOM%E5%9E%8B%EF%BC%89%E5%AE%9E%E6%88%98/'>
+                <p class='title'>【XSS（一）】1.2 XSS（存储型-反射型-DOM型）实战<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本文主要内容
+存储型、反射型、DOM型造成XSS漏洞的简单原理、危害、攻击流程
+利用EasyAdmin极简版的实战测试案例
+几种XSS辅助测试工具
+
+
+认识危害
+0x01 发现XSS1.1 XS...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '【python-正则】1.1Python正则表达式学习-1',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-正则表达式概述"><span class="toc-text">0x01 正则表达式概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-re模块操作"><span class="toc-text">0x02 re模块操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-re模块的使用过程"><span class="toc-text">2.1 re模块的使用过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-re模块示例"><span class="toc-text">2.2 re模块示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-表示字符"><span class="toc-text">0x03 表示字符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-示例1："><span class="toc-text">3.1 示例1：.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-示例2："><span class="toc-text">3.2 示例2：[]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-示例3：-d"><span class="toc-text">3.3 示例3：\d</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-原始字符串"><span class="toc-text">0x04 原始字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-各种示例"><span class="toc-text">4. 1 各种示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-示例说明"><span class="toc-text">4.2 示例说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-表示数量"><span class="toc-text">0x05 表示数量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-示例1："><span class="toc-text">5.1 示例1：*</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-示例2："><span class="toc-text">5.2 示例2：+</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-示例3：？"><span class="toc-text">5.3 示例3：？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-示例4：-m"><span class="toc-text">5.4 示例4：{m}</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-表示边界"><span class="toc-text">0x06 表示边界</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-示例1："><span class="toc-text">6.1 示例1：$</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-示例2：-b"><span class="toc-text">6.2 示例2：\b</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-示例3：-B"><span class="toc-text">6.3 示例3：\B</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-匹配分组"><span class="toc-text">0x07 匹配分组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-示例1："><span class="toc-text">7.1 示例1：|</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-示例2："><span class="toc-text">7.2 示例2：()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-示例3："><span class="toc-text">7.3 示例3：\</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-number"><span class="toc-text">7.4 \number</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-5-示例5-（-P-lt-name-gt-）-P-name"><span class="toc-text">7.5 示例5:（?P&lt;name&gt;）(?P&#x3D;name)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08-re模块的高级用法"><span class="toc-text">0x08 re模块的高级用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#search"><span class="toc-text">search</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#findall"><span class="toc-text">findall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sub"><span class="toc-text">sub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#split"><span class="toc-text">split</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x09-Python贪婪和非贪婪"><span class="toc-text">0x09 Python贪婪和非贪婪</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#练习1"><span class="toc-text">练习1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#练习2"><span class="toc-text">练习2</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://fishni.github.io/"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+            
+              <a href="https://github.com/fishni"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://volantis.js.org/" target="_blank" class="codename">fishni's blog</a>
+        作为主题
+        
+          ，
+          总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://fishni.github.io/">Copyright © 2017-2020 Mr.fishmouse</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('') {
+          $('').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("div.fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
