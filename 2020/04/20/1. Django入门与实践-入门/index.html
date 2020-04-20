@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>【Django】1. Django入门与实践-入门 - fishni</title>
+  
+    <meta name="keywords" content="python,Web架构">
+  
+  
+    <meta name="description" content="本文主要内容：Django基础概念、环境搭建（python在ubuntu中安装，virtualenv虚拟环境安装，Django1.11.4安装）、创建一个简单的django项目，并创建了简单的初始应用程序">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            FISHNI'S BLOG <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-rss fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  更多
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-rss fa-fw'></i>
+        
+        主页
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        分类
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-archive fa-fw'></i>
+        
+        归档
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/04/20/1.%20Django%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%85%A5%E9%97%A8/">
+        【Django】1. Django入门与实践-入门
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://fishni.github.io/" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/ghost1.jpg">
+    <p>fishni</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/python/Web%E6%A1%86%E6%9E%B6/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>python&nbsp;/&nbsp;Web框架</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年4月20日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>本文主要内容：Django基础概念、环境搭建（python在ubuntu中安装，virtualenv虚拟环境安装，Django1.11.4安装）、创建一个简单的django项目，并创建了简单的初始应用程序</p>
+<a id="more"></a>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>今天我将开始对一个关于Django基础知识的全新系列教程的学习。这是一个开始学习 Django 的完整入门指南。教程材料一共会被分为七个部分，将从安装，开发环境的准备、模型、视图、模板、URL到更高级的主题（如迁移、测试和部署）中详细探讨学习所有基本概念。</p>
+<p>引用中国古代一句话开始新的实践学习<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django01.webp" alt=""></p>
+<h2 id="为什么学习Django？"><a href="#为什么学习Django？" class="headerlink" title="为什么学习Django？"></a>为什么学习Django？</h2><p>Django是一个用python编写的Web框架。Web框架是一种软件，基于web框架可以开发动态网站，各种应用程序以及服务。它提供了一系列工具和功能，可以解决许多与Web开发相关的常见问题，比如：安全功能，数据库访问，会话，模板处理，URL路由，国际化，本地化，等等。</p>
+<p>使用诸如 Django 之类的网络框架，使我们能够以标准化的方式快速开发安全可靠的Web应用程序，而无需重新发明轮子。</p>
+<p>那么，Django有什么特别之处呢？对于初学者来说，它是一个Python Web框架，这意味着你可以受益于各种各样的<strong>开源库包</strong>。python软件包资料库（pypi）拥有超过11.6万个软件包（2017年9月6日的数据）。如果当你想要解决一个特定的问题的时候，可能有人已经为它实现了一个库来供你使用。</p>
+<p>Django是用python编写的最流行的web框架之一。它绝对是最完整的，提供了各种各样的<strong>开箱即用</strong>的功能，比如用于开发和测试的独立Web服务器，缓存，中间件系统，ORM，模板引擎，表单处理，基于Python单元测试的工具接口。Django还自带内部电池，提供内置应用程序，比如一个认证系统，一个可用于 CRUD(增删改查) 操作并且自动生成页面的后台管理界面，生成订阅文档（RSS/Atom）,站点地图等。甚至在django中内建了一个地理信息系统（GIS）框架。</p>
+<p>Django的开发得到了Django软件基金会的支持，并且由jetbrains和instagram等公司赞助。Django现在已经存在了相当长的一段时间了。到现在为止，活跃的项目开发时间超过13年，这也证明了它是一个<strong>成熟，可靠和安全</strong>的网络框架。</p>
+<h2 id="谁在使用Django？"><a href="#谁在使用Django？" class="headerlink" title="谁在使用Django？"></a>谁在使用Django？</h2><p>知道谁在使用Django是很好的，同时也想一想你可以用它来做些什么。在使用Django的大型网站有：Instagram，Disqus，Mozilla，Bitbucket，Last.fm，国家地理等。</p>
+<p>想知道更多的示例，你可以到Django Sites数据库中查看，它提供超过五千个Django驱动的网站列表。</p>
+<p>顺便说一下，去年在Django 2016年发布会上，Django核心开发人员，Instagram员工carl meyer，就Instagram如何大规模使用Django以及它如何支持他们的用户增长做过一次分享。这是个一小时的演讲，如果你有兴趣学习了解更多的话，这是一次很有趣的演讲。</p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>电脑上安装一些程序，以便使用django。基本的设置包括安装Python，Virtualenv和Django。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django02.webp" alt=""></p>
+<ul>
+<li>使用虚拟环境，使得在进行项目开发的时，便于使得每个项目会有独立的环境。这样在用Django开发一个网站或Web项目时，安装外部库，不用担心包之间的依赖关系发生冲突。同时，也可使得能够在不同Django版本上运行的本地机器的项目。</li>
+</ul>
+<h3 id="python安装"><a href="#python安装" class="headerlink" title="python安装"></a>python安装</h3><ul>
+<li>python版本选择</li>
+</ul>
+<blockquote>
+<p>本教程选择python版本为3.6.2以上，也可以使用最新python版本</p>
+</blockquote>
+<pre><code>使用Python3，因为大部分主要的Python库已经被移植到python 3，并且下一个主要的django版本（2.x）也将不再支持python 2。所以Python 3是正确的选择。</code></pre><ul>
+<li>本文使用ubuntu16.04进行python的安装，由于ubuntu中python版本分别为python2.7和python3.5.2</li>
+</ul>
+<h4 id="python-3-6-10安装"><a href="#python-3-6-10安装" class="headerlink" title="python 3.6.10安装"></a>python 3.6.10安装</h4><ol>
+<li><p>安装Python软件工具</p>
+<p> sudo apt-get install python-software-properties</p>
+</li>
+<li><p>添加仓库镜像源</p>
+<p> sudo add-apt-repository ppa:fkrull/deadsnakes</p>
+</li>
+<li><p>更新源</p>
+<p> sudo apt-get update</p>
+</li>
+<li><p>从本地仓库安装python</p>
+<p> sudo apt-get install python3.6</p>
+</li>
+</ol>
+<ul>
+<li>终端输入python3.6,启动</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django03.png" alt=""></p>
+<h3 id="安装-Virtualenv"><a href="#安装-Virtualenv" class="headerlink" title="安装 Virtualenv"></a>安装 Virtualenv</h3><p>通过pip(一个管理和安装Python包的工具)来安装Virtualenv。</p>
+<ol>
+<li><p>查看ubuntu中pip是否安装，默认的pip为Python2的</p>
+<p> pip –version</p>
+</li>
+<li><p>安装pip3</p>
+<p> apt install python3-pip</p>
+</li>
+<li><p>终端执行下面命令：(安装virtualenv）</p>
+<p> <font color=#FF000>sudo pip3 install virtualenv</font></p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django04.png" alt=""></p>
+<p>到目前为止，我们执行的安装都是在操作系统环境下运行的。从现在开始，我们安装的所有东西，包括django本身，都将安装在虚拟环境中。</p>
+<p>这样想一下：对于你开始的每个Django项目，你首先会为它创建一个虚拟环境。这就像每个Django项目都有一个沙盒。所以你随意运行，安装软件包，卸载软件包而不会破坏任何东西。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django05.png" alt=""></p>
+<ul>
+<li>virtualenv使用</li>
+</ul>
+<p>创建一个Development文件夹，用其组织自己的项目和网站</p>
+<ol>
+<li><p>为一个工程创建一个虚拟环境</p>
+<p> mkdir myproject<br> cd myproject</p>
+</li>
+<li><p>这个文件夹是级别较高的目录，将存储与我们的Django项目相关的所有文件和东西，包括它的虚拟环境。所以让我们开始创建我们的第一个虚拟环境并安装django。</p>
+</li>
+<li><p>在myproject文件夹中：</p>
+<p> virtualenv venv -p python3.6</p>
+<p> venv是虚拟环境的目录名，-p参数指定python3.6解析器的路径</p>
+</li>
+<li><p>要开始使用虚拟环境，其需要被激活： </p>
+<p> source venv/bin/activate</p>
+</li>
+</ol>
+<p>当在命令行前看到(venv),就代表激活成功，如图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django06.png" alt=""></p>
+<p>当我们venv开启后，pip程序也安装了，当使用期安装Python软件包（比如Django）时，它将安装在venv环境中</p>
+<p>值得注意的是，在venv环境中，使用命令python（而不是python3.6）来调用python3.6.10，并且仅使用pip（而不是pip3）来安装软件包。</p>
+<ol start="5">
+<li><p>退出<strong>venv</strong>环境，使用命令：</p>
+<p> deactivate</p>
+</li>
+</ol>
+<h3 id="安装Django-1-11-4"><a href="#安装Django-1-11-4" class="headerlink" title="安装Django 1.11.4"></a>安装Django 1.11.4</h3><p>很简单，现在我们已经启动了venv，运行以下命令来安装django</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">pip install django&#x3D;&#x3D;1.11.4</span><br><span class="line"></span><br><span class="line"># 译注：目前django已经升级到2.x版本，这里为了跟后续教程内容保持一直，所以必须指定版本号进行安装</span><br><span class="line"># 除非你有能力 debug，否则不建议你使用django 2.x，等你熟悉Django后，再升级都Django2.0 也不迟，因为两个版本的差异非常小</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django07.png" alt=""></p>
+<h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>一切就绪<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django08.webp" alt=""></p>
+<h3 id="启动一个新项目"><a href="#启动一个新项目" class="headerlink" title="启动一个新项目"></a>启动一个新项目</h3><ol>
+<li>执行下面的命令来创建一个新的 Django 项目：</li>
+</ol>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">django-admin startproject myproject</code></pre></figure>
+    命令行工具django-admin会在安装Django的时候一起自动安装好。
+
+<pre><code>执行了上面的命令以后，系统会为Django项目生成基础文件夹结构</code></pre><ol start="2">
+<li>myproject目录结构如下所示：</li>
+</ol>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">myproject/                  &lt;-- 高级别文件夹
+ |-- myproject/             &lt;-- Django项目文件夹
+ |    |-- myproject/
+ |    |    |-- __init__.py
+ |    |    |-- settings.py
+ |    |    |-- urls.py
+ |    |    |-- wsgi.py
+ |    +-- manage.py
+ +-- venv/                  &lt;-- 虚拟环境文件夹 
+ </code></pre></figure>
+
+
+<ol start="3">
+<li>最初的项目结构由五个文件组成：</li>
+</ol>
+<ul>
+<li><p><strong>manage.py</strong>：使用<strong>django-admin</strong>命令行工具的快捷方式。它用于运行与我们项目相关的管理命令。我们将使用它来运行开发服务器，运行测试，创建迁移等等。</p>
+</li>
+<li><p><strong><code>__init__.py</code></strong>：这个空文件告诉python这个文件夹是一个python包</p>
+</li>
+<li><p><strong>settings.py</strong>：这个文件包含了所有的项目配置。将来我们会一直提到这个文件！</p>
+</li>
+<li><p><strong>urls.py</strong>：这个文件负责映射我们项目中的路由和路径。例如，如果你想在访问URL / about/ 时显示某些内容，则必须先在这里做映射关系。</p>
+</li>
+<li><p><strong>wsgi.py</strong>：该文件是用于部署的简单网关接口。你可以暂且先不用关心她的内容，就先让他在那里就好了。</p>
+</li>
+</ul>
+<p>django自带了一个简单的网络服务器。在开发过程中非常方便，所以我们无需安装任何其他软件即可在本地运行项目。我们可以通过执行命令来测试一下它：</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">python manage.py runserver</code></pre></figure>
+![](https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django09.png)
+
+<p>现在，你可以忽略终端中出现的迁移错误;我们将在稍后讨论。</p>
+<p>现在在Web浏览器中打开URL：<code>http://127.0.0.1:8000</code>，你应该看到下面的页面：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django10.png" alt=""></p>
+<p>使用组合键 Control + C来终止开发服务器。</p>
+<h2 id="Django应用"><a href="#Django应用" class="headerlink" title="Django应用"></a>Django应用</h2><p>在Django的哲学中，我们有两个重要的概念：</p>
+<ul>
+<li><p><strong>app</strong>：是一个可以完成某件事情的Web应用程序。一个应用程序通常由一组<strong>models(数据库表)，views(视图)，templates(模板)，tests(测试)</strong>组成。</p>
+</li>
+<li><p><strong>project</strong>：是配置和应用程序的集合。一个项目可以由多个应用程序或一个应用程序组成。</p>
+</li>
+</ul>
+<p>请注意，如果没有一个project，你就无法运行Django应用程序。像博客这样的简单网站可以完全在单个应用程序中编写，例如可以将其命名为blog或weblog。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django11.webp" alt=""></p>
+<p>这是组织源代码的一种方式。现在刚开始，判断什么是或不是应用程序这些还不太重要。包括如何组织代码等。现在不用担心那些问题！首先让我们对Django的API和基础知识进行梳理一遍。</p>
+<p>为了方便说明，我们来创建一个简单的<em>网络论坛或讨论区</em>。要创建我们的第一个应用程序，请跳转到<strong>manage.py</strong>文件所在的目录并执行以下命令：</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">django-admin startapp boards</code></pre></figure>
+注意!我们这次使用的命令是**startapp**。
+
+<p>通过这条指令，系统会给我们创建以下目录结构：</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">myproject/
+ |-- myproject/
+ |    |-- boards/                &lt;-- 我们新的Django应用（app）！
+ |    |    |-- migrations/
+ |    |    |    +-- __init__.py
+ |    |    |-- __init__.py
+ |    |    |-- admin.py
+ |    |    |-- apps.py
+ |    |    |-- models.py
+ |    |    |-- tests.py
+ |    |    +-- views.py
+ |    |-- myproject/
+ |    |    |-- __init__.py
+ |    |    |-- settings.py
+ |    |    |-- urls.py
+ |    |    |-- wsgi.py
+ |    +-- manage.py
+ +-- venv/</code></pre></figure>
+
+<p>下面，我们来探讨每个文件的作用：</p>
+<ul>
+<li><p><strong>migrations/</strong>：在这个文件夹里，Django会存储一些文件以跟踪你在<strong>models.py</strong>文件中创建的变更，用来保持数据库和models.py的同步。</p>
+</li>
+<li><p><strong>admin.py</strong>：这个文件为一个django内置的应用程序<strong>Django Admin</strong>的配置文件。</p>
+</li>
+<li><p><strong>apps.py</strong>：这是应用程序本身的配置文件。</p>
+</li>
+<li><p><strong>models.py</strong>：这里是我们定义Web应用程序数据实例的地方。models会由Django自动转换为数据库表。</p>
+</li>
+<li><p><strong>tests.py</strong>：这个文件用来写当前应用程序的单元测试。</p>
+</li>
+<li><p><strong>views.py</strong>：这是我们处理Web应用程序请求(request)/响应(resopnse)周期的文件。</p>
+</li>
+</ul>
+<p>现在我们创建了我们的第一个应用程序，让我们来配置一下项目以便启用这个应用程序。</p>
+<p>要做到这一点，打开<strong>settings.py</strong>并尝试找到<code>INSTALLED_APPS</code>变量：</p>
+<p><strong>settings.py</strong></p>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">'django.contrib.admin'</span><span class="p">,</span>
+    <span class="s">'django.contrib.auth'</span><span class="p">,</span>
+    <span class="s">'django.contrib.contenttypes'</span><span class="p">,</span>
+    <span class="s">'django.contrib.sessions'</span><span class="p">,</span>
+    <span class="s">'django.contrib.messages'</span><span class="p">,</span>
+    <span class="s">'django.contrib.staticfiles'</span><span class="p">,</span>
+<span class="p">]</span></code></pre></figure>
+
+<p>如你所见，Django默认已经安装了6个内置应用程序。它们提供大多数Web应用程序所需的常用功能，如身份验证，会话，静态文件管理（图像，JavaScript，CSS等）等。</p>
+<p>我们将会在本系列教程中探索这些应用程序。但现在，先不管它们，只需将我们的应用程序<strong>boards</strong>添加到<code>INSTALLED_APPS</code>列表即可</p>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">'django.contrib.admin'</span><span class="p">,</span>
+    <span class="s">'django.contrib.auth'</span><span class="p">,</span>
+    <span class="s">'django.contrib.contenttypes'</span><span class="p">,</span>
+    <span class="s">'django.contrib.sessions'</span><span class="p">,</span>
+    <span class="s">'django.contrib.messages'</span><span class="p">,</span>
+    <span class="s">'django.contrib.staticfiles'</span><span class="p">,</span>
+   <span class="s">'boards',# 译者注：建议和作者一样空一行来区别内置app和自定义的app</span><span class="p">,</span>
+<span class="p">]</span></code></pre></figure>
+
+<p>使用前面漫画正方形和圆圈的比喻，黄色的圆圈就是我们的boards应用程序，<strong>django.contrib.admin, django.contrib.auth</strong>等就是红色的圆圈。</p>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>现在来写我们的第一个视图(view)，试试看看如何用Django创建一个新页面。</p>
+<p>打开boards应用程序中的views.py文件，并添加以下代码：</p>
+<p><strong>views.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpResponse</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">home</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">'Hello, World!'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>视图是接收<code>httprequest</code>对象并返回一个<code>httpresponse</code>对象的Python函数。接收 <em>request<em>作为参数并返回</em>response</em> 作为结果。这个流程你必须记住！</p>
+<p>上面定义了一个简单的视图，命名为<strong>home</strong>,它简单返回一个信息字符串hello,world!</p>
+<p>Django调用这个view。是在<strong>urls.py</strong>文件中完成：</p>
+<p><strong>urls.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> boards <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^$'</span>,views.home,name=<span class="string">'home'</span>),</span><br><span class="line">    url(<span class="string">r'^admin/'</span>,admin.site.urls),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>将上面的代码片段与你的<strong>urls.py</strong>文件进行比较，你会注意到我添加了以下新代码：<code>url（r&#39;^ $&#39;，views.home，name =&#39;home&#39;</code>，并通过<code>from boards import views</code>从我们的应用程序<strong>boards</strong>中导入了<strong>views</strong>模块</p>
+<p>Django使用<strong>正则表达式</strong>来匹配请求的URL，对于我们的<strong>home</strong>视图，我使用<code>^$</code>正则，它将匹配一个空路径，也就是主页（这个URL：<code>http://127.0.0.1:8000</code>）。如果我想匹配的URL是 <code>http://127.0.0.1:8000/homepage/</code>，那么我的URL正则表达式就会是：<code>url(r&#39;^homepage/$&#39;, views.home, name=&#39;home&#39;)</code>。</p>
+<p>回到manage.py目录，运行</p>
+<p>python manage.py runserver</p>
+<p>并在Web浏览器中，打开 <strong><code>http://127.0.0.1:8000</code></strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django11.png" alt=""></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这是本系列学习的第一部分。本文，学习了如何安装相应的Python版本以及如何设置开发环境。还介绍了虚拟环境，开始了第一个django项目，并已经创建了我们的初始应用程序。</p>
+<p>下部分将学习它的模型，视图，模板和URLs。学习探索Django所有的基础知识！</p>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/04/20/1.%20Django%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%85%A5%E9%97%A8/>https://fishni.github.io/2020/04/20/1.%20Django%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%85%A5%E9%97%A8/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/wechat.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/qq.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-20T18:57:54+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年4月20日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Web%E6%9E%B6%E6%9E%84/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Web架构</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/04/20/1.%20Django%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%85%A5%E9%97%A8/&title=【Django】1. Django入门与实践-入门 - fishni&summary=本文主要内容：Django基础概念、环境搭建（python在ubuntu中安装，virtualenv虚拟环境安装，Django1.11.4安装）、创建一个简单的django项目，并创建了简单的初始应用程序"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/04/20/1.%20Django%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%85%A5%E9%97%A8/&title=【Django】1. Django入门与实践-入门 - fishni&summary=本文主要内容：Django基础概念、环境搭建（python在ubuntu中安装，virtualenv虚拟环境安装，Django1.11.4安装）、创建一个简单的django项目，并创建了简单的初始应用程序"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/04/20/1.%20Django%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%85%A5%E9%97%A8/&title=【Django】1. Django入门与实践-入门 - fishni&summary=本文主要内容：Django基础概念、环境搭建（python在ubuntu中安装，virtualenv虚拟环境安装，Django1.11.4安装）、创建一个简单的django项目，并创建了简单的初始应用程序"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2020/04/16/1.4%20XSS%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E6%90%9C%E9%9B%86/'>
+                <p class='title'>【XSS（一）】1.4 XSS相关资料搜集<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本文主要是一些XSS练习平台、XSS相关知识、或者总结的参考资料搜集。。。
+
+
+XSS总结参考链接：
+
+【xss总结】https://xz.aliyun.com/t/4067#toc-0
+htt...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '【Django】1. Django入门与实践-入门',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么学习Django？"><span class="toc-text">为什么学习Django？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#谁在使用Django？"><span class="toc-text">谁在使用Django？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境搭建"><span class="toc-text">环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#python安装"><span class="toc-text">python安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#python-3-6-10安装"><span class="toc-text">python 3.6.10安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-Virtualenv"><span class="toc-text">安装 Virtualenv</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Django-1-11-4"><span class="toc-text">安装Django 1.11.4</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建项目"><span class="toc-text">创建项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#启动一个新项目"><span class="toc-text">启动一个新项目</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Django应用"><span class="toc-text">Django应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-text">Hello World</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://fishni.github.io/"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+            
+              <a href="https://github.com/fishni"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://volantis.js.org/" target="_blank" class="codename">fishni's blog</a>
+        作为主题
+        
+          ，
+          总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://fishni.github.io/">Copyright © 2017-2020 Mr.fishmouse</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('') {
+          $('').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("div.fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
