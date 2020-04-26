@@ -370,7 +370,7 @@
           <p>本文主要是：新冠肺炎COVID-19 State Data Set的简单分析与处理</p>
 <a id="more"></a>
 
-<h1 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h1><h3 id="Use-Pandas-to-load-COVID-19-State-Data-Set-as-the-dataframe"><a href="#Use-Pandas-to-load-COVID-19-State-Data-Set-as-the-dataframe" class="headerlink" title="Use Pandas to load COVID-19 State Data Set as the dataframe."></a>Use Pandas to load COVID-19 State Data Set as the dataframe.</h3><p><strong><a href="https://pandas.pydata.org/" target="_blank" rel="noopener">Pandas</a></strong>  </p>
+<h1 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h1><p>Use Pandas to load COVID-19 State Data Set as the dataframe.<br><strong><a href="https://pandas.pydata.org/" target="_blank" rel="noopener">Pandas</a></strong>  </p>
 <p>由于数据持续更新,所以下载链接仅供参考，链接：<a href="https://pan.baidu.com/s/1npzHaEX5DUudB1yTTm8hyQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1npzHaEX5DUudB1yTTm8hyQ</a><br>提取码：qy8i</p>
 <p>若需要请到此，下载最新数据<strong><a href="https://www.kaggle.com/nightranger77/covid19-state-data/data" target="_blank" rel="noopener">COVID-19 State Data Set</a></strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">data = pd.read_csv(<span class="string">'COVID19_state.csv'</span>)</span><br><span class="line">df = pd.DataFrame(data)</span><br><span class="line">df</span><br></pre></td></tr></table></figure>
@@ -1662,7 +1662,8 @@
        &apos;Hospitals&apos;, &apos;Health Spending&apos;, &apos;Pollution&apos;, &apos;Med-Large Airports&apos;,
        &apos;Temperature&apos;, &apos;Urban&apos;, &apos;Age 0-25&apos;, &apos;Age 26-54&apos;, &apos;Age 55+&apos;,
        &apos;School Closure Date&apos;],
-      dtype=&apos;object&apos;)</code></pre><h1 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h1><h3 id="Get-20-data-items-as-sample-randomly-and-show-them"><a href="#Get-20-data-items-as-sample-randomly-and-show-them" class="headerlink" title="Get 20 data items as sample randomly and show them."></a>Get 20 data items as sample randomly and show them.</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df1 = df.sample(frac=<span class="number">0.4</span>)</span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
+      dtype=&apos;object&apos;)</code></pre><h1 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h1><p> Get 20 data items as sample randomly and show them.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df1 = df.sample(frac=<span class="number">0.4</span>)</span><br><span class="line">df1</span><br></pre></td></tr></table></figure>
 
 
 
@@ -2195,7 +2196,8 @@
 
 
 
-<h1 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h1><h3 id="Show-10-data-items-which-the-Deaths-are-more-than-100-as-sample-randomly"><a href="#Show-10-data-items-which-the-Deaths-are-more-than-100-as-sample-randomly" class="headerlink" title="Show 10 data items which the Deaths are more than 100 as sample randomly."></a>Show 10 data items which the Deaths are more than 100 as sample randomly.</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df2 = df[df[<span class="string">'Deaths'</span>]&gt;<span class="number">100</span>]</span><br><span class="line">df3 = df2.sample(n = <span class="number">10</span>)</span><br><span class="line">df3</span><br></pre></td></tr></table></figure>
+<h1 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h1><p>Show 10 data items which the Deaths are more than 100 as sample randomly.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df2 = df[df[<span class="string">'Deaths'</span>]&gt;<span class="number">100</span>]</span><br><span class="line">df3 = df2.sample(n = <span class="number">10</span>)</span><br><span class="line">df3</span><br></pre></td></tr></table></figure>
 
 
 
@@ -2488,7 +2490,8 @@
 
 
 
-<h1 id="Step-4"><a href="#Step-4" class="headerlink" title="Step 4"></a>Step 4</h1><h3 id="Sort-the-data-by-GDP-and-present-the-top-20-data-items"><a href="#Sort-the-data-by-GDP-and-present-the-top-20-data-items" class="headerlink" title="Sort the data by GDP and present the top 20 data items."></a>Sort the data by GDP and present the top 20 data items.</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df4= df.sort_values(by=[<span class="string">'GDP'</span>])</span><br><span class="line">df4.iloc[<span class="number">0</span>:<span class="number">20</span>,]</span><br></pre></td></tr></table></figure>
+<h1 id="Step-4"><a href="#Step-4" class="headerlink" title="Step 4"></a>Step 4</h1><p> Sort the data by GDP and present the top 20 data items.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df4= df.sort_values(by=[<span class="string">'GDP'</span>])</span><br><span class="line">df4.iloc[<span class="number">0</span>:<span class="number">20</span>,]</span><br></pre></td></tr></table></figure>
 
 
 
@@ -3021,7 +3024,8 @@
 
 
 
-<h1 id="Step-5"><a href="#Step-5" class="headerlink" title="Step 5"></a>Step 5</h1><h3 id="Show-the-simple-statistical-information-mean-std-min-max-quartile1-quartile2-quartile3"><a href="#Show-the-simple-statistical-information-mean-std-min-max-quartile1-quartile2-quartile3" class="headerlink" title="Show the simple statistical information (mean, std, min, max, quartile1, quartile2, quartile3)."></a>Show the simple statistical information (mean, std, min, max, quartile1, quartile2, quartile3).</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.mean</span></span><br><span class="line">print(df.mean())<span class="comment"># 列平均</span></span><br><span class="line">print(df.mean(<span class="number">1</span>))<span class="comment"># 行平均</span></span><br></pre></td></tr></table></figure>
+<h1 id="Step-5"><a href="#Step-5" class="headerlink" title="Step 5"></a>Step 5</h1><p> Show the simple statistical information (mean, std, min, max, quartile1, quartile2, quartile3).</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.mean</span></span><br><span class="line">print(df.mean())<span class="comment"># 列平均</span></span><br><span class="line">print(df.mean(<span class="number">1</span>))<span class="comment"># 行平均</span></span><br></pre></td></tr></table></figure>
 
 <pre><code>Tested                7.286690e+04
 Infected              1.420375e+04
@@ -3101,83 +3105,7 @@ dtype: float64
 50    3.031250e+04
 dtype: float64</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 2.std</span></span><br><span class="line">print(df.std()) <span class="comment"># 列std</span></span><br><span class="line">print(df.std(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
 
-<pre><code>Tested                9.638624e+04
-Infected              3.477090e+04
-Deaths                1.792593e+03
-Population            7.450657e+06
-Pop Density           1.647226e+03
-Gini                  2.345488e-02
-ICU Beds              1.562125e+03
-Income                8.224387e+03
-GDP                   2.264827e+04
-Unemployment          8.312334e-01
-Sex Ratio             3.186821e-02
-Smoking Rate          3.489429e+00
-Flu Deaths            3.669887e+00
-Respiratory Deaths    1.090842e+01
-Physicians            2.253292e+04
-Hospitals             8.888191e+01
-Health Spending       1.256751e+03
-Pollution             1.457535e+00
-Med-Large Airports    1.758564e+00
-Temperature           8.627992e+00
-Urban                 1.488548e+01
-Age 0-25              2.711631e-02
-Age 26-54             1.967979e-02
-Age 55+               3.093573e-02
-dtype: float64
-0     1.496204e+05
-1     1.000684e+06
-2     6.193362e+05
-3     1.504671e+06
-4     8.147430e+06
-5     1.191597e+06
-6     7.254259e+05
-7     1.502537e+05
-8     2.000622e+05
-9     4.485632e+06
-10    2.189548e+06
-11    2.874999e+05
-12    6.479249e+05
-13    3.719411e+05
-14    2.581267e+06
-15    1.375252e+06
-16    5.929991e+05
-17    9.173055e+05
-18    9.461498e+05
-19    1.421063e+06
-20    1.239733e+06
-21    2.740094e+05
-22    2.048011e+06
-23    1.162053e+06
-24    1.257742e+06
-25    6.091278e+05
-26    2.212000e+05
-27    2.164271e+06
-28    1.551812e+05
-29    3.976106e+05
-30    2.790870e+05
-31    1.820799e+06
-32    4.269578e+05
-33    6.397142e+05
-34    3.960554e+06
-35    2.395834e+06
-36    8.060494e+05
-37    8.766217e+05
-38    2.614030e+06
-39    2.149178e+05
-40    1.062286e+06
-41    1.836391e+05
-42    1.406763e+06
-43    6.013519e+06
-44    6.682691e+05
-45    1.759020e+06
-46    1.278326e+05
-47    1.590098e+06
-48    1.192364e+06
-49    3.618923e+05
-50    1.158007e+05
-dtype: float64</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 3.min</span></span><br><span class="line">print(df.min())</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 3.min</span></span><br><span class="line">print(df.min())</span><br></pre></td></tr></table></figure>
 
 <pre><code>State                 Alabama
 Tested                   4241
@@ -3321,17 +3249,20 @@ Urban                 8.755000e+01
 Age 0-25              3.400000e-01
 Age 26-54             3.850000e-01
 Age 55+               3.100000e-01
-Name: 0.75, dtype: float64</code></pre><h1 id="Step-6-Use-matplotlib-show-2D-images-about-data"><a href="#Step-6-Use-matplotlib-show-2D-images-about-data" class="headerlink" title="Step 6 Use matplotlib show 2D images about data."></a>Step 6 Use matplotlib show 2D images about data.</h1><p><a href="https://matplotlib.org/" target="_blank" rel="noopener">Matplotlib</a></p>
-<h3 id="Plot-the-distribution-of-two-class-1-GDP-lt-58000-2-GDP-gt-58000-of-COVID-19-State-Data-using-different-colors-and-different-marker-where-x-axis-is-the-Pollution-and-y-axis-the-Mortality-rate"><a href="#Plot-the-distribution-of-two-class-1-GDP-lt-58000-2-GDP-gt-58000-of-COVID-19-State-Data-using-different-colors-and-different-marker-where-x-axis-is-the-Pollution-and-y-axis-the-Mortality-rate" class="headerlink" title="Plot the distribution of two class (1. GDP &lt; 58000, 2. GDP &gt;= 58000) of COVID-19 State Data using different colors and different  marker where x-axis is the Pollution and y-axis the Mortality-rate."></a>Plot the distribution of two class (1. GDP &lt; 58000, 2. GDP &gt;= 58000) of COVID-19 State Data using different colors and different  marker where x-axis is the Pollution and y-axis the Mortality-rate.</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">df_GDP1 = df[df[<span class="string">'GDP'</span>]&lt;<span class="number">58000</span>]</span><br><span class="line">df_GDP2 = df[df[<span class="string">'GDP'</span>]&gt;=<span class="number">58000</span>]</span><br><span class="line">plt.figure()</span><br><span class="line">ax1 = df_GDP1.plot(x=<span class="string">'Pollution'</span>,y=<span class="string">'Deaths'</span>)</span><br><span class="line">df_GDP2.plot(x=<span class="string">'Pollution'</span>,y=<span class="string">'Deaths'</span>,ax=ax1)</span><br><span class="line"><span class="comment"># 为图表添加标题</span></span><br><span class="line">plt.title(<span class="string">"testddddd"</span>)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+Name: 0.75, dtype: float64</code></pre><h1 id="Step-6"><a href="#Step-6" class="headerlink" title="Step 6"></a>Step 6</h1><p> Use matplotlib show 2D images about data.</p>
+<p><a href="https://matplotlib.org/" target="_blank" rel="noopener">Matplotlib</a></p>
+<p>Plot the distribution of two class (1. GDP &lt; 58000, 2. GDP &gt;= 58000) of COVID-19 State Data using different colors and different  marker where x-axis is the Pollution and y-axis the Mortality-rate.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">df_GDP1 = df[df[<span class="string">'GDP'</span>]&lt;<span class="number">58000</span>]</span><br><span class="line">df_GDP2 = df[df[<span class="string">'GDP'</span>]&gt;=<span class="number">58000</span>]</span><br><span class="line">plt.figure()</span><br><span class="line">ax1 = df_GDP1.plot(x=<span class="string">'Pollution'</span>,y=<span class="string">'Deaths'</span>)</span><br><span class="line">df_GDP2.plot(x=<span class="string">'Pollution'</span>,y=<span class="string">'Deaths'</span>,ax=ax1)</span><br><span class="line"><span class="comment"># 为图表添加标题</span></span><br><span class="line">plt.title(<span class="string">"testddddd"</span>)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 
 
 <pre><code>&lt;Figure size 432x288 with 0 Axes&gt;</code></pre><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426output02.png" alt="png"></p>
-<h1 id="Step-7"><a href="#Step-7" class="headerlink" title="Step 7"></a>Step 7</h1><h3 id="Show-the-proportion-of-three-class-of-COVID-19-State-Data-using-pie-chart"><a href="#Show-the-proportion-of-three-class-of-COVID-19-State-Data-using-pie-chart" class="headerlink" title="Show the proportion of three class of COVID-19 State Data using pie chart."></a>Show the proportion of three class of COVID-19 State Data using pie chart.</h3><p><strong><font color = blue size=3> About the class: </font></strong> <p><br> 1、 Mortality-rate &lt; 0.02 <p><br> 2、 Mortality-rate between 0.02 and 0.03 <p><br> 3、Mortality-rate &gt; 0.03 <p></p>
+<h1 id="Step-7"><a href="#Step-7" class="headerlink" title="Step 7"></a>Step 7</h1><p>Show the proportion of three class of COVID-19 State Data using pie chart.</p>
+<p><strong><font color = blue size=3> About the class: </font></strong> <p><br> 1、 Mortality-rate &lt; 0.02 <p><br> 2、 Mortality-rate between 0.02 and 0.03 <p><br> 3、Mortality-rate &gt; 0.03 <p></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 死亡率&lt;0.02</span></span><br><span class="line">sizes= []</span><br><span class="line">df_death1 = df[df[<span class="string">'Deaths'</span>]/df[<span class="string">'Infected'</span>]&lt;<span class="number">0.02</span>]</span><br><span class="line">d1= df_death1.shape[<span class="number">0</span>]  <span class="comment"># 返回行数</span></span><br><span class="line">sizes.append(d1)</span><br><span class="line"><span class="comment"># 死亡率在0.02 and 0.03之间</span></span><br><span class="line">df_death2 = df[df[<span class="string">'Deaths'</span>]/df[<span class="string">'Infected'</span>]&lt;=<span class="number">0.03</span>]</span><br><span class="line">d2 = df_death2.shape[<span class="number">0</span>] - d1</span><br><span class="line">sizes.append(d2)</span><br><span class="line"><span class="comment"># 死亡率在0.03之上</span></span><br><span class="line">df_death3 = df[df[<span class="string">'Deaths'</span>]/df[<span class="string">'Infected'</span>]&gt;<span class="number">0.03</span>]</span><br><span class="line">d3 = df_death3.shape[<span class="number">0</span>]</span><br><span class="line">sizes.append(d3)</span><br><span class="line"></span><br><span class="line">labels = [<span class="string">'Mortality-rate &lt; 0.02'</span>,<span class="string">' Mortality-rate between 0.02 and 0.03'</span>,<span class="string">'Mortality-rate &gt; 0.03'</span>]</span><br><span class="line">plt.pie(sizes,labels=labels,autopct=<span class="string">'%1.1f%%'</span>,shadow=<span class="literal">False</span>,startangle=<span class="number">150</span>)</span><br><span class="line">plt.axis(<span class="string">'equal'</span>)   <span class="comment">#该行代码使饼图长宽相等</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 
 
 <p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426output02.png" alt="png"></p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
 <li>饼图绘制：<ul>
 <li><a href="https://www.cnblogs.com/biyoulin/p/9565350.html" target="_blank" rel="noopener">https://www.cnblogs.com/biyoulin/p/9565350.html</a></li>
 <li><a href="https://www.jianshu.com/p/0a76c94e9db7" target="_blank" rel="noopener">https://www.jianshu.com/p/0a76c94e9db7</a></li>
@@ -3418,7 +3349,7 @@ Name: 0.75, dtype: float64</code></pre><h1 id="Step-6-Use-matplotlib-show-2D-ima
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-26T17:52:39+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-26T17:59:24+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2020年4月26日</p>
@@ -3565,7 +3496,7 @@ Name: 0.75, dtype: float64</code></pre><h1 id="Step-6-Use-matplotlib-show-2D-ima
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Use-Pandas-to-load-COVID-19-State-Data-Set-as-the-dataframe"><span class="toc-text">Use Pandas to load COVID-19 State Data Set as the dataframe.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-20-data-items-as-sample-randomly-and-show-them"><span class="toc-text">Get 20 data items as sample randomly and show them.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Show-10-data-items-which-the-Deaths-are-more-than-100-as-sample-randomly"><span class="toc-text">Show 10 data items which the Deaths are more than 100 as sample randomly.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sort-the-data-by-GDP-and-present-the-top-20-data-items"><span class="toc-text">Sort the data by GDP and present the top 20 data items.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Show-the-simple-statistical-information-mean-std-min-max-quartile1-quartile2-quartile3"><span class="toc-text">Show the simple statistical information (mean, std, min, max, quartile1, quartile2, quartile3).</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Plot-the-distribution-of-two-class-1-GDP-lt-58000-2-GDP-gt-58000-of-COVID-19-State-Data-using-different-colors-and-different-marker-where-x-axis-is-the-Pollution-and-y-axis-the-Mortality-rate"><span class="toc-text">Plot the distribution of two class (1. GDP &lt; 58000, 2. GDP &gt;&#x3D; 58000) of COVID-19 State Data using different colors and different  marker where x-axis is the Pollution and y-axis the Mortality-rate.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Show-the-proportion-of-three-class-of-COVID-19-State-Data-using-pie-chart"><span class="toc-text">Show the proportion of three class of COVID-19 State Data using pie chart.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+      
     </div>
   </section>
 
