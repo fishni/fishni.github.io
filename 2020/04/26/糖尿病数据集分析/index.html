@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>【数据集分析】糖尿病数据集分析 - fishni</title>
+  
+    <meta name="keywords" content="python,数据集">
+  
+  
+    <meta name="description" content="本文主要是：通过学习python处理糖尿病数据集的方法，了解数据集特征，已经线性回归在预测糖尿病中的应用…">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            FISHNI'S BLOG <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-rss fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  更多
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-rss fa-fw'></i>
+        
+        主页
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        分类
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-archive fa-fw'></i>
+        
+        归档
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/04/26/%E7%B3%96%E5%B0%BF%E7%97%85%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90/">
+        【数据集分析】糖尿病数据集分析
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://fishni.github.io/" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/ghost1.jpg">
+    <p>fishni</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>人工智能</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年4月26日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>本文主要是：通过学习python处理糖尿病数据集的方法，了解数据集特征，已经线性回归在预测糖尿病中的应用…</p>
+<a id="more"></a>
+
+<h1 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h1><ul>
+<li>了解糖尿病数据集的基本特征</li>
+<li>掌握线性回归在预测糖尿病中的应用</li>
+</ul>
+<h1 id="实验内容"><a href="#实验内容" class="headerlink" title="实验内容"></a>实验内容</h1><ul>
+<li>糖尿病数据集（diabetes dataset）基础实验</li>
+<li>利用糖尿病数据集预测糖尿病实验</li>
+</ul>
+<h1 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h1><h2 id="实验一：糖尿病数据集基础实验"><a href="#实验一：糖尿病数据集基础实验" class="headerlink" title="实验一：糖尿病数据集基础实验"></a>实验一：糖尿病数据集基础实验</h2><h3 id="步骤一：加载数据集"><a href="#步骤一：加载数据集" class="headerlink" title="步骤一：加载数据集"></a>步骤一：加载数据集</h3><p>糖尿病（diabetes）数据集，包含在sklearn库的datasets 模块中,调用 load_diabetes 函数来加载数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="comment"># 加载数据集</span></span><br><span class="line">diabetes = datasets.load_diabetes()</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤二：读取糖尿病数据集的描述信息"><a href="#步骤二：读取糖尿病数据集的描述信息" class="headerlink" title="步骤二：读取糖尿病数据集的描述信息"></a>步骤二：读取糖尿病数据集的描述信息</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dir()查看diabetes的属性</span></span><br><span class="line">dir(diabetes)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>[&apos;DESCR&apos;,
+ &apos;data&apos;,
+ &apos;data_filename&apos;,
+ &apos;feature_names&apos;,
+ &apos;target&apos;,
+ &apos;target_filename&apos;]</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># diabetes.keys()显示diabetes对象的键，键对应于一定的值</span></span><br><span class="line">diabetes.keys()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>dict_keys([&apos;data&apos;, &apos;target&apos;, &apos;DESCR&apos;, &apos;feature_names&apos;, &apos;data_filename&apos;, &apos;target_filename&apos;])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读取描述信息</span></span><br><span class="line">print(diabetes.DESCR)</span><br></pre></td></tr></table></figure>
+
+<pre><code>.. _diabetes_dataset:
+
+Diabetes dataset
+----------------
+
+Ten baseline variables, age, sex, body mass index, average blood
+pressure, and six blood serum measurements were obtained for each of n =
+442 diabetes patients, as well as the response of interest, a
+quantitative measure of disease progression one year after baseline.
+
+**Data Set Characteristics:**
+
+  :Number of Instances: 442
+
+  :Number of Attributes: First 10 columns are numeric predictive values
+
+  :Target: Column 11 is a quantitative measure of disease progression one year after baseline
+
+  :Attribute Information:
+      - Age
+      - Sex
+      - Body mass index
+      - Average blood pressure
+      - S1
+      - S2
+      - S3
+      - S4
+      - S5
+      - S6
+
+Note: Each of these 10 feature variables have been mean centered and scaled by the standard deviation times `n_samples` (i.e. the sum of squares of each column totals 1).
+
+Source URL:
+https://www4.stat.ncsu.edu/~boos/var.select/diabetes.html
+
+For more information see:
+Bradley Efron, Trevor Hastie, Iain Johnstone and Robert Tibshirani (2004) &quot;Least Angle Regression,&quot; Annals of Statistics (with discussion), 407-499.
+(https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf)</code></pre><h3 id="步骤三：打印diabetes数据集相关特征信息"><a href="#步骤三：打印diabetes数据集相关特征信息" class="headerlink" title="步骤三：打印diabetes数据集相关特征信息"></a>步骤三：打印diabetes数据集相关特征信息</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># data 、target、统计数据总行数、target长度、每行的属性个数（特征数）、特征名称，数据的类型、data和taret数据集的类型</span></span><br><span class="line">print(<span class="string">"数据：&#123;&#125;\n"</span>.format(diabetes.data,<span class="string">'\n'</span>))</span><br><span class="line">print(<span class="string">"类标："</span>,diabetes.target,<span class="string">'\n'</span>)</span><br><span class="line">print(<span class="string">"数据总行数："</span>,len(diabetes.data))</span><br><span class="line">print(<span class="string">"类标总长度："</span>,len(diabetes.target))</span><br><span class="line">print(<span class="string">"特征数："</span>,len(diabetes.data[<span class="number">0</span>]))</span><br><span class="line">print(<span class="string">"特征名称："</span>,diabetes.feature_names)</span><br><span class="line">print(<span class="string">"数据类型："</span>,diabetes.data.shape)</span><br><span class="line">print(<span class="string">"data类型："</span>,type(diabetes.data),<span class="string">"\n target类型："</span>,type(diabetes.data))</span><br></pre></td></tr></table></figure>
+
+<pre><code>数据：[[ 0.03807591  0.05068012  0.06169621 ... -0.00259226  0.01990842
+  -0.01764613]
+ [-0.00188202 -0.04464164 -0.05147406 ... -0.03949338 -0.06832974
+  -0.09220405]
+ [ 0.08529891  0.05068012  0.04445121 ... -0.00259226  0.00286377
+  -0.02593034]
+ ...
+ [ 0.04170844  0.05068012 -0.01590626 ... -0.01107952 -0.04687948
+   0.01549073]
+ [-0.04547248 -0.04464164  0.03906215 ...  0.02655962  0.04452837
+  -0.02593034]
+ [-0.04547248 -0.04464164 -0.0730303  ... -0.03949338 -0.00421986
+   0.00306441]]
+
+类标： [151.  75. 141. 206. 135.  97. 138.  63. 110. 310. 101.  69. 179. 185.
+ 118. 171. 166. 144.  97. 168.  68.  49.  68. 245. 184. 202. 137.  85.
+ 131. 283. 129.  59. 341.  87.  65. 102. 265. 276. 252.  90. 100.  55.
+  61.  92. 259.  53. 190. 142.  75. 142. 155. 225.  59. 104. 182. 128.
+  52.  37. 170. 170.  61. 144.  52. 128.  71. 163. 150.  97. 160. 178.
+  48. 270. 202. 111.  85.  42. 170. 200. 252. 113. 143.  51.  52. 210.
+  65. 141.  55. 134.  42. 111.  98. 164.  48.  96.  90. 162. 150. 279.
+  92.  83. 128. 102. 302. 198.  95.  53. 134. 144. 232.  81. 104.  59.
+ 246. 297. 258. 229. 275. 281. 179. 200. 200. 173. 180.  84. 121. 161.
+  99. 109. 115. 268. 274. 158. 107.  83. 103. 272.  85. 280. 336. 281.
+ 118. 317. 235.  60. 174. 259. 178. 128.  96. 126. 288.  88. 292.  71.
+ 197. 186.  25.  84.  96. 195.  53. 217. 172. 131. 214.  59.  70. 220.
+ 268. 152.  47.  74. 295. 101. 151. 127. 237. 225.  81. 151. 107.  64.
+ 138. 185. 265. 101. 137. 143. 141.  79. 292. 178.  91. 116.  86. 122.
+  72. 129. 142.  90. 158.  39. 196. 222. 277.  99. 196. 202. 155.  77.
+ 191.  70.  73.  49.  65. 263. 248. 296. 214. 185.  78.  93. 252. 150.
+  77. 208.  77. 108. 160.  53. 220. 154. 259.  90. 246. 124.  67.  72.
+ 257. 262. 275. 177.  71.  47. 187. 125.  78.  51. 258. 215. 303. 243.
+  91. 150. 310. 153. 346.  63.  89.  50.  39. 103. 308. 116. 145.  74.
+  45. 115. 264.  87. 202. 127. 182. 241.  66.  94. 283.  64. 102. 200.
+ 265.  94. 230. 181. 156. 233.  60. 219.  80.  68. 332. 248.  84. 200.
+  55.  85.  89.  31. 129.  83. 275.  65. 198. 236. 253. 124.  44. 172.
+ 114. 142. 109. 180. 144. 163. 147.  97. 220. 190. 109. 191. 122. 230.
+ 242. 248. 249. 192. 131. 237.  78. 135. 244. 199. 270. 164.  72.  96.
+ 306.  91. 214.  95. 216. 263. 178. 113. 200. 139. 139.  88. 148.  88.
+ 243.  71.  77. 109. 272.  60.  54. 221.  90. 311. 281. 182. 321.  58.
+ 262. 206. 233. 242. 123. 167.  63. 197.  71. 168. 140. 217. 121. 235.
+ 245.  40.  52. 104. 132.  88.  69. 219.  72. 201. 110.  51. 277.  63.
+ 118.  69. 273. 258.  43. 198. 242. 232. 175.  93. 168. 275. 293. 281.
+  72. 140. 189. 181. 209. 136. 261. 113. 131. 174. 257.  55.  84.  42.
+ 146. 212. 233.  91. 111. 152. 120.  67. 310.  94. 183.  66. 173.  72.
+  49.  64.  48. 178. 104. 132. 220.  57.] 
+
+数据总行数： 442
+类标总长度： 442
+特征数： 10
+特征名称： [&apos;age&apos;, &apos;sex&apos;, &apos;bmi&apos;, &apos;bp&apos;, &apos;s1&apos;, &apos;s2&apos;, &apos;s3&apos;, &apos;s4&apos;, &apos;s5&apos;, &apos;s6&apos;]
+数据类型： (442, 10)
+data类型： &lt;class &apos;numpy.ndarray&apos;&gt; 
+ target类型： &lt;class &apos;numpy.ndarray&apos;&gt;</code></pre><h2 id="实验二：利用糖尿病数据集预测糖尿病实验"><a href="#实验二：利用糖尿病数据集预测糖尿病实验" class="headerlink" title="实验二：利用糖尿病数据集预测糖尿病实验"></a>实验二：利用糖尿病数据集预测糖尿病实验</h2><h3 id="步骤一：LinearRegression（线性回归）的引用"><a href="#步骤一：LinearRegression（线性回归）的引用" class="headerlink" title="步骤一：LinearRegression（线性回归）的引用"></a>步骤一：LinearRegression（线性回归）的引用</h3><ul>
+<li>LinearRegression模型在Sklearn.linear_model下，它主要是通过fit(x,y)的方法来训练模型，其中x为数据的属性，y为所属类型。</li>
+<li>线性模型：$$y = βX+b$$<br>其中：(X:数据 y：目标变量 β：回归系数 b:观测噪声（bias，偏差)</li>
+</ul>
+<ul>
+<li>引用回归模型，并输出函数原型</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 引用回归模型</span></span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model <span class="comment"># 导入线性回归模型</span></span><br><span class="line">regr = linear_model.LinearRegression()<span class="comment"># 使用线性回归</span></span><br><span class="line">print(regr) <span class="comment">#输出函数原型</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None, normalize=False)</code></pre><ul>
+<li>查看线性回归对象regr的属性和方法</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir(regr)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>[&apos;__abstractmethods__&apos;,
+ &apos;__class__&apos;,
+ &apos;__delattr__&apos;,
+ &apos;__dict__&apos;,
+ &apos;__dir__&apos;,
+ &apos;__doc__&apos;,
+ &apos;__eq__&apos;,
+ &apos;__format__&apos;,
+ &apos;__ge__&apos;,
+ &apos;__getattribute__&apos;,
+ &apos;__getstate__&apos;,
+ &apos;__gt__&apos;,
+ &apos;__hash__&apos;,
+ &apos;__init__&apos;,
+ &apos;__init_subclass__&apos;,
+ &apos;__le__&apos;,
+ &apos;__lt__&apos;,
+ &apos;__module__&apos;,
+ &apos;__ne__&apos;,
+ &apos;__new__&apos;,
+ &apos;__reduce__&apos;,
+ &apos;__reduce_ex__&apos;,
+ &apos;__repr__&apos;,
+ &apos;__setattr__&apos;,
+ &apos;__setstate__&apos;,
+ &apos;__sizeof__&apos;,
+ &apos;__str__&apos;,
+ &apos;__subclasshook__&apos;,
+ &apos;__weakref__&apos;,
+ &apos;_abc_impl&apos;,
+ &apos;_decision_function&apos;,
+ &apos;_estimator_type&apos;,
+ &apos;_get_param_names&apos;,
+ &apos;_get_tags&apos;,
+ &apos;_more_tags&apos;,
+ &apos;_preprocess_data&apos;,
+ &apos;_set_intercept&apos;,
+ &apos;copy_X&apos;,
+ &apos;fit&apos;,
+ &apos;fit_intercept&apos;,
+ &apos;get_params&apos;,
+ &apos;n_jobs&apos;,
+ &apos;normalize&apos;,
+ &apos;predict&apos;,
+ &apos;score&apos;,
+ &apos;set_params&apos;]</code></pre><h3 id="步骤二：训练和预测方法基础"><a href="#步骤二：训练和预测方法基础" class="headerlink" title="步骤二：训练和预测方法基础"></a>步骤二：训练和预测方法基础</h3><ul>
+<li>训练：fit(x,y)<br><br>分析模型参数，填充数据集。其中x为特征，y为标记或类属性。</li>
+<li>预测： predict()<br><br>它通过fit()算出的模型参数构成的模型，对解释变量进行预测其类属性。预测方法将返回预测值y_pred。</li>
+</ul>
+<h3 id="步骤三：利用线性回归的示例"><a href="#步骤三：利用线性回归的示例" class="headerlink" title="步骤三：利用线性回归的示例"></a>步骤三：利用线性回归的示例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model <span class="comment"># 导入线性模型</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt <span class="comment"># 绘图</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># X 表示匹萨尺寸 Y表示匹萨价格</span></span><br><span class="line">X =[[<span class="number">6</span>],[<span class="number">8</span>],[<span class="number">10</span>],[<span class="number">14</span>],[<span class="number">18</span>]]</span><br><span class="line">Y = [[<span class="number">7</span>],[<span class="number">9</span>],[<span class="number">13</span>],[<span class="number">17.5</span>],[<span class="number">18</span>]]</span><br><span class="line"></span><br><span class="line">print(<span class="string">u'数据集X:'</span>,X)</span><br><span class="line">print(<span class="string">u'数据集Y:'</span>,Y)</span><br><span class="line"><span class="comment"># 回归训练</span></span><br><span class="line">clf2 = linear_model.LinearRegression() <span class="comment"># 使用线性回归</span></span><br><span class="line">clf2.fit(X,Y) <span class="comment"># 导入数据集</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测一张12英寸的价格</span></span><br><span class="line">res = clf2.predict(np.array([<span class="number">12</span>]).reshape(<span class="number">1</span>,<span class="number">1</span>))[<span class="number">0</span>]</span><br><span class="line">print(<span class="string">u'预测一张12英寸的匹萨价格：$%.2f'</span>%res)</span><br></pre></td></tr></table></figure>
+
+<pre><code>数据集X: [[6], [8], [10], [14], [18]]
+数据集Y: [[7], [9], [13], [17.5], [18]]
+预测一张12英寸的匹萨价格：$13.68</code></pre><ul>
+<li>请解释np.array([12]).reshape(1,1)及字符串前加u的意义</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>预测数据X2 = [[0],[10],[14],[25]]的结果</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 预测数据X2 = [[0],[10],[14],[25]]</span></span><br><span class="line">X2 = [[<span class="number">0</span>],[<span class="number">10</span>],[<span class="number">14</span>],[<span class="number">25</span>]]</span><br><span class="line">Y2 = clf2.predict(X2)</span><br><span class="line">print(Y2)</span><br></pre></td></tr></table></figure>
+
+<pre><code>[[ 1.96551724]
+ [11.72844828]
+ [15.63362069]
+ [26.37284483]]</code></pre><ul>
+<li>绘制线性回归图形</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">plt.title(<span class="string">u'diameter-cost curver'</span>) <span class="comment">#标题</span></span><br><span class="line">plt.xlabel(<span class="string">u'diameter'</span>) <span class="comment">#x轴坐标</span></span><br><span class="line">plt.ylabel(<span class="string">u'cost'</span>)   <span class="comment"># y轴</span></span><br><span class="line">plt.axis([<span class="number">0</span>,<span class="number">25</span>,<span class="number">0</span>,<span class="number">25</span>]) <span class="comment">#区间</span></span><br><span class="line">plt.grid(<span class="literal">True</span>) <span class="comment"># 显示网格</span></span><br><span class="line">plt.plot(X,Y,<span class="string">'k.'</span>) <span class="comment">#绘制训练数据集散点图</span></span><br><span class="line">plt.plot(X2,Y2,<span class="string">'g-'</span>)<span class="comment"># 绘制预测数据集直线</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426output03.png" alt="png"></p>
+<ul>
+<li>线性模型：$$y = βX+b$$<br>其中回归系数β保存在coef_方法中，截距保存在intercept_中，<br>score(X,y,sample_weight=None) 评分函数，返回一个小于1的得分，可能会小于0</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#打印系数、截距、评分函数</span></span><br><span class="line">print(<span class="string">u'系数'</span>,clf2.coef_)</span><br><span class="line">print(<span class="string">u'截距'</span>,clf2.intercept_)</span><br><span class="line">print(<span class="string">u'评分函数'</span>,clf2.score(X,Y))</span><br></pre></td></tr></table></figure>
+
+<pre><code>系数 [[0.9762931]]
+截距 [1.96551724]
+评分函数 0.9100015964240102</code></pre><h3 id="步骤四：糖尿病数据集划分"><a href="#步骤四：糖尿病数据集划分" class="headerlink" title="步骤四：糖尿病数据集划分"></a>步骤四：糖尿病数据集划分</h3><ul>
+<li>加载diabetes数据集,并打印数据集长度、数据类型、前四个样本数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取数据 10*442</span></span><br><span class="line">d =datasets.load_diabetes()</span><br><span class="line">x = d.data</span><br><span class="line">print(<span class="string">u'获取x特征'</span>,len(x),x.shape,x[:<span class="number">4</span>])</span><br></pre></td></tr></table></figure>
+
+<pre><code>获取x特征 442 (442, 10) [[ 0.03807591  0.05068012  0.06169621  0.02187235 -0.0442235  -0.03482076
+  -0.04340085 -0.00259226  0.01990842 -0.01764613]
+ [-0.00188202 -0.04464164 -0.05147406 -0.02632783 -0.00844872 -0.01916334
+   0.07441156 -0.03949338 -0.06832974 -0.09220405]
+ [ 0.08529891  0.05068012  0.04445121 -0.00567061 -0.04559945 -0.03419447
+  -0.03235593 -0.00259226  0.00286377 -0.02593034]
+ [-0.08906294 -0.04464164 -0.01159501 -0.03665645  0.01219057  0.02499059
+  -0.03603757  0.03430886  0.02269202 -0.00936191]]</code></pre><ul>
+<li>获取第3列体重特征的数据,并打印前四行的数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x_one = x[:,np.newaxis,<span class="number">2</span>]</span><br><span class="line">print(x_one[:<span class="number">4</span>])</span><br></pre></td></tr></table></figure>
+
+<pre><code>[[ 0.06169621]
+ [-0.05147406]
+ [ 0.04445121]
+ [-0.01159501]]</code></pre><ul>
+<li>获取类标target,并打印前四个</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">y = d.target</span><br><span class="line">print(<span class="string">u'target:'</span>,y[:<span class="number">4</span>])</span><br></pre></td></tr></table></figure>
+
+<pre><code>target: [151.  75. 141. 206.]</code></pre><ul>
+<li>x特征划分：训练集和测试集；后42行作为测试集，剩余的作为训练集</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#训练集</span></span><br><span class="line">x_train = x_one[:<span class="number">-42</span>]</span><br><span class="line">y_train = y[:<span class="number">-42</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试集</span></span><br><span class="line">x_test = x_one[<span class="number">-42</span>:]</span><br><span class="line">y_test = y[<span class="number">-42</span>:]</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤五-糖尿病的线性回归实现"><a href="#步骤五-糖尿病的线性回归实现" class="headerlink" title="步骤五:糖尿病的线性回归实现"></a>步骤五:糖尿病的线性回归实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line">clf = linear_model.LinearRegression()</span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line">clf.fit(x_train,y_train)</span><br><span class="line"><span class="comment">#预测</span></span><br><span class="line">pre = clf.predict(x_test)</span><br><span class="line">print(<span class="string">u'预测结果：&#123;&#125;\n'</span>.format(pre))</span><br><span class="line">print(<span class="string">u'真实结果：'</span>,y_test)</span><br></pre></td></tr></table></figure>
+
+<pre><code>预测结果：[196.51241167 109.98667708 121.31742804 245.95568858 204.75295782
+ 270.67732703  75.99442421 241.8354155  104.83633574 141.91879342
+ 126.46776938 208.8732309  234.62493762 152.21947611 159.42995399
+ 161.49009053 229.47459628 221.23405012 129.55797419 100.71606266
+ 118.22722323 168.70056841 227.41445974 115.13701842 163.55022706
+ 114.10695016 120.28735977 158.39988572 237.71514243 121.31742804
+  98.65592612 123.37756458 205.78302609  95.56572131 154.27961264
+ 130.58804246  82.17483382 171.79077322 137.79852034 137.79852034
+ 190.33200206  83.20490209]
+
+真实结果： [175.  93. 168. 275. 293. 281.  72. 140. 189. 181. 209. 136. 261. 113.
+ 131. 174. 257.  55.  84.  42. 146. 212. 233.  91. 111. 152. 120.  67.
+ 310.  94. 183.  66. 173.  72.  49.  64.  48. 178. 104. 132. 220.  57.]</code></pre><h3 id="步骤六-对上述预测结果进行评价"><a href="#步骤六-对上述预测结果进行评价" class="headerlink" title="步骤六:对上述预测结果进行评价"></a>步骤六:对上述预测结果进行评价</h3><ul>
+<li>分别从预测结果和真实结果之间的平方和、线性回归模型的系数、截距、方差</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cost = np.mean(y_test-pre)**<span class="number">2</span></span><br><span class="line">print(<span class="string">'平方和：&#123;&#125;\n'</span>.format(cost))</span><br><span class="line">print(<span class="string">'系数：&#123;&#125;\n'</span>.format(clf.coef_))</span><br><span class="line">print(<span class="string">'截距：&#123;&#125;\n'</span>.format(clf.intercept_))</span><br><span class="line">print(<span class="string">'决定系数：&#123;&#125;\n'</span>.format(clf.score(x_test,y_test)))</span><br></pre></td></tr></table></figure>
+
+<pre><code>平方和：83.19234082703763
+
+系数：[955.70303385]
+
+截距：153.00018395675963
+
+决定系数：0.42720426706720194</code></pre><p>​    </p>
+<h3 id="步骤七-绘图"><a href="#步骤七-绘图" class="headerlink" title="步骤七:绘图"></a>步骤七:绘图</h3><ul>
+<li>分别绘制出测试集的真实散点图，预测的线性图，以及画出各个真实点到预测点的距离，并保存到diabetes.png中，dpi=300</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">plt.title(<span class="string">'diabetes'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'x'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'y'</span>)</span><br><span class="line">plt.plot(x_test,y_test,<span class="string">'k.'</span>)<span class="comment"># 测试集真实散点图</span></span><br><span class="line">plt.plot(x_test,pre,<span class="string">'g-'</span>)<span class="comment"># 预测线性直线</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制真实点到预测点的线段</span></span><br><span class="line"><span class="keyword">for</span> idx ,m <span class="keyword">in</span> enumerate(x_test):</span><br><span class="line">    plt.plot([m,m],[y_test[idx],pre[idx]],<span class="string">'r-'</span>)</span><br><span class="line">    </span><br><span class="line">plt.savefig(<span class="string">'diabetes.png'</span>,dpi=<span class="number">300</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426output04.png" alt="png"></p>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/04/26/%E7%B3%96%E5%B0%BF%E7%97%85%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90/>https://fishni.github.io/2020/04/26/%E7%B3%96%E5%B0%BF%E7%97%85%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/wechat.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/qq.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-26T18:35:51+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年4月26日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据集</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/04/26/%E7%B3%96%E5%B0%BF%E7%97%85%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90/&title=【数据集分析】糖尿病数据集分析 - fishni&summary=本文主要是：通过学习python处理糖尿病数据集的方法，了解数据集特征，已经线性回归在预测糖尿病中的应用…"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/04/26/%E7%B3%96%E5%B0%BF%E7%97%85%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90/&title=【数据集分析】糖尿病数据集分析 - fishni&summary=本文主要是：通过学习python处理糖尿病数据集的方法，了解数据集特征，已经线性回归在预测糖尿病中的应用…"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/04/26/%E7%B3%96%E5%B0%BF%E7%97%85%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90/&title=【数据集分析】糖尿病数据集分析 - fishni&summary=本文主要是：通过学习python处理糖尿病数据集的方法，了解数据集特征，已经线性回归在预测糖尿病中的应用…"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2020/04/26/2.%20Django%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%9F%BA%E7%A1%80/'>
+                <p class='title'>【Django】2. Django入门与实践-基础<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本文主要内容：简单讨论了项目的背景知识，然后学习Django的基础，包括模型，管理后台，视图，模板和路由等。
+
+
+前言在第一节入门中，安装了项目所需要的一切，安装的是 Python3.6，并且在...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '【数据集分析】糖尿病数据集分析',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#实验一：糖尿病数据集基础实验"><span class="toc-text">实验一：糖尿病数据集基础实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤一：加载数据集"><span class="toc-text">步骤一：加载数据集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤二：读取糖尿病数据集的描述信息"><span class="toc-text">步骤二：读取糖尿病数据集的描述信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤三：打印diabetes数据集相关特征信息"><span class="toc-text">步骤三：打印diabetes数据集相关特征信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实验二：利用糖尿病数据集预测糖尿病实验"><span class="toc-text">实验二：利用糖尿病数据集预测糖尿病实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤一：LinearRegression（线性回归）的引用"><span class="toc-text">步骤一：LinearRegression（线性回归）的引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤二：训练和预测方法基础"><span class="toc-text">步骤二：训练和预测方法基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤三：利用线性回归的示例"><span class="toc-text">步骤三：利用线性回归的示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤四：糖尿病数据集划分"><span class="toc-text">步骤四：糖尿病数据集划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤五-糖尿病的线性回归实现"><span class="toc-text">步骤五:糖尿病的线性回归实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤六-对上述预测结果进行评价"><span class="toc-text">步骤六:对上述预测结果进行评价</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤七-绘图"><span class="toc-text">步骤七:绘图</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://fishni.github.io/"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+            
+              <a href="https://github.com/fishni"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://volantis.js.org/" target="_blank" class="codename">fishni's blog</a>
+        作为主题
+        
+          ，
+          总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://fishni.github.io/">Copyright © 2017-2020 Mr.fishmouse</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('') {
+          $('').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("div.fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
