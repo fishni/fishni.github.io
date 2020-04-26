@@ -370,8 +370,9 @@
           <p>本文主要内容：Django基础概念、环境搭建（python在ubuntu中安装，virtualenv虚拟环境安装，Django1.11.4安装）、创建一个简单的django项目，并创建了简单的初始应用程序</p>
 <a id="more"></a>
 
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>今天我将开始对一个关于Django基础知识的全新系列教程的学习。这是一个开始学习 Django 的完整入门指南。教程材料一共会被分为七个部分，将从安装，开发环境的准备、模型、视图、模板、URL到更高级的主题（如迁移、测试和部署）中详细探讨学习所有基本概念。</p>
-<p>引用中国古代一句话开始新的实践学习<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django01.webp" alt=""></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django001.png" alt=""></p>
+<p>今天我将开始对一个关于Django基础知识的全新系列教程的学习。这是一个开始学习 Django 的完整入门指南。教程材料一共会被分为七个部分，将从安装，开发环境的准备、模型、视图、模板、URL到更高级的主题（如迁移、测试和部署）中详细探讨学习所有基本概念。</p>
+<p>引用中国古代一句话开始新的实践学习<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django002.png" alt=""></p>
 <h2 id="为什么学习Django？"><a href="#为什么学习Django？" class="headerlink" title="为什么学习Django？"></a>为什么学习Django？</h2><p>Django是一个用python编写的Web框架。Web框架是一种软件，基于web框架可以开发动态网站，各种应用程序以及服务。它提供了一系列工具和功能，可以解决许多与Web开发相关的常见问题，比如：安全功能，数据库访问，会话，模板处理，URL路由，国际化，本地化，等等。</p>
 <p>使用诸如 Django 之类的网络框架，使我们能够以标准化的方式快速开发安全可靠的Web应用程序，而无需重新发明轮子。</p>
 <p>那么，Django有什么特别之处呢？对于初学者来说，它是一个Python Web框架，这意味着你可以受益于各种各样的<strong>开源库包</strong>。python软件包资料库（pypi）拥有超过11.6万个软件包（2017年9月6日的数据）。如果当你想要解决一个特定的问题的时候，可能有人已经为它实现了一个库来供你使用。</p>
@@ -381,7 +382,7 @@
 <p>想知道更多的示例，你可以到Django Sites数据库中查看，它提供超过五千个Django驱动的网站列表。</p>
 <p>顺便说一下，去年在Django 2016年发布会上，Django核心开发人员，Instagram员工carl meyer，就Instagram如何大规模使用Django以及它如何支持他们的用户增长做过一次分享。这是个一小时的演讲，如果你有兴趣学习了解更多的话，这是一次很有趣的演讲。</p>
 <h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>电脑上安装一些程序，以便使用django。基本的设置包括安装Python，Virtualenv和Django。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django02.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django003.png" alt=""></p>
 <ul>
 <li>使用虚拟环境，使得在进行项目开发的时，便于使得每个项目会有独立的环境。这样在用Django开发一个网站或Web项目时，安装外部库，不用担心包之间的依赖关系发生冲突。同时，也可使得能够在不同Django版本上运行的本地机器的项目。</li>
 </ul>
@@ -459,7 +460,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">pip install django&#x3D;&#x3D;1.11.4</span><br><span class="line"></span><br><span class="line"># 译注：目前django已经升级到2.x版本，这里为了跟后续教程内容保持一直，所以必须指定版本号进行安装</span><br><span class="line"># 除非你有能力 debug，否则不建议你使用django 2.x，等你熟悉Django后，再升级都Django2.0 也不迟，因为两个版本的差异非常小</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django07.png" alt=""></p>
-<h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>一切就绪<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django08.webp" alt=""></p>
+<h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>一切就绪<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django004.png" alt=""></p>
 <h3 id="启动一个新项目"><a href="#启动一个新项目" class="headerlink" title="启动一个新项目"></a>启动一个新项目</h3><ol>
 <li>执行下面的命令来创建一个新的 Django 项目：</li>
 </ol>
@@ -513,7 +514,7 @@
 </li>
 </ul>
 <p>请注意，如果没有一个project，你就无法运行Django应用程序。像博客这样的简单网站可以完全在单个应用程序中编写，例如可以将其命名为blog或weblog。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django11.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20420django005.png" alt=""></p>
 <p>这是组织源代码的一种方式。现在刚开始，判断什么是或不是应用程序这些还不太重要。包括如何组织代码等。现在不用担心那些问题！首先让我们对Django的API和基础知识进行梳理一遍。</p>
 <p>为了方便说明，我们来创建一个简单的<em>网络论坛或讨论区</em>。要创建我们的第一个应用程序，请跳转到<strong>manage.py</strong>文件所在的目录并执行以下命令：</p>
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">django-admin startapp boards</code></pre></figure>
@@ -666,7 +667,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-26T17:47:21+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-26T20:36:33+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2020年4月26日</p>
