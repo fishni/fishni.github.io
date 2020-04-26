@@ -374,17 +374,17 @@
 <p>本文先讨论一些项目的背景知识，然后在学习Django的基础，包括：模型（models），管理后台（admin），视图（views）,模板（templates）和路由（URLs）</p>
 <h2 id="论坛项目"><a href="#论坛项目" class="headerlink" title="论坛项目"></a>论坛项目</h2><p>通过实际的项目学习知识，是个不错的方法，所以在学习模型，视图等其它有趣部分前，简要的讨论我将要开发的这个项目。</p>
 <p>下图关于Web应用程序建模和设计上的一些见解。Web开发和软件开发可不仅仅只是编码。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django01.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django001.png" alt=""></p>
 <h3 id="用例图"><a href="#用例图" class="headerlink" title="用例图"></a>用例图</h3><p>这个项目是一个论坛系统，整个项目的构思是维护几个论坛版块（boards），每个版块像一个分类一样。在指定的版块里面，用户可以通过创建新主题（Topic）开始讨论，其他用户可以参与讨论回复。</p>
 <p>首先需要找到一种方法来区分普通用户和管理员用户，因为只有管理员可以创建版块。下图概述了主要的用例和每种类型的用户角色：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django02.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django002.png" alt=""></p>
 <center>图1：Web Board提供的核心功能用例图</center>
 <br>
 ### 类图
 
 <p>从用例图中，可以开始思考项目所需的实体类有哪些。这些实体就是我们要创建的模型，它与我们的Django应用程序处理的数据非常密切。</p>
 <p>为了能够实现上面描述的用例，我们需要至少实现下面几个模型：Board，Topic，Post和User。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django03.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django003.png" alt=""></p>
 <center>图2：Web Board类图</center>
 <br>
 
@@ -397,7 +397,7 @@
 <p>用户和版块之间也有联系，谁创建的版块。但是这些信息与应用程序无关。还有其他方法可以跟踪这些信息，稍后会谈到。</p>
 <p>现在我们的类图有基本的表现形式，还要考虑这些模型将承载哪些信息。避免让事情变得复杂，试着先把重要的内容列出来，这些内容是启动项目需要的信息。后面我们再使用 Django 的迁移（Migrations）功能来改进模型，将在下一节中详细了解这些内容。</p>
 <p>但就目前而言，这是模型最基本的内容：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django04.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django004.png" alt=""></p>
 <center>图3：强调类（模型）之间关系的类图</center>
 这个类图强调的是模型之间的关系，这些线条和箭头最终会在稍后转换为字段。
 
@@ -408,23 +408,24 @@
 <p>需要注意的是，<strong>我们不需要创建 User 模型</strong>，因为Django已经在contrib包中内置了User模型，我们将直接拿来用。</p>
 <p>关于类图之间的对应关系（数字 1，0..* 等等），这里教你如何阅读：</p>
 <p>一个topic 必须与一个（1）Board（这意味着它不能为空）相关联，但是 Board 下面可能与许多个或者0个 topic 关联 (0..*)。这意味着 Board 下面可能没有主题。（译注：一对多关系）</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django05.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django005.png" alt=""></p>
 <p>一个 Topic 至少有一个 Post（发起话题时，同时会发布一个帖子），并且它也可能有许多 Post（1..*）。一个Post 必须与一个并且只有一个Topic（1）相关联。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django06.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django006.png" alt=""></p>
 <p>一个 Topic 必须有一个且只有一个 User 相关联，topic 的发起者是（1）。而一个用户可能有很多或者没有 topic（0..*）。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django07.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django007.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django008.png" alt=""></p>
 <p>Post 必须有一个并且只有一个与之关联的用户，用户可以有许多或没有 Post（0..*）。Post 和 User之间的第二个关联是直接关联（参见该行最后的箭头），就是 Post 可以被用户修改（updated_by），updated_by 有可能是空（Post 没有被修改）</p>
 <p>画这个类图的另一种方法是强调字段而不是模型之间的关系：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django08.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django009.png" alt=""></p>
 <center>图4：强调类（模型）与属性（字段）的类图</center>
 上面的表示方式与前面的表示方式是对等的，不过这种方式更接近我们将要使用 Django Models API 设计的内容。在这种表示方式中，我们可以更清楚地看到，在 Post 模型中，关联了 Topic，created_by（创建者）和 updated_by（更新者）字段。另一个值得注意的事情是，在 Topic 模型中，有一个名为` posts（）`的操作（一个类方法）。我们将通过反向关系来实现这一目标，Django 将自动在数据库中执行查询以返回特定主题的所有帖子列表。
 
 <p>好了，现在已经够UML了！为了绘制本节介绍的图表，我使用了<a href="http://staruml.io/" target="_blank" rel="noopener">StarUML </a>工具。</p>
 <h3 id="线框图（原型图）"><a href="#线框图（原型图）" class="headerlink" title="线框图（原型图）"></a>线框图（原型图）</h3><p>花了一些时间来设计应用程序的模型后，创建一些线框来定义需要完成的工作，并且清楚地了解我们将要做什么。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django09.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django0010.png" alt=""></p>
 <p>基于线框图，我们可以更深入地了解应用程序中涉及的实体。</p>
 <p>首先，我们需要在主页上显示所有版块：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django10.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django0011.png" alt=""></p>
 <center>图5：论坛项目线框主页列出所有可用的版块</center>
 如果用户点击一个链接，比如点击Django版块，它应该列出所有Django相关的主题：
 
@@ -433,11 +434,11 @@
 这里有两个入口：用户点击“new topic“ 按钮创建新主题，或者点击主题链接查看或参与讨论。
 
 <p>“new topic” 页面：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django11.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django0012.png" alt=""></p>
 <p>现在，主题页面显示了帖子和讨论：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django12.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django0013.png" alt=""></p>
 <p>如果用户点击回复按钮，将看到下面这个页面，并以倒序的方式（最新的在第一个）显示帖子列表：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django13.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django0014.png" alt=""></p>
 <p>绘制这些线框，你可以使用<a href="https://draw.io/" target="_blank" rel="noopener">draw.io</a>服务，它是免费的。</p>
 <h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>这些模型基本上代表了应用程序的数据库设计。接下来要做的是创建 Django 所表示的类，这些类是上面建模的类：<strong>Board，Topic和Post</strong>。<strong>User</strong> 模型被命名为内置应用叫<strong>auth</strong>，它以命名空间<strong>django.contrib.auth</strong> 的形式出现在 <code>INSTALLED_APPS</code> 配置中。</p>
 <p>我们要做的工作都在 boards/models.py 文件中。以下是我们在Django应用程序中如何表示类图的代码：</p>
@@ -485,7 +486,7 @@
 <p>因为这是我们第一次迁移数据库，所以<code>migrate</code>命令把Django contrib app 中现有的迁移文件也执行了，这些内置app列在了<code>INSTALLED_APPS</code>。这是预料之中的。</p>
 <p><code>Applying boards.0001_initial... OK</code>是我们在上一步中生成的迁移脚本</p>
 <p>好了！我们的数据库已经可以使用了。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django14.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django0015.png" alt=""></p>
 <blockquote>
 <p>需要注意的是SQLite是一个产品级数据库。SQLite被许多公司用于成千上万的产品，如所有Android和iOS设备，主流的Web浏览器，Windows 10，MacOS等。</p>
 </blockquote>
@@ -596,7 +597,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpResponse</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">home</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">'Hello, World!'</span>)</span><br></pre></td></tr></table></figure>
 
 <p>我们可以从这里开始写。如果你回想起我们的原型图，图5显示了主页应该是什么样子。我们想要做的是在表格中列出一些版块的名单以及它们的描述信息。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django10.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django0011.png" alt=""></p>
 <p>首先要做的是导入<strong>Board</strong>模型并列出所有的版块</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpResponse</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Board</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">home</span><span class="params">(request)</span>:</span></span><br><span class="line">    boards = Board.objects.all()</span><br><span class="line">    boards_names = list()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> board <span class="keyword">in</span> boards:</span><br><span class="line">        boards_names.append(board.name)</span><br><span class="line"></span><br><span class="line">    response_html = <span class="string">'&lt;br&gt;'</span>.join(boards_names)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> HttpResponse(response_html)</span><br></pre></td></tr></table></figure>
 
@@ -639,7 +640,7 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Boards<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Boards<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">border</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">th</span>&gt;</span>Board<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">th</span>&gt;</span>Posts<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">th</span>&gt;</span>Topics<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">th</span>&gt;</span>Last Post<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">        &#123;% for board in boards %&#125;</span><br><span class="line">          <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">              &#123;&#123; board.name &#125;&#125;<span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">small</span> <span class="attr">style</span>=<span class="string">"color: #888"</span>&gt;</span>&#123;&#123; board.description &#125;&#125;<span class="tag">&lt;/<span class="name">small</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django11.jpg" alt=""></p>
-<h3 id="测试主页"><a href="#测试主页" class="headerlink" title="测试主页"></a>测试主页</h3><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django01.webp" alt=""></p>
+<h3 id="测试主页"><a href="#测试主页" class="headerlink" title="测试主页"></a>测试主页</h3><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django0016.png" alt=""></p>
 <p>测试将是一个反复出现的主题，我将在学习整个教程系列中探讨不同的概念和策略。</p>
 <p>开始写第一个测试。现在，我们将在<strong>boards</strong>应用程序内的<strong>tests.py</strong>文件中操作</p>
 <p><strong>boards/tests.py</strong></p>
@@ -681,7 +682,7 @@
  +-- venv/</code></pre></figure>
 
 <p>转到<a href="https://github.com/twbs/bootstrap/releases/download/v4.4.1/bootstrap-4.4.1-dist.zip" target="_blank" rel="noopener">getbootstrap.com</a>并下载最新版本：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django02.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django0017.png" alt=""></p>
 <p>下载编译版本的CSS和JS</p>
 <p>在你的计算机中，解压 <strong>bootstrap-4.0.0-beta-dist.zip</strong> 文件，将文件 <strong>css/bootstrap.min.css</strong> 复制到我们项目的css文件夹中：</p>
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">myproject/
@@ -715,7 +716,7 @@
 <p>显示效果：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/40426django06.png" alt=""></p>
 <p>到目前为止，我们使用交互式控制台（python manage.py shell）添加了几个新的版块。但我们需要一个更好的方式来实现。接下来，我们将为网站管理员实现一个管理界面来管理这些数据。</p>
 <h2 id="Django-Admin介绍"><a href="#Django-Admin介绍" class="headerlink" title="Django Admin介绍"></a>Django Admin介绍</h2><p>当我们开始一个新项目时，Django已经配置了<strong>Django Admin</strong>，这个应用程序列出的<code>INSTALLED_APPS</code>。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django03.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20426django0018.png" alt=""></p>
 <p>使用 Django Admin的一个很好的例子就是用在博客中; 它可以被作者用来编写和发布文章。另一个例子是电子商务网站，工作人员可以创建，编辑，删除产品。</p>
 <p>现在，我们将配置 Django Admin 来维护我们应用程序的版块。</p>
 <p>我们首先创建一个管理员帐户：</p>
@@ -815,7 +816,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-26T18:09:11+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-26T20:24:03+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2020年4月26日</p>
