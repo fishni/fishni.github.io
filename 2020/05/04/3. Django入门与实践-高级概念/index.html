@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>【Django】3. Django入门与实践-高级概念 - fishni</title>
+  
+    <meta name="keywords" content="python,Web框架">
+  
+  
+    <meta name="description" content="在本节内容，将深入理解两个基本概念: URLs 和 Forms。在这个过程中，我们还将学习其它很多概念，如创建可重用模板和安装第三方库。同时我们还将编写大量单元测试。">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            FISHNI'S BLOG <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-rss fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  更多
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-rss fa-fw'></i>
+        
+        主页
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        分类
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-archive fa-fw'></i>
+        
+        归档
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/05/04/3.%20Django%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/">
+        【Django】3. Django入门与实践-高级概念
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://fishni.github.io/" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/ghost1.jpg">
+    <p>fishni</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/python/Web%E6%A1%86%E6%9E%B6/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>python&nbsp;/&nbsp;Web框架</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年5月4日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>在本节内容，将深入理解两个基本概念: URLs 和 Forms。在这个过程中，我们还将学习其它很多概念，如创建可重用模板和安装第三方库。同时我们还将编写大量单元测试。</p>
+<a id="more"></a>
+
+<p>首先，在之前的学习基础上，更新<strong>models.py</strong></p>
+<p><strong>boards/models.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Topic</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="comment"># other fields...</span></span><br><span class="line">    <span class="comment"># Add `auto_now_add=True` to the `last_updated` field</span></span><br><span class="line">    last_updated = models.DateTimeField(auto_now_add=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Post</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="comment"># other fields...</span></span><br><span class="line">    <span class="comment"># Add `null=True` to the `updated_by` field</span></span><br><span class="line">    updated_by = models.ForeignKey(User, null=<span class="literal">True</span>, related_name=<span class="string">'+'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>现在在已经激活的 virtualenv 环境中执行命令：</p>
+<p><code>python manage.py makemigrations</code></p>
+<p><code>python manage.py migrate</code></p>
+<p>如果在你的程序中 <code>update_by</code>字段中已经有了<code>null=True 且 last_updated</code>字段中有了<code>auto_now_add=True</code>，你可以放心地忽略上面这步操作。</p>
+<h2 id="URLs"><a href="#URLs" class="headerlink" title="URLs"></a>URLs</h2><p>随着我们项目的开发，实现一个新的功能，就是列出某个板块下的所有主题列表，回顾一下，上节画的线框图</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20422django01.jpg" alt=""></p>
+<p>从<strong>myproject</strong> 目录中编写 <strong>urls.py</strong> 开始：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> boards <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^$'</span>, views.home, name=<span class="string">'home'</span>),</span><br><span class="line">    url(<span class="string">r'^boards/(?P&lt;pk&gt;\d+)/$'</span>, views.board_topics, name=<span class="string">'board_topics'</span>),</span><br><span class="line">    url(<span class="string">r'^admin/'</span>, admin.site.urls),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>分析一下 <code>urlpatterns 和 url</code></p>
+<p><strong>URL 调度器（dispatcher）</strong> 和 <strong>URLconf (URL configuration)</strong> 是 Django 应用中的基础部分。</p>
+<p>Django开发团队正在致力于将路由语法简化（译注：就是将原来url函数替换成 path 函数，目前django2.0已经正式使用新的路由语法）</p>
+<p>一个项目可以有很多 <strong>urls.py</strong> 分布在多个应用（app）中。Django 需要一个 <strong>url.py</strong> 作为入口。这个特殊的 <strong>urls.py</strong> 叫做<strong>根路由配置（root URLconf）</strong>。它被定义在 <strong>settings.py</strong> 中。</p>
+<p><strong>myproject/settings.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ROOT_URLCONF = <span class="string">'myproject.urls'</span></span><br></pre></td></tr></table></figure>
+
+<p>它已经自动配置好了，你不需要去改变它任何东西。</p>
+<p>当 Django 接受一个请求(request)， 它就会在项目的 URLconf 中寻找匹配项。他从 <code>urlpatterns</code> 变量的第一条开始，然后在每个 <code>url</code> 中去匹配请求的 URL。</p>
+<p>如果 Django 找到了一个匹配路径，他会把请求(request)发送给 <code>url</code> 的第二个参数 <strong>视图函数（view function）</strong>。<code>urlpatterns</code> 中的顺序很重要，因为 Django 一旦找到匹配就会停止往后搜索。如果 Django 在 URLconf 中没有找到匹配项，他会通过 <strong>Page Not Found</strong> 的错误处理代码抛出一个 <strong>404</strong> 异常。</p>
+<p>这是 <code>url</code>函数的剖析：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">url</span><span class="params">(regex, view, kwargs=None, name=None)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>regex</strong>： 匹配 URL patterns 的正则表达式。注意：正则表达式会忽略掉 <strong>GET 或者 POST</strong> 后面的参数。在一个 <code>http://127.0.0.1:8000/boards/?page=2</code>的请求中，只有 /boards/ 会被处理。</p>
+</li>
+<li><p><strong>view</strong>： 视图函数被用来处理用户请求，同时它还可以是 <strong>django.conf.urls.include</strong> 函数的返回值，它将引用一个外部的<strong>urls.py</strong>文件，例如，你可以使用它来定义一组特定于应用的 URLs，使用前缀将其包含在根 URLconf 中。我们会在后面继续探讨这个概念。</p>
+</li>
+<li><p><strong>kwargs</strong>：传递给目标视图函数的任意关键字参数，它通常用于在可重用视图上进行一些简单的定制，我们不是经常使用它。</p>
+</li>
+<li><p><strong>name</strong>:： 该 URL 的唯一标识符。这是一个非常重要的特征。要始终记得为你的 URLs 命名。所以，很重要的一点是：不要在 views(视图) 或者 templates(模板) 中硬编码 URL，而是通过它的名字去引用 URL。</p>
+</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20429django01.png" alt=""></p>
+<h3 id="基础-URLs-路由"><a href="#基础-URLs-路由" class="headerlink" title="基础 URLs 路由"></a>基础 URLs 路由</h3><p>基础URL创建起来很容易。就只是个匹配字符串的问题。比如说，我们想创建一个 “about” 页面，可以这样定义：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> boards <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^$'</span>, views.home, name=<span class="string">'home'</span>),</span><br><span class="line">    url(<span class="string">r'^about/$'</span>, views.about, name=<span class="string">'about'</span>),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>我们也可以创建更深层一点的 URL 结构</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> boards <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^$'</span>, views.home, name=<span class="string">'home'</span>),</span><br><span class="line">    url(<span class="string">r'^about/$'</span>, views.about, name=<span class="string">'about'</span>),</span><br><span class="line">    url(<span class="string">r'^about/company/$'</span>, views.about_company, name=<span class="string">'about_company'</span>),</span><br><span class="line">    url(<span class="string">r'^about/author/$'</span>, views.about_author, name=<span class="string">'about_author'</span>),</span><br><span class="line">    url(<span class="string">r'^about/author/vitor/$'</span>, views.about_vitor, name=<span class="string">'about_vitor'</span>),</span><br><span class="line">    url(<span class="string">r'^about/author/erica/$'</span>, views.about_erica, name=<span class="string">'about_erica'</span>),</span><br><span class="line">    url(<span class="string">r'^privacy/$'</span>, views.privacy_policy, name=<span class="string">'privacy_policy'</span>),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>这是一些简单的 URL 路由的例子，对于上面所有的例子，视图函数都是下面这个结构：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">about</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="comment"># do something...</span></span><br><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'about.html'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">about_company</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="comment"># do something else...</span></span><br><span class="line">    <span class="comment"># return some data along with the view...</span></span><br><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'about_company.html'</span>, &#123;<span class="string">'company_name'</span>: <span class="string">'Simple Complex'</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="高级-URLs-路由"><a href="#高级-URLs-路由" class="headerlink" title="高级 URLs 路由"></a>高级 URLs 路由</h3><p>更高级的URL路由使用方法是通过正则表达式来匹配某些类型的数据并创建动态 URL</p>
+<p>例如，要创建一个个人资料的页面，诸如 github.com/vitorfs or twitter.com/vitorfs(vitorfs 是我的用户名) 这样，我们可以像以下几点这样做：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> boards <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^$'</span>, views.home, name=<span class="string">'home'</span>),</span><br><span class="line">    url(<span class="string">r'^(?P&lt;username&gt;[\w.@+-]+)/$'</span>, views.user_profile, name=<span class="string">'user_profile'</span>),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>它会匹配 Django 用户模型里面所有有效的用户名。</p>
+<p>现在我们可以看到上面的例子是一个很宽松的 URL。这意味大量的 URL patterns 都会被它匹配，因为它定义在 URL 的根，而不像 <strong>/profile//</strong> 这样。在这种情况下，如果我们想定义一个 <strong>/about/</strong> 的URL，我们要把它定义在这个 username URL pattern 的前面：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> boards <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^$'</span>, views.home, name=<span class="string">'home'</span>),</span><br><span class="line">    url(<span class="string">r'^about/$'</span>, views.about, name=<span class="string">'about'</span>),</span><br><span class="line">    url(<span class="string">r'^(?P&lt;username&gt;[\w.@+-]+)/$'</span>, views.user_profile, name=<span class="string">'user_profile'</span>),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>如果这个 “about” 页面定义在usrename URL pattern 后面，Django 将永远找不到它，因为 “about” 这个单词会先被usrname的正则表达式所匹配到，视图函数<code>user_profile</code>将会被执行而不是执行 <code>about</code></p>
+<p>此外，这有一些副作用。例如，从现在开始，我们要把 “about” 视为禁止使用的username，因为如果有用户将 “about” 作为他们的username，他们将永远不能看到他们的个人资料页面，而看到的about页面。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20429django02.png" alt=""></p>
+<blockquote>
+<p>如果你想给用户个人主页设置一个很酷的主页的URL，那么避免冲突最简单的方法是添加一个前缀，例如：/u/vitorfs，或者像 Medium 一样使用 @ 作为前缀 /@vitorfs/。</p>
+</blockquote>
+<p>这些 URL 路由的主要思想是当 URL 的一部分被当作某些资源(这些资源用来构成某个页面)的标识的时候就去创建一个动态页面。比如说，这个标识可以是一个整数的 ID 或者是一个字符串</p>
+<p>开始的时候，我们使用 <strong>Board</strong> ID 去创建 <strong>Topics</strong>列表的动态页面。让我们再来看一下我在 <strong>URLs</strong> 开头的部分给出的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url(<span class="string">r'^boards/(?P&lt;pk&gt;\d+)/$'</span>, views.board_topics, name=<span class="string">'board_topics'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>正则表达式中的<code>\d+</code>会匹配一个任意大小的整数值。这个整数值用来从数据库中取到 指定的 <strong>Board</strong>。现在注意我们这样写这个正则表达式 <code>(?P&lt;pk&gt;\d+)</code>，这是告诉 Django 将捕获到的值放入名为 <strong>pk</strong> 的关键字参数中。</p>
+<p>这时我们为它写的一个视图函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">board_topics</span><span class="params">(request, pk)</span>:</span></span><br><span class="line">    <span class="comment"># do something ...</span></span><br></pre></td></tr></table></figure>
+
+<p>因为我们使用了 <code>(?P&lt;pk&gt;\d+)</code> 正则表达式，在<code>board_topics</code>函数中，关键字参数必须命名为 <strong>pk</strong></p>
+<p>如果你想在视图函数使用任意名字的参数，那么可以这样定义：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url(<span class="string">r'^boards/(\d+)/$'</span>, views.board_topics, name=<span class="string">'board_topics'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然后在视图函数可以这样定义：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">board_topics</span><span class="params">(request, board_id)</span>:</span></span><br><span class="line">    <span class="comment"># do something...</span></span><br></pre></td></tr></table></figure>
+
+<p>或者这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">board_topics</span><span class="params">(request, id)</span>:</span></span><br><span class="line">    <span class="comment"># do something...</span></span><br></pre></td></tr></table></figure>
+
+<p>名字无关紧要，但是使用命名参数是一个很好的做法，因为，当我们有个更大的URL去捕获多个 ID 和变量时，这会更便于我们阅读</p>
+<blockquote>
+<p>PK or ID？<br><br>PK 表示主键（Primary key），这是访问模型的主键ID的简写方法，所有Django模型都有这个属性，更多的时候，使用pk属性和使用id是一样的，这是因为如果我们没有给model定义主键时，Django将自动创建一个 AutoField 类型的字段，名字叫做 id，它就是主键。<br>如果你给model定义了一个不同的主键，例如，假设 email 是你的主键，你就可以这样访问：obj.email 或者 obj.pk，二者是等价的。</p>
+</blockquote>
+<h3 id="使用-URLs-API"><a href="#使用-URLs-API" class="headerlink" title="使用 URLs API"></a>使用 URLs API</h3><p>我们来实现我在开头提到的主题列表页面</p>
+<p>首先，编辑 <strong>urls.py</strong>， 添加新的 URL 路由</p>
+<p><strong>myproject/urls.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> boards <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^$'</span>, views.home, name=<span class="string">'home'</span>),</span><br><span class="line">    url(<span class="string">r'^boards/(?P&lt;pk&gt;\d+)/$'</span>, views.board_topics, name=<span class="string">'board_topics'</span>),</span><br><span class="line">    url(<span class="string">r'^admin/'</span>, admin.site.urls),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>现在创建视图函数 <code>board_topics</code>：</p>
+<p><strong>boards/views.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Board</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">home</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="comment"># code suppressed for brevity</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">board_topics</span><span class="params">(request, pk)</span>:</span></span><br><span class="line">    board = Board.objects.get(pk=pk)</span><br><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'topics.html'</span>, &#123;<span class="string">'board'</span>: board&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>在 <strong>templates</strong> 目录中，创建一个名为 <strong>topics.html</strong> 的模板：</p>
+<p><strong>templates/topics.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load static %&#125;<span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;&#123; board.name &#125;&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"&#123;% static 'css/bootstrap.min.css' %&#125;"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">ol</span> <span class="attr">class</span>=<span class="string">"breadcrumb my-4"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span>Boards<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item active"</span>&gt;</span>&#123;&#123; board.name &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：我们现在只是创建新的 HTML 模板。不用担心，在下一节中我会向你展示如何创建可重用模板。</p>
+</blockquote>
+<p>现在在浏览器中打开 URL <code>http://127.0.0.1:8000/boards/1/</code> ，结果应该是下面这个页面：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20429django03.png" alt=""></p>
+<p>进行测试编写，编辑 <strong>test.py</strong>，在文件底部添加下面的测试：</p>
+<p><strong>boards/tests.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.core.urlresolvers <span class="keyword">import</span> reverse</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> resolve</span><br><span class="line"><span class="keyword">from</span> django.test <span class="keyword">import</span> TestCase</span><br><span class="line"><span class="keyword">from</span> .views <span class="keyword">import</span> home, board_topics</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Board</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomeTests</span><span class="params">(TestCase)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoardTopicsTests</span><span class="params">(TestCase)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUp</span><span class="params">(self)</span>:</span></span><br><span class="line">        Board.objects.create(name=<span class="string">'Django'</span>, description=<span class="string">'Django board.'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_board_topics_view_success_status_code</span><span class="params">(self)</span>:</span></span><br><span class="line">        url = reverse(<span class="string">'board_topics'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">        response = self.client.get(url)</span><br><span class="line">        self.assertEquals(response.status_code, <span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_board_topics_view_not_found_status_code</span><span class="params">(self)</span>:</span></span><br><span class="line">        url = reverse(<span class="string">'board_topics'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">99</span>&#125;)</span><br><span class="line">        response = self.client.get(url)</span><br><span class="line">        self.assertEquals(response.status_code, <span class="number">404</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_board_topics_url_resolves_board_topics_view</span><span class="params">(self)</span>:</span></span><br><span class="line">        view = resolve(<span class="string">'/boards/1/'</span>)</span><br><span class="line">        self.assertEquals(view.func, board_topics)</span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意几件事情。这次我们使用了 <code>setUp</code>方法。在这个方法中，我们创建了一个 <strong>Board</strong> 实例来用于测试。我们必须这样做，因为 Django 的测试机制不会针对当前数据库跑你的测试。运行 Django 测试时会即时创建一个新的数据库，应用所有的model(模型)迁移 ，运行测试完成后会销毁这个用于测试的数据库。</p>
+<p>因此在 <code>setUp</code> 方法中，我们准备了运行测试的环境，用来模拟场景。</p>
+<ul>
+<li><p><code>test_board_topics_view_success_status_code</code> 方法：测试 Django 是否对于现有的 Board 返回 status code(状态码) 200(成功)。</p>
+</li>
+<li><p><code>test_board_topics_view_not_found_status_code</code> 方法：测试 Django 是否对于不存在于数据库的 Board 返回 status code 404(页面未找到)。</p>
+</li>
+<li><p><code>test_board_topics_url_resolves_board_topics_view</code> 方法：测试 Django 是否使用了正确的视图函数去渲染 topics。</p>
+</li>
+</ul>
+<p>现在来运行一下测试：</p>
+<p><code>python manage.py test</code></p>
+<p>输出如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Creating test database for alias &#39;default&#39;...</span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line">.E...</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">ERROR: test_board_topics_view_not_found_status_code (boards.tests.BoardTopicsTests)</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line"># ...</span><br><span class="line">boards.models.DoesNotExist: Board matching query does not exist.</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 5 tests in 0.093s</span><br><span class="line"></span><br><span class="line">FAILED (errors&#x3D;1)</span><br><span class="line">Destroying test database for alias &#39;default&#39;...</span><br></pre></td></tr></table></figure>
+
+<p>测试 <strong>test_board_topics_view_not_found_status_code</strong> 失败。我们可以在 Traceback 中看到返回了一个 exception(异常) “boards.models.DoesNotExist: Board matching query does not exist.”</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20429django04.png" alt=""></p>
+<p>在 <code>DEBUG=False</code> 的生产环境中，访问者会看到一个 <strong>500 Internal Server Error</strong> 的页面。但是这不是我们希望得到的。</p>
+<p>想要一个 <strong>404 Page Not Found</strong> 的页面。让我们来重写我们的视图函数。</p>
+<p><strong>boards/views.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render</span><br><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> Http404</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Board</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">home</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="comment"># code suppressed for brevity</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">board_topics</span><span class="params">(request, pk)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        board = Board.objects.get(pk=pk)</span><br><span class="line">    <span class="keyword">except</span> Board.DoesNotExist:</span><br><span class="line">        <span class="keyword">raise</span> Http404</span><br><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'topics.html'</span>, &#123;<span class="string">'board'</span>: board&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>重新测试一下：</p>
+<p><code>python manage.py test</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Creating test database for alias &#39;default&#39;...</span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line">.....</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 5 tests in 0.021s</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line">Destroying test database for alias &#39;default&#39;...</span><br></pre></td></tr></table></figure>
+
+
+<p>访问浏览器，它将按照预期工作：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20429django05.png" alt=""></p>
+<p>这是 Django 在 <code>DEBUG=False</code> 的情况下显示的默认页面。稍后，我们可以自定义 404 页面去显示一些其他的东西。</p>
+<p>这是一个常见的用法。事实上， Django 有一个快捷方式去得到一个对象，或者返回一个不存在的对象 404。</p>
+<p>因此让我们再来重写一下 <strong>board_topics</strong> 函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render, get_object_or_404</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Board</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">home</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="comment"># code suppressed for brevity</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">board_topics</span><span class="params">(request, pk)</span>:</span></span><br><span class="line">    board = get_object_or_404(Board, pk=pk)</span><br><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'topics.html'</span>, &#123;<span class="string">'board'</span>: board&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>修改了代码，测试一下。</p>
+<p><code>python manage.py test</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Creating test database for alias &#39;default&#39;...</span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line">.....</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 5 tests in 0.043s</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line">Destroying test database for alias &#39;default&#39;...</span><br></pre></td></tr></table></figure>
+
+<p>没有破坏任何东西。我们可以继续我们的开发。</p>
+<p>下一步是在屏幕上创建一个导航链接。主页应该有一个链接指引访问者去访问指定板块下面的主题列表页面。同样地，topics 页面也应当有一个返回主页的链接。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20429django06.png" alt=""></p>
+<p>我们可以先为 <code>HomeTests</code> 类编写一些测试：</p>
+<p><strong>boards/test.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomeTests</span><span class="params">(TestCase)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUp</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.board = Board.objects.create(name=<span class="string">'Django'</span>, description=<span class="string">'Django board.'</span>)</span><br><span class="line">        url = reverse(<span class="string">'home'</span>)</span><br><span class="line">        self.response = self.client.get(url)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_home_view_status_code</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.assertEquals(self.response.status_code, <span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_home_url_resolves_home_view</span><span class="params">(self)</span>:</span></span><br><span class="line">        view = resolve(<span class="string">'/'</span>)</span><br><span class="line">        self.assertEquals(view.func, home)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_home_view_contains_link_to_topics_page</span><span class="params">(self)</span>:</span></span><br><span class="line">        board_topics_url = reverse(<span class="string">'board_topics'</span>, kwargs=&#123;<span class="string">'pk'</span>: self.board.pk&#125;)</span><br><span class="line">        self.assertContains(self.response, <span class="string">'href="&#123;0&#125;"'</span>.format(board_topics_url))</span><br></pre></td></tr></table></figure>
+
+<p>注意到现在我们同样在 <strong>HomeTests</strong> 中添加了 <strong>setUp</strong> 方法。这是因为我们现在需要一个 <strong>Board</strong> 实例，并且我们将 <strong>url</strong> 和 <strong>response</strong> 移到了 <strong>setUp</strong>，所以我们能在新测试中重用相同的 response。</p>
+<p>这里的新测试是 <strong>test_home_view_contains_link_to_topics_page</strong>。我们使用 <strong>assertContains</strong> 方法来测试 response 主体部分是否包含给定的文本。我们在测试中使用的文本是 <code>a</code>标签的 <code>href</code>部分。所以基本上我们是在测试 response 主体是否包含文本<code>href=&quot;/boards/1/&quot;</code>。</p>
+<p>让我们运行这个测试：</p>
+<p><code>python manage.py test</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Creating test database for alias &#39;default&#39;...</span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line">....F.</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">FAIL: test_home_view_contains_link_to_topics_page (boards.tests.HomeTests)</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">AssertionError: False is not true : Couldn&#39;t find &#39;href&#x3D;&quot;&#x2F;boards&#x2F;1&#x2F;&quot;&#39; in response</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 6 tests in 0.034s</span><br><span class="line"></span><br><span class="line">FAILED (failures&#x3D;1)</span><br><span class="line">Destroying test database for alias &#39;default&#39;...</span><br></pre></td></tr></table></figure>
+
+<p>现在我们可以编写能通过这个测试的代码。</p>
+<p>编写 <strong>home.html</strong> 模板：</p>
+<p><strong>templates/home.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- code suppressed for brevity --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">  &#123;% for board in boards %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'board_topics' board.pk %&#125;"</span>&gt;</span>&#123;&#123; board.name &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">small</span> <span class="attr">class</span>=<span class="string">"text-muted d-block"</span>&gt;</span>&#123;&#123; board.description &#125;&#125;<span class="tag">&lt;/<span class="name">small</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"align-middle"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"align-middle"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">  &#123;% endfor %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- code suppressed for brevity --&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们只改动了这一行：</p>
+<p><code>{{ board.name }}</code></p>
+<p>变为：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'board_topics' board.pk %&#125;"</span>&gt;</span>&#123;&#123; board.name &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>始终使用 <code>{% url %}</code> 模板标签去写应用的 URL。第一个参数是 URL 的名字(定义在 URLconf， 即 <strong>urls.py</strong>)，然后你可以根据需求传递任意数量的参数。</p>
+<p>如果是一个像主页这种简单的 URL, 那就是 <code>{% url 'home' %}</code>。</p>
+<p>保存文件然后再运行一下测试：</p>
+<p><code>python manage.py test</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Creating test database for alias &#39;default&#39;...</span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line">......</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 6 tests in 0.035s</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line">Destroying test database for alias &#39;default&#39;...</span><br></pre></td></tr></table></figure>
+
+<p>访问浏览器：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20429django07.png" alt=""></p>
+<p>现在轮到返回的链接了，我们可以先写测试：</p>
+<p><strong>boards/tests.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoardTopicsTests</span><span class="params">(TestCase)</span>:</span></span><br><span class="line">    <span class="comment"># code suppressed for brevity...</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_board_topics_view_contains_link_back_to_homepage</span><span class="params">(self)</span>:</span></span><br><span class="line">        board_topics_url = reverse(<span class="string">'board_topics'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">        response = self.client.get(board_topics_url)</span><br><span class="line">        homepage_url = reverse(<span class="string">'home'</span>)</span><br><span class="line">        self.assertContains(response, <span class="string">'href="&#123;0&#125;"'</span>.format(homepage_url))</span><br></pre></td></tr></table></figure>
+
+<p>运行测试：</p>
+<p><code>python manage.py test</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Creating test database for alias &#39;default&#39;...</span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line">.F.....</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">FAIL: test_board_topics_view_contains_link_back_to_homepage (boards.tests.BoardTopicsTests)</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 7 tests in 0.053s</span><br><span class="line"></span><br><span class="line">FAILED (failures&#x3D;1)</span><br><span class="line">Destroying test database for alias &#39;default&#39;...</span><br></pre></td></tr></table></figure>
+
+<p>更新主题列表模板：</p>
+<p><strong>templates/topics.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load static %&#125;<span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="comment">&lt;!-- code suppressed for brevity --&gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">ol</span> <span class="attr">class</span>=<span class="string">"breadcrumb my-4"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'home' %&#125;"</span>&gt;</span>Boards<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item active"</span>&gt;</span>&#123;&#123; board.name &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>运行测试：</p>
+<p><code>python manage.py test</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Creating test database for alias &#39;default&#39;...</span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line">.......</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 7 tests in 0.038s</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line">Destroying test database for alias &#39;default&#39;...</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20429django08.png" alt=""></p>
+<p> URL 路由是一个 web 应用程序的基本组成部分。有了这些知识，我们才能继续开发。下一步是完成 URL 的部分，你会看到一些使用 URL patterns 的总结。</p>
+<h3 id="实用URL模式列表"><a href="#实用URL模式列表" class="headerlink" title="实用URL模式列表"></a>实用URL模式列表</h3><p>技巧部分是正则表达式。我准备了一个最常用的 URL patterns 的列表。当你需要一个特定的 URL 时你可以参考这个列表。</p>
+<table style="font-size: 1.4rem">
+  <thead>
+    <tr>
+      <th colspan="2" style="font-size: 2rem">主键 自增字段</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>正则表达式</th>
+      <td><code>(?P&lt;pk&gt;\d+)</code></td>
+    </tr>
+    <tr>
+      <th>举例</th>
+      <td><code>url(r'^questions/(?P&lt;pk&gt;\d+)/$', views.question, name='question')</code></td>
+    </tr>
+    <tr>
+      <th>有效URL</th>
+      <td><code>/questions/934/</code></td>
+    </tr>
+    <tr>
+      <th>捕获数据</th>
+      <td><code>{'pk': '934'}</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="font-size: 1.4rem">
+  <thead>
+    <tr>
+      <th colspan="2" style="font-size: 2rem">Slug 字段</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>正则</th>
+      <td><code>(?P&lt;slug&gt;[-\w]+)</code></td>
+    </tr>
+    <tr>
+      <th>举例</th>
+      <td><code>url(r'^posts/(?P&lt;slug&gt;[-\w]+)/$', views.post, name='post')</code></td>
+    </tr>
+    <tr>
+      <th>有效 URL</th>
+      <td><code>/posts/hello-world/</code></td>
+    </tr>
+    <tr>
+      <th>捕获数据</th>
+      <td><code>{'slug': 'hello-world'}</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="font-size: 1.4rem">
+  <thead>
+    <tr>
+      <th colspan="2" style="font-size: 2rem">有主键的 Slug 字段</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>正则</th>
+      <td><code>(?P&lt;slug&gt;[-\w]+)-(?P&lt;pk&gt;\d+)</code></td>
+    </tr>
+    <tr>
+      <th>举例</th>
+      <td><code>url(r'^blog/(?P&lt;slug&gt;[-\w]+)-(?P&lt;pk&gt;\d+)/$', views.blog_post, name='blog_post')</code></td>
+    </tr>
+    <tr>
+      <th>有效 URL</th>
+      <td><code>/blog/hello-world-159/</code></td>
+    </tr>
+    <tr>
+      <th>捕获数据</th>
+      <td><code>{'slug': 'hello-world', 'pk': '159'}</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="font-size: 1.4rem">
+  <thead>
+    <tr>
+      <th colspan="2" style="font-size: 2rem">
+Django 用户名</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>正则</th>
+      <td><code>(?P&lt;username&gt;[\w.@+-]+)</code></td>
+    </tr>
+    <tr>
+      <th>举例</th>
+      <td><code>url(r'^profile/(?P&lt;username&gt;[\w.@+-]+)/$', views.user_profile, name='user_profile')</code></td>
+    </tr>
+    <tr>
+      <th>有效 URL</th>
+      <td><code>/profile/vitorfs/</code></td>
+    </tr>
+    <tr>
+      <th>捕获数据</th>
+      <td><code>{'username': 'vitorfs'}</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="font-size: 1.4rem">
+  <thead>
+    <tr>
+      <th colspan="2" style="font-size: 2rem">Year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>正则</th>
+      <td><code>(?P&lt;year&gt;[0-9]{4})</code></td>
+    </tr>
+    <tr>
+      <th>举例</th>
+      <td><code>url(r'^articles/(?P&lt;year&gt;[0-9]{4})/$', views.year_archive, name='year')</code></td>
+    </tr>
+    <tr>
+      <th>有效 URL</th>
+      <td><code>/articles/2016/</code></td>
+    </tr>
+    <tr>
+      <th>捕获数据</th>
+      <td><code>{'year': '2016'}</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="font-size: 1.4rem">
+  <thead>
+    <tr>
+      <th colspan="2" style="font-size: 2rem">Year / Month</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>正则</th>
+      <td><code>(?P&lt;year&gt;[0-9]{4})/(?P&lt;month&gt;[0-9]{2})</code></td>
+    </tr>
+    <tr>
+      <th>举例</th>
+      <td><code>url(r'^articles/(?P&lt;year&gt;[0-9]{4})/(?P&lt;month&gt;[0-9]{2})/$', views.month_archive, name='month')</code></td>
+    </tr>
+    <tr>
+      <th>有效 URL</th>
+      <td><code>/articles/2016/01/</code></td>
+    </tr>
+    <tr>
+      <th>捕获数据</th>
+      <td><code>{'year': '2016', 'month': '01'}</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>你可以在这篇文章中看到更多关于正则表达式匹配的细节：<a href="https://simpleisbetterthancomplex.com/references/2016/10/10/url-patterns.html" target="_blank" rel="noopener">https://simpleisbetterthancomplex.com/references/2016/10/10/url-patterns.html</a></p>
+<h2 id="复用模板"><a href="#复用模板" class="headerlink" title="复用模板"></a>复用模板</h2><p>到目前为止，我们一直在复制和粘贴 HTML 文档的多个部分。从长远来看是不可行的。这也是一个坏的做法。</p>
+<p>下面我们将重写 HTML 模板，创建一个<strong>master page(母版页)</strong>，其他模板添加它所独特的部分。</p>
+<p>在<strong>templates</strong> 文件夹中创建一个名为 <strong>base.html</strong> 的文件：</p>
+<p><strong>templates/base.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load static %&#125;<span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;% block title %&#125;Django Boards&#123;% endblock %&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"&#123;% static 'css/bootstrap.min.css' %&#125;"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">ol</span> <span class="attr">class</span>=<span class="string">"breadcrumb my-4"</span>&gt;</span></span><br><span class="line">        &#123;% block breadcrumb %&#125;</span><br><span class="line">        &#123;% endblock %&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br><span class="line">      &#123;% block content %&#125;</span><br><span class="line">      &#123;% endblock %&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这是我们的母版页。每个我们创建的模板都 <strong>extend(继承)</strong> 这个特殊的模板。现在我们介绍 <code>{% block %}</code> 标签。它用于在模板中保留一个空间，一个”子”模板(继承这个母版页的模板)可以在这个空间中插入代码和 HTML。</p>
+<p>在 <code>{% block title %}</code> 中我们还设置了一个默认值 “Django Boards.”。如果我们在子模板中未设置 <code>{% block title %}</code>的值它就会被使用。</p>
+<p>现在让我们重写我们的两个模板： <strong>home.html 和 topics.html</strong>。</p>
+<p><strong>templates/home.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends 'base.html' %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block breadcrumb %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item active"</span>&gt;</span>Boards<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">"table"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">thead</span> <span class="attr">class</span>=<span class="string">"thead-inverse"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>Board<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>Posts<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>Topics<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>Last Post<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">      &#123;% for board in boards %&#125;</span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'board_topics' board.pk %&#125;"</span>&gt;</span>&#123;&#123; board.name &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">small</span> <span class="attr">class</span>=<span class="string">"text-muted d-block"</span>&gt;</span>&#123;&#123; board.description &#125;&#125;<span class="tag">&lt;/<span class="name">small</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"align-middle"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"align-middle"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      &#123;% endfor %&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>home.html</strong> 的第一行是 <code>{% extends 'base.html' %}</code>。这个标签用来告诉 Django 使用 <strong>base.html</strong> 作为母版页。之后，我们使用 blocks 来放置这个页面独有的部分。</p>
+<p><strong>templates/topics.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends 'base.html' %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block title %&#125;</span><br><span class="line">  &#123;&#123; board.name &#125;&#125; - &#123;&#123; block.super &#125;&#125;</span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block breadcrumb %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'home' %&#125;"</span>&gt;</span>Boards<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item active"</span>&gt;</span>&#123;&#123; board.name &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line">    <span class="comment">&lt;!-- just leaving it empty for now. we will add core here soon. --&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 <strong>topics.html</strong> 中，我们改变了 <code>{% block title %}</code> 的默认值。注意我们可以通过调用 <code>{{ block.super }}</code> 来重用 block 的默认值。这里我们使用的网页标题是 <strong>base.html</strong> 中定义的 “Django Boards”。所以对于 “Python” 的 board 页面，这个标题是 “Python - Django Boards”,对于 “Random” board 标题会是 “Random - Django Boards”。</p>
+<p>运行测试，并未破坏之前：</p>
+<p><code>python manage.py test</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Creating test database for alias &#39;default&#39;...</span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line">.......</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 7 tests in 0.055s</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line">Destroying test database for alias &#39;default&#39;...</span><br></pre></td></tr></table></figure>
+
+<p>有了 <strong>bast.html</strong> 模板，我们可以很轻松地在顶部添加一个菜单块：</p>
+<p><strong>templates/base.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load static %&#125;<span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;% block title %&#125;Django Boards&#123;% endblock %&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"&#123;% static 'css/bootstrap.min.css' %&#125;"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">nav</span> <span class="attr">class</span>=<span class="string">"navbar navbar-expand-lg navbar-dark bg-dark"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"navbar-brand"</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'home' %&#125;"</span>&gt;</span>Django Boards<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">ol</span> <span class="attr">class</span>=<span class="string">"breadcrumb my-4"</span>&gt;</span></span><br><span class="line">        &#123;% block breadcrumb %&#125;</span><br><span class="line">        &#123;% endblock %&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br><span class="line">      &#123;% block content %&#125;</span><br><span class="line">      &#123;% endblock %&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问浏览器：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20503django01.png" alt=""><br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20503django02.png" alt=""></p>
+<p>这里使用的 HTML 是 Bootstrap 4 Navbar 组件 的一部分。</p>
+<h2 id="表单处理"><a href="#表单处理" class="headerlink" title="表单处理"></a>表单处理</h2><p>Forms(表单) 用来处理我们的输入。这在任何 web 应用或者网站中都是很常见的任务。标准的做法是通过 HTML 表单实现，用户输入一些数据，将其提交给服务器，然后服务器处理它。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20503django03.png" alt=""></p>
+<p>表单处理是一项非常复杂的任务，因为它涉及到与应用多个层面的交互。有很多需要关心的问题。例如，提交给服务器的所有数据都是字符串的形式，所以在我们使用它之前需要将其转换为需要的数据类型(整形，浮点型，日期等)。我们必须验证有关应用程序业务逻辑的数据。我们还需要妥善地清理和审查数据，以避免一些诸如 SQL 注入和 XSS 攻击等安全问题。</p>
+<p>好消息是，Django Forms API 使整个过程变的更加简单，从而实现了大量工作的自动化。而且，最终的结果比大多数程序员自己去实现的代码更加安全。所以，不管 HTML 的表单多么简单，总是使用Form API。</p>
+<h3 id="自己实现表单"><a href="#自己实现表单" class="headerlink" title="自己实现表单"></a>自己实现表单</h3><p>起初，我想直接跳到表单 API。但是我觉得花点时间去了解一下表单处理的基本细节是一个不错的主意。否则，这玩意儿将会看起来像魔术一样，这是一件坏事，因为当出现错误时，你将不知道怎么去找到问题所在。</p>
+<p>随着对一些编程概念的深入理解，我们可以感觉到自己能更好地掌控一些情况。掌控是很重要的，因为它让我们写代码的时候更有信心。一旦我们能确切地知道发生了什么，实现可预见行为的代码就容易多了。调试和查找错误也变得很容易，因为你知道去哪里查找。</p>
+<p>无论如何，让我们开始实现下面的表单：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20503django04.png" alt=""></p>
+<p>这是我们在前面学习绘制的线框图。我现在意识到这个可能是一个不好的例子，因为这个特殊的表单涉及到处理两个不同模型数据：<strong>Topic(subject)</strong> 和 <strong>Post(message)</strong>。</p>
+<p>还有一点很重要的我们到现在为止还没讨论过，就是用户认证。我们应该只为登录认证过的用户去显示这个页面。通过这种方式，我们才能知道是谁创建了 <strong>Topic 或者 Post</strong>。</p>
+<p>现在让我们抽象一些细节，重点了解一下怎么在数据库中保存用户的输入。</p>
+<p>首先，先创建一个新的 URL 路由，命名为 <strong>new_topic</strong>：</p>
+<p><strong>myproject/urls.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> boards <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^$'</span>, views.home, name=<span class="string">'home'</span>),</span><br><span class="line">    url(<span class="string">r'^boards/(?P&lt;pk&gt;\d+)/$'</span>, views.board_topics, name=<span class="string">'board_topics'</span>),</span><br><span class="line">    url(<span class="string">r'^boards/(?P&lt;pk&gt;\d+)/new/$'</span>, views.new_topic, name=<span class="string">'new_topic'</span>),</span><br><span class="line">    url(<span class="string">r'^admin/'</span>, admin.site.urls),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>我们创建的这个 URL 能帮我们标识正确的 <strong>Board</strong></p>
+<p>现在来创建<strong>new_topic</strong> 的 视图函数：</p>
+<p><strong>boards/views.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render, get_object_or_404</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Board</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">new_topic</span><span class="params">(request, pk)</span>:</span></span><br><span class="line">    board = get_object_or_404(Board, pk=pk)</span><br><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'new_topic.html'</span>, &#123;<span class="string">'board'</span>: board&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>目前为止， <strong>new_topic</strong> 的视图函数看起来和 <strong>board_topics</strong> 恰好相同。这是故意的，让我们一步步地来。</p>
+<p>现在我们需要一个名为 <strong>new_topic.html</strong> 的模板：</p>
+<p><strong>templates/new_topic.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends 'base.html' %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block title %&#125;Start a New Topic&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block breadcrumb %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'home' %&#125;"</span>&gt;</span>Boards<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'board_topics' board.pk %&#125;"</span>&gt;</span>&#123;&#123; board.name &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item active"</span>&gt;</span>New topic<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在我们只有 breadcrumb 导航。注意我们包含了返回到 <strong>board_topics</strong> 视图 URL。</p>
+<p>访问浏览器：<code>http://127.0.0.1:8000/boards/1/new/</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20503django05.png" alt=""></p>
+<p>我们依然还没有实现到达这个新页面的方法，但是如果我们将 URL 改为 <code>http://127.0.0.1:8000/boards/2/new/</code>，它会把我们带到 <strong>Python Board</strong> 的页面：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20503django06.png" alt=""></p>
+<blockquote>
+<p>注意：如果你没有跟着上一节课程一步步地做，你的结果和我的可能有些不一样。在我这个例子中，我的数据库有 3 个 Board 实例，分别是 Django = 1, Python = 2, 和 Random = 3。这些数字是数据库中的 ID，用来找到正确的资源。</p>
+</blockquote>
+<p>我们可以增加一些测试了：</p>
+<p><strong>boards/tests.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.core.urlresolvers <span class="keyword">import</span> reverse</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> resolve</span><br><span class="line"><span class="keyword">from</span> django.test <span class="keyword">import</span> TestCase</span><br><span class="line"><span class="keyword">from</span> .views <span class="keyword">import</span> home, board_topics, new_topic</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Board</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomeTests</span><span class="params">(TestCase)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoardTopicsTests</span><span class="params">(TestCase)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewTopicTests</span><span class="params">(TestCase)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUp</span><span class="params">(self)</span>:</span></span><br><span class="line">        Board.objects.create(name=<span class="string">'Django'</span>, description=<span class="string">'Django board.'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_new_topic_view_success_status_code</span><span class="params">(self)</span>:</span></span><br><span class="line">        url = reverse(<span class="string">'new_topic'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">        response = self.client.get(url)</span><br><span class="line">        self.assertEquals(response.status_code, <span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_new_topic_view_not_found_status_code</span><span class="params">(self)</span>:</span></span><br><span class="line">        url = reverse(<span class="string">'new_topic'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">99</span>&#125;)</span><br><span class="line">        response = self.client.get(url)</span><br><span class="line">        self.assertEquals(response.status_code, <span class="number">404</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_new_topic_url_resolves_new_topic_view</span><span class="params">(self)</span>:</span></span><br><span class="line">        view = resolve(<span class="string">'/boards/1/new/'</span>)</span><br><span class="line">        self.assertEquals(view.func, new_topic)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_new_topic_view_contains_link_back_to_board_topics_view</span><span class="params">(self)</span>:</span></span><br><span class="line">        new_topic_url = reverse(<span class="string">'new_topic'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">        board_topics_url = reverse(<span class="string">'board_topics'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">        response = self.client.get(new_topic_url)</span><br><span class="line">        self.assertContains(response, <span class="string">'href="&#123;0&#125;"'</span>.format(board_topics_url))</span><br></pre></td></tr></table></figure>
+
+<p>关于我们的测试中新的 NewTopicTests 类的快速总结：</p>
+<ul>
+<li><p><strong>setUp</strong>：创建一个测试中使用的 *<em>Board *</em>实例</p>
+</li>
+<li><p><strong>test_new_topic_view_success_status_code</strong>：检查发给 view 的请求是否成功</p>
+</li>
+<li><p><strong>test_new_topic_view_not_found_status_code</strong>：检查当 <strong>Board</strong> 不存在时 view 是否会抛出一个 404 的错误</p>
+</li>
+<li><p><strong>test_new_topic_url_resolves_new_topic_view</strong>：检查是否正在使用正确的 view</p>
+</li>
+<li><p><strong>test_new_topic_view_contains_link_back_to_board_topics_view</strong>：确保导航能回到 topics 的列表</p>
+</li>
+</ul>
+<p>运行测试：</p>
+<p><code>python manage.py test</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Creating test database for alias &#39;default&#39;...</span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line">...........</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 11 tests in 0.046s</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line">Destroying test database for alias &#39;default&#39;...</span><br></pre></td></tr></table></figure>
+
+<p>成功，现在我们可以去开始创建表单了。</p>
+<p><strong>templates/new_topic.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends 'base.html' %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block title %&#125;Start a New Topic&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block breadcrumb %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'home' %&#125;"</span>&gt;</span>Boards<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'board_topics' board.pk %&#125;"</span>&gt;</span>&#123;&#123; board.name &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item active"</span>&gt;</span>New topic<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line">    &#123;% csrf_token %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"id_subject"</span>&gt;</span>Subject<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"id_subject"</span> <span class="attr">name</span>=<span class="string">"subject"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"id_message"</span>&gt;</span>Message<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"id_message"</span> <span class="attr">name</span>=<span class="string">"message"</span> <span class="attr">rows</span>=<span class="string">"5"</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-success"</span>&gt;</span>Post<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是一个使用 Bootstrap 4 提供的 CSS 类手动创建的 HTML 表单。访问浏览器：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20503django07.png" alt=""></p>
+<p>在 <code>&lt;form&gt;</code> 标签中，我们定义了 <code>method</code> 属性。它会告诉浏览器我们想如何与服务器通信。HTTP 规范定义了几种 request methods(请求方法)。但是在大部分情况下，我们只需要使用 <strong>GET</strong> 和 <strong>POST</strong> 两种 request(请求)类型。</p>
+<p><strong>GET</strong> 可能是最常见的请求类型了。它用于从服务器请求数据。每当你点击了一个链接或者直接在浏览器中输入了一个网址时，你就创建一个 <strong>GET</strong> 请求。</p>
+<p><strong>POST</strong> 用于当我们想更改服务器上的数据的时候。一般来说，每次我们发送数据给服务器都会导致资源状态的变化，我们应该使用 <strong>POST</strong> 请求发送数据。</p>
+<p>Django 使用 <strong>CSRF Token</strong>(Cross-Site Request Forgery Token) 保护所有的 <strong>POST</strong> 请求。这是一个避免外部站点或者应用程序向我们的应用程序提交数据的安全措施。应用程序每次接收一个 <strong>POST</strong> 时，都会先检查 <strong>CSRF Token</strong>。如果这个 request 没有 token，或者这个 token是无效的，它就会抛弃提交的数据。</p>
+<p><strong>csrf_token</strong> 的模板标签：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% csrf_token %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>它是与其他表单数据一起提交的隐藏字段：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"csrfmiddlewaretoken"</span> <span class="attr">value</span>=<span class="string">"jG2o6aWj65YGaqzCpl0TYTg5jn6SctjzRZ9KmluifVx0IVaxlwh97YarZKs54Y32"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>另外一件事是，我们需要设置 HTML 输入的 <strong>name，name</strong> 将被用来在服务器获取数据。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"id_subject"</span> <span class="attr">name</span>=<span class="string">"subject"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">textarea</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"id_message"</span> <span class="attr">name</span>=<span class="string">"message"</span> <span class="attr">rows</span>=<span class="string">"5"</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<p>下面是示范我们如何检索数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">subject = request.POST[<span class="string">'subject'</span>]</span><br><span class="line">message = request.POST[<span class="string">'message'</span>]</span><br></pre></td></tr></table></figure>
+
+<p>所以，从 HTML 获取数据并且开始一个新的 topic 视图的简单实现可以这样写：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib.auth.models <span class="keyword">import</span> User</span><br><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render, redirect, get_object_or_404</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Board, Topic, Post</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">new_topic</span><span class="params">(request, pk)</span>:</span></span><br><span class="line">    board = get_object_or_404(Board, pk=pk)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'POST'</span>:</span><br><span class="line">        subject = request.POST[<span class="string">'subject'</span>]</span><br><span class="line">        message = request.POST[<span class="string">'message'</span>]</span><br><span class="line"></span><br><span class="line">        user = User.objects.first()  <span class="comment"># <span class="doctag">TODO:</span> 临时使用一个账号作为登录用户</span></span><br><span class="line"></span><br><span class="line">        topic = Topic.objects.create(</span><br><span class="line">            subject=subject,</span><br><span class="line">            board=board,</span><br><span class="line">            starter=user</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        post = Post.objects.create(</span><br><span class="line">            message=message,</span><br><span class="line">            topic=topic,</span><br><span class="line">            created_by=user</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redirect(<span class="string">'board_topics'</span>, pk=board.pk)  <span class="comment"># <span class="doctag">TODO:</span> redirect to the created topic page</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'new_topic.html'</span>, &#123;<span class="string">'board'</span>: board&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这个视图函数只考虑能接收数据并且保存进数据库的乐观合法的 path，但是还缺少一些部分。我们没有验证数据。用户可以提交空表单或者提交一个大于 255 个字符的 <strong>subject</strong>。</p>
+<p>到目前为止我们都在对 <strong>User</strong> 字段进行硬编码，因为我们还没有实现身份验证。有一个简单的方法来识别登录的用户。我们会在下一个课程将这一块。此外，我们还没有实现列出 topic 的所有 posts 的视图，实现了它，我们就可以将用户重定向到列出所有主题的列表页面。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20503django08.png" alt=""></p>
+<p>点击 Post 按钮提交表单：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20503django09.png" alt=""></p>
+<p>看起来成功了。但是我们还没有实现主题的列表页面，所以没有东西可以看。让我们来编辑 <strong>templates/topics.html</strong> 来实现一个合适的列表：</p>
+<p><strong>templates/topics.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends 'base.html' %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block title %&#125;</span><br><span class="line">  &#123;&#123; board.name &#125;&#125; - &#123;&#123; block.super &#125;&#125;</span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block breadcrumb %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'home' %&#125;"</span>&gt;</span>Boards<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item active"</span>&gt;</span>&#123;&#123; board.name &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">"table"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">thead</span> <span class="attr">class</span>=<span class="string">"thead-inverse"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>Topic<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>Starter<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>Replies<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>Views<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>Last Update<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">      &#123;% for topic in board.topics.all %&#125;</span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; topic.subject &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; topic.starter.username &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; topic.last_updated &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      &#123;% endfor %&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问浏览器：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20503django10.png" alt=""></p>
+<p>我们创建的 <strong>Topic</strong> 显示在这上面了。</p>
+<p>这里有两个新概念。</p>
+<p>我们首次使用 <strong>Board</strong> 模型中的 <strong>topics</strong> 属性。<strong>topics</strong> 属性由 Django 使用反向关系自动创建。在之前的步骤中，我们创建了一个 Topic 实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">new_topic</span><span class="params">(request, pk)</span>:</span></span><br><span class="line">    board = get_object_or_404(Board, pk=pk)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line">    topic = Topic.objects.create(</span><br><span class="line">        subject=subject,</span><br><span class="line">        board=board,</span><br><span class="line">        starter=user</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>board=board</code> 这行，我们设置了 <strong>Topic</strong> 模型中的 board 字段，它是 <code>ForeignKey(Board)</code>。因此，我们的 Board 实例就知道了与它关联的 <strong>Topic</strong> 实例。</p>
+<p>之所以我们使用 <code>board.topics.all</code> 而不是 <code>board.topics</code>，是因为 <code>board.topics</code> 是一个 <strong>Related Manager</strong>,它与 <strong>Model Manager</strong> 很相似，通常在 <code>board.objects</code> 可得到。所以，要返回给定 board 的所有 topic 我们必须使用 <code>board.topics.all()</code>，要过滤一些数据，我们可以这样用 <code>board.topics.filter(subject__contains=&#39;Hello&#39;)</code>。</p>
+<p>另一个需要注意的是，在 Python 代码中，我们必须使用括号：<code>board.topics.all()</code>，因为 <code>all()</code> 是一个方法。在使用 Django 模板语言写代码的时候，在一个 HTML 模板文件里面，我们不使用括号，就只是 <code>board.topics.all</code>。</p>
+<p>第二件事是我们在使用 ForeignKey：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; topic.starter.username &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用一个点加上属性这种写法，我们几乎可以访问 <strong>User</strong> 模型的所有属性。如果我们想得到用户的 email，我们可以使用 <code>topic.starter.email</code></p>
+<p>我们已经修改了 <strong>topics.html</strong> 模板，让我们创建一个能让我们转到 <strong>new topic*</strong> 页面的按钮：</p>
+<p><strong>templates/topics.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;% block content %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"mb-4"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'new_topic' board.pk %&#125;"</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span>&gt;</span>New topic<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">"table"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- code suppressed for brevity --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问浏览器：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20503django11.png" alt=""></p>
+<p>我们可以写一个测试以确保用户可以通过此页面访问到 <strong>New Topic</strong> 页面：</p>
+<p><strong>boards/tests.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoardTopicsTests</span><span class="params">(TestCase)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_board_topics_view_contains_navigation_links</span><span class="params">(self)</span>:</span></span><br><span class="line">        board_topics_url = reverse(<span class="string">'board_topics'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">        homepage_url = reverse(<span class="string">'home'</span>)</span><br><span class="line">        new_topic_url = reverse(<span class="string">'new_topic'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">1</span>&#125;)</span><br><span class="line"></span><br><span class="line">        response = self.client.get(board_topics_url)</span><br><span class="line"></span><br><span class="line">        self.assertContains(response, <span class="string">'href="&#123;0&#125;"'</span>.format(homepage_url))</span><br><span class="line">        self.assertContains(response, <span class="string">'href="&#123;0&#125;"'</span>.format(new_topic_url))</span><br></pre></td></tr></table></figure>
+
+<p>我在这里基本上重命名了 <strong>test_board_topics_view_contains_link_back_to_homepage</strong> 方法并添加了一个额外的 <code>assertContains</code>。这个测试现在负责确保我们的 view 包含所需的导航链接。</p>
+<h3 id="测试表单"><a href="#测试表单" class="headerlink" title="测试表单"></a>测试表单</h3><p>在我们使用 Django 的方式编写之前的表单示例之前, 让我们先为表单处理写一些测试：</p>
+<p><strong>boards/tests.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">''' new imports below '''</span></span><br><span class="line"><span class="keyword">from</span> django.contrib.auth.models <span class="keyword">import</span> User</span><br><span class="line"><span class="keyword">from</span> .views <span class="keyword">import</span> new_topic</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Board, Topic, Post</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewTopicTests</span><span class="params">(TestCase)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUp</span><span class="params">(self)</span>:</span></span><br><span class="line">        Board.objects.create(name=<span class="string">'Django'</span>, description=<span class="string">'Django board.'</span>)</span><br><span class="line">        User.objects.create_user(username=<span class="string">'john'</span>, email=<span class="string">'john@doe.com'</span>, password=<span class="string">'123'</span>)  <span class="comment"># &lt;- included this line here</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_csrf</span><span class="params">(self)</span>:</span></span><br><span class="line">        url = reverse(<span class="string">'new_topic'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">        response = self.client.get(url)</span><br><span class="line">        self.assertContains(response, <span class="string">'csrfmiddlewaretoken'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_new_topic_valid_post_data</span><span class="params">(self)</span>:</span></span><br><span class="line">        url = reverse(<span class="string">'new_topic'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">        data = &#123;</span><br><span class="line">            <span class="string">'subject'</span>: <span class="string">'Test title'</span>,</span><br><span class="line">            <span class="string">'message'</span>: <span class="string">'Lorem ipsum dolor sit amet'</span></span><br><span class="line">        &#125;</span><br><span class="line">        response = self.client.post(url, data)</span><br><span class="line">        self.assertTrue(Topic.objects.exists())</span><br><span class="line">        self.assertTrue(Post.objects.exists())</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_new_topic_invalid_post_data</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">'''</span></span><br><span class="line"><span class="string">        Invalid post data should not redirect</span></span><br><span class="line"><span class="string">        The expected behavior is to show the form again with validation errors</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        url = reverse(<span class="string">'new_topic'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">        response = self.client.post(url, &#123;&#125;)</span><br><span class="line">        self.assertEquals(response.status_code, <span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_new_topic_invalid_post_data_empty_fields</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">'''</span></span><br><span class="line"><span class="string">        Invalid post data should not redirect</span></span><br><span class="line"><span class="string">        The expected behavior is to show the form again with validation errors</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        url = reverse(<span class="string">'new_topic'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">        data = &#123;</span><br><span class="line">            <span class="string">'subject'</span>: <span class="string">''</span>,</span><br><span class="line">            <span class="string">'message'</span>: <span class="string">''</span></span><br><span class="line">        &#125;</span><br><span class="line">        response = self.client.post(url, data)</span><br><span class="line">        self.assertEquals(response.status_code, <span class="number">200</span>)</span><br><span class="line">        self.assertFalse(Topic.objects.exists())</span><br><span class="line">        self.assertFalse(Post.objects.exists())</span><br></pre></td></tr></table></figure>
+
+<p>首先， <strong>test.py</strong> 文件变的越来越大。我们会尽快改进它，将测试分为几个文件。但现在，让我们先保持这个状态。</p>
+<ul>
+<li><p><strong>setUp</strong>：包含 <code>User.objects.create_user</code> 以创建用于测试的 <strong>User</strong> 实例。</p>
+</li>
+<li><p><strong>test_csrf</strong>：由于 <strong>CSRF Token</strong> 是处理 <strong>Post</strong> 请求的基本部分，我们需要保证我们的 HTML 包含 token。</p>
+</li>
+<li><p><strong>test_new_topic_valid_post_data</strong>：发送有效的数据并检查视图函数是否创建了 <strong>Topic</strong> 和 <strong>Post</strong> 实例。</p>
+</li>
+<li><p><strong>test_new_topic_invalid_post_data</strong>：发送一个空字典来检查应用的行为。</p>
+</li>
+<li><p><strong>test_new_topic_invalid_post_data_empty_fields</strong>：类似于上一个测试，但是这次我们发送一些数据。预期应用程序会验证并且拒绝空的 subject 和 message。</p>
+</li>
+</ul>
+<p>运行这些测试：</p>
+<p><code>python manage.py test</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Creating test database for alias &#39;default&#39;...</span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line">........EF.....</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">ERROR: test_new_topic_invalid_post_data (boards.tests.NewTopicTests)</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">...</span><br><span class="line">django.utils.datastructures.MultiValueDictKeyError: &quot;&#39;subject&#39;&quot;</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">FAIL: test_new_topic_invalid_post_data_empty_fields (boards.tests.NewTopicTests)</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&#x2F;home&#x2F;humen&#x2F;Development&#x2F;myproject&#x2F;myproject&#x2F;boards&#x2F;tests.py&quot;, line 119, in test_new_topic_invalid_post_data_empty_fields</span><br><span class="line">    self.assertEquals(response.status_code, 200)</span><br><span class="line">AssertionError: 302 !&#x3D; 200</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 15 tests in 0.328s</span><br><span class="line"></span><br><span class="line">FAILED (failures&#x3D;1, errors&#x3D;1)</span><br><span class="line">Destroying test database for alias &#39;default&#39;...</span><br></pre></td></tr></table></figure>
+
+<p>有一个失败的测试和一个错误。两个都与验证用户的输入有关。不要试图用当前的实现来修复它，让我们通过使用 Django Forms API 来通过这些测试</p>
+<h3 id="创建表单正确的姿势"><a href="#创建表单正确的姿势" class="headerlink" title="创建表单正确的姿势"></a>创建表单正确的姿势</h3><p>自从我们开始使用 Forms，我们已经走了很长一段路。终于，是时候使用 Forms API 了。</p>
+<p>Forms API 可在模块 <code>django.forms</code> 中得到。Django 使用两种类型的 form：<code>forms.Form</code> 和 <code>forms.ModelForm</code>。<code>Form</code>类是通用的表单实现。我们可以使用它来处理与应用程序 model 没有直接关联的数据。<code>ModelForm</code> 是 <code>Form</code> 的子类，它与 model 类相关联。</p>
+<p>在 <strong>boards</strong> 文件夹下创建一个新的文件 <code>forms.py</code>：</p>
+<p><strong>boards/forms.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django <span class="keyword">import</span> forms</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Topic</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewTopicForm</span><span class="params">(forms.ModelForm)</span>:</span></span><br><span class="line">    message = forms.CharField(widget=forms.Textarea(), max_length=<span class="number">4000</span>)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        model = Topic</span><br><span class="line">        fields = [<span class="string">'subject'</span>, <span class="string">'message'</span>]</span><br></pre></td></tr></table></figure>
+
+<p>这是我们的第一个 form。它是一个与 <strong>Topic</strong> model 相关联的 <code>ModelForm</code>。<strong>Meta</strong> 类里面 <code>fields</code> 列表中的 <code>subject</code> 引用 <strong>Topic</strong> 类中的 <strong>subject field(字段)</strong>。现在注意到我们定义了一个叫做 <code>message</code> 的额外字段。它用来引用 <strong>Post</strong> 中我们想要保存的 message。</p>
+<p>现在我们需要重写我们的 <strong>views.py</strong>：</p>
+<p><strong>boards/views.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib.auth.models <span class="keyword">import</span> User</span><br><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render, redirect, get_object_or_404</span><br><span class="line"><span class="keyword">from</span> .forms <span class="keyword">import</span> NewTopicForm</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Board, Topic, Post</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">new_topic</span><span class="params">(request, pk)</span>:</span></span><br><span class="line">    board = get_object_or_404(Board, pk=pk)</span><br><span class="line">    user = User.objects.first()  <span class="comment"># <span class="doctag">TODO:</span> get the currently logged in user</span></span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'POST'</span>:</span><br><span class="line">        form = NewTopicForm(request.POST)</span><br><span class="line">        <span class="keyword">if</span> form.is_valid():</span><br><span class="line">            topic = form.save(commit=<span class="literal">False</span>)</span><br><span class="line">            topic.board = board</span><br><span class="line">            topic.starter = user</span><br><span class="line">            topic.save()</span><br><span class="line">            post = Post.objects.create(</span><br><span class="line">                message=form.cleaned_data.get(<span class="string">'message'</span>),</span><br><span class="line">                topic=topic,</span><br><span class="line">                created_by=user</span><br><span class="line">            )</span><br><span class="line">            <span class="keyword">return</span> redirect(<span class="string">'board_topics'</span>, pk=board.pk)  <span class="comment"># <span class="doctag">TODO:</span> redirect to the created topic page</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        form = NewTopicForm()</span><br><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'new_topic.html'</span>, &#123;<span class="string">'board'</span>: board, <span class="string">'form'</span>: form&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这是我们在 view(视图) 中处理 form(表单) 的方式。让我们去掉一些多余的部分，只看表单处理的核心部分：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> request.method == <span class="string">'POST'</span>:</span><br><span class="line">    form = NewTopicForm(request.POST)</span><br><span class="line">    <span class="keyword">if</span> form.is_valid():</span><br><span class="line">        topic = form.save()</span><br><span class="line">        <span class="keyword">return</span> redirect(<span class="string">'board_topics'</span>, pk=board.pk)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    form = NewTopicForm()</span><br><span class="line"><span class="keyword">return</span> render(request, <span class="string">'new_topic.html'</span>, &#123;<span class="string">'form'</span>: form&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>首先我们判断请求是 <strong>POST</strong> 还是 <strong>GET</strong>。如果请求是<strong>POST</strong>，这意味着用户向服务器提交了一些数据。所以我们实例化一个将 <strong>POST</strong> 数据传递给 form 的 form 实例：<code>form = NewTopicForm(request.POST)</code>。</p>
+<p>然后，我们让 Django 验证数据，检查 form 是否有效，我们能否将其存入数据库：<code>if form.is_valid():</code>。如果表单有效，我们使用 <code>form.save()</code> 将数据存入数据库。<code>save()</code> 方法返回一个存入数据库的 <code>Model</code>实例。<br>所以，因为这是一个 <strong>Topic</strong> form, 所以它会返回 <code>topic = form.save()</code> 创建的 Topic。然后，通用的路径是把用户重定向到其他地方，以避免用户通过按 F5 重新提交表单，并且保证应用程序的流程走向。</p>
+<p>现在，如果数据是无效的，Django 会给 form 添加错误列表。然后，视图函数不会做任何处理并且返回最后一句：<br><code>return render(request, &#39;new_topic.html&#39;, {&#39;form&#39;: form})</code>。这意味着我们需要更新 <strong>new_topic.html</strong> 以显示错误。</p>
+<p>如果请求是 <strong>GET</strong>，我们只需要使用 <code>form = NewTopicForm()</code> 初始化一个新的空表单。</p>
+<p>让我们运行测试并观察情况：</p>
+<p><code>python manage.py test</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Creating test database for alias &#39;default&#39;...</span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line">...............</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 15 tests in 0.337s</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line">Destroying test database for alias &#39;default&#39;...</span><br></pre></td></tr></table></figure>
+
+<p>我们甚至修复了最后两个测试。</p>
+<p>Django Forms API 不仅仅是处理和验证数据。它还为我们生成 HTML。</p>
+<p><strong>templates/new_topic.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends 'base.html' %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block title %&#125;Start a New Topic&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block breadcrumb %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'home' %&#125;"</span>&gt;</span>Boards<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'board_topics' board.pk %&#125;"</span>&gt;</span>&#123;&#123; board.name &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item active"</span>&gt;</span>New topic<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line">    &#123;% csrf_token %&#125;</span><br><span class="line">    &#123;&#123; form.as_p &#125;&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-success"</span>&gt;</span>Post<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个 <code>form</code> 有三个渲染选项：<code>form.as_table</code>，<code>form.as_ul</code> 和 <code>form.as_p</code>。这是一个快速的渲染表单所有字段的方法。顾名思义，<code>as_table</code> 使用<code>table</code> 标签来格式化输入，<code>as_ul</code> 使用 li 标签。</p>
+<p>访问浏览器，看效果：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20504django01.png" alt=""></p>
+<p>我们以前的 form 看起来更好，是吧？我们将立即修复它。</p>
+<p>它看起来很破，但是相信我；它背后有很多东西。它非常强大。比如，如果我们的表单有 50 个字段，我们可以通过键入 <code>{{ form.as_p }}</code>来显示所有字段。</p>
+<p>此外，使用 Forms API，Django 会验证数据并且向每个字段添加错误消息。让我们尝试提交一个空的表单：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20504django02.png" alt=""></p>
+<blockquote>
+<p>注意：<br>如果你提交表单时看到类似这样的东西：<br><strong>Please fill out this field</strong><br>这不是 Django 导致的，而是你的浏览器进行预验证。要禁用它可以在你的表单标签中添加 novalidate 属性：<br><br>你可以不修改它，不会有问题。这只是因为我们的表单现在非常简单，而且我们没有太多的数据验证可以看到。<br><br>另外一件需要注意的事情是：没有 “只客户端验证” 这样的事情。JavaScript 验证或者浏览器验证仅用于可用性目的。同时也减少了对服务器的请求数量。数据验证应该始终在服务器端完成，这样我们可以完全掌控数据。</p>
+</blockquote>
+<p>它还可以处理在 <strong>Form</strong>类或者 <strong>Model</strong> 类中定义的帮助文本。</p>
+<p><strong>boards/forms.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django <span class="keyword">import</span> forms</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Topic</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewTopicForm</span><span class="params">(forms.ModelForm)</span>:</span></span><br><span class="line">    message = forms.CharField(</span><br><span class="line">        widget=forms.Textarea(),</span><br><span class="line">        max_length=<span class="number">4000</span>,</span><br><span class="line">        help_text=<span class="string">'The max length of the text is 4000.'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        model = Topic</span><br><span class="line">        fields = [<span class="string">'subject'</span>, <span class="string">'message'</span>]</span><br></pre></td></tr></table></figure>
+
+<p>访问浏览器：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20504django03.png" alt=""></p>
+<p>我们也可以为表单字段设置额外的属性：</p>
+<p><strong>boards/forms.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django <span class="keyword">import</span> forms</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Topic</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewTopicForm</span><span class="params">(forms.ModelForm)</span>:</span></span><br><span class="line">    message = forms.CharField(</span><br><span class="line">        widget=forms.Textarea(</span><br><span class="line">            attrs=&#123;<span class="string">'rows'</span>: <span class="number">5</span>, <span class="string">'placeholder'</span>: <span class="string">'What is on your mind?'</span>&#125;</span><br><span class="line">        ),</span><br><span class="line">        max_length=<span class="number">4000</span>,</span><br><span class="line">        help_text=<span class="string">'The max length of the text is 4000.'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        model = Topic</span><br><span class="line">        fields = [<span class="string">'subject'</span>, <span class="string">'message'</span>]</span><br></pre></td></tr></table></figure>
+
+<p>访问浏览器：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20504django04.png" alt=""></p>
+<h3 id="用BootStrap-表单渲染"><a href="#用BootStrap-表单渲染" class="headerlink" title="用BootStrap 表单渲染"></a>用BootStrap 表单渲染</h3><p>当使用 Bootstrap 或者其他的前端库时，我比较喜欢使用一个叫做 <strong>django-widget-tweaks</strong> 的 Django 库。它可以让我们更好地控制渲染的处理，在保证默认值的情况下，只需在上面添加额外的自定义设置。</p>
+<p>开始安装它：</p>
+<p><code>pip install django-widget-tweaks</code></p>
+<p>添加到 <code>INSTALLED_APPS</code>：</p>
+<p><strong>myproject/settings.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS = [</span><br><span class="line">    <span class="string">'django.contrib.admin'</span>,</span><br><span class="line">    <span class="string">'django.contrib.auth'</span>,</span><br><span class="line">    <span class="string">'django.contrib.contenttypes'</span>,</span><br><span class="line">    <span class="string">'django.contrib.sessions'</span>,</span><br><span class="line">    <span class="string">'django.contrib.messages'</span>,</span><br><span class="line">    <span class="string">'django.contrib.staticfiles'</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">'widget_tweaks'</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">'boards'</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>现在可以使用它了：</p>
+<p><strong>templates/new_topic.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends 'base.html' %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% load widget_tweaks %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block title %&#125;Start a New Topic&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block breadcrumb %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'home' %&#125;"</span>&gt;</span>Boards<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'board_topics' board.pk %&#125;"</span>&gt;</span>&#123;&#123; board.name &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item active"</span>&gt;</span>New topic<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">novalidate</span>&gt;</span></span><br><span class="line">    &#123;% csrf_token %&#125;</span><br><span class="line"></span><br><span class="line">    &#123;% for field in form %&#125;</span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">        &#123;&#123; field.label_tag &#125;&#125;</span><br><span class="line"></span><br><span class="line">        &#123;% render_field field class="form-control" %&#125;</span><br><span class="line"></span><br><span class="line">        &#123;% if field.help_text %&#125;</span><br><span class="line">          <span class="tag">&lt;<span class="name">small</span> <span class="attr">class</span>=<span class="string">"form-text text-muted"</span>&gt;</span></span><br><span class="line">            &#123;&#123; field.help_text &#125;&#125;</span><br><span class="line">          <span class="tag">&lt;/<span class="name">small</span>&gt;</span></span><br><span class="line">        &#123;% endif %&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    &#123;% endfor %&#125;</span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-success"</span>&gt;</span>Post<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问浏览器：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20504django05.png" alt=""></p>
+<p>这就是我们使用的 <strong>django-widget-tweaks</strong> 的效果。首先，我们使用<code>{% load widget_tweaks %}</code> 模板标签将其加载到模板。然后这样使用它：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% render_field field class="form-control" %&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>render_field</code> 不属于 Django；它存在于我们安装的包里面。要使用它，我们需要传递一个表单域实例作为第一个参数，然后我们可以添加任意的 HTML 属性去补充它。这很有用因为我们可以根据特定的条件指定类。</p>
+<p>一些 <code>render_field</code> 模板标签的例子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% render_field form.subject class="form-control" %&#125;</span><br><span class="line">&#123;% render_field form.message class="form-control" placeholder=form.message.label %&#125;</span><br><span class="line">&#123;% render_field field class="form-control" placeholder="Write a message!" %&#125;</span><br><span class="line">&#123;% render_field field style="font-size: 20px" %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在要实现 Bootstrap 4 验证标签，我们可以修改 <strong>new_topic.html</strong> 模板。</p>
+<p><strong>templates/new_topic.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">novalidate</span>&gt;</span></span><br><span class="line">  &#123;% csrf_token %&#125;</span><br><span class="line"></span><br><span class="line">  &#123;% for field in form %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">      &#123;&#123; field.label_tag &#125;&#125;</span><br><span class="line"></span><br><span class="line">      &#123;% if form.is_bound %&#125;</span><br><span class="line">        &#123;% if field.errors %&#125;</span><br><span class="line"></span><br><span class="line">          &#123;% render_field field class="form-control is-invalid" %&#125;</span><br><span class="line">          &#123;% for error in field.errors %&#125;</span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"invalid-feedback"</span>&gt;</span></span><br><span class="line">              &#123;&#123; error &#125;&#125;</span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          &#123;% endfor %&#125;</span><br><span class="line"></span><br><span class="line">        &#123;% else %&#125;</span><br><span class="line">          &#123;% render_field field class="form-control is-valid" %&#125;</span><br><span class="line">        &#123;% endif %&#125;</span><br><span class="line">      &#123;% else %&#125;</span><br><span class="line">        &#123;% render_field field class="form-control" %&#125;</span><br><span class="line">      &#123;% endif %&#125;</span><br><span class="line"></span><br><span class="line">      &#123;% if field.help_text %&#125;</span><br><span class="line">        <span class="tag">&lt;<span class="name">small</span> <span class="attr">class</span>=<span class="string">"form-text text-muted"</span>&gt;</span></span><br><span class="line">          &#123;&#123; field.help_text &#125;&#125;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">small</span>&gt;</span></span><br><span class="line">      &#123;% endif %&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  &#123;% endfor %&#125;</span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-success"</span>&gt;</span>Post<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问浏览器：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20504django06.png" alt=""></p>
+<p>所以，我们有三种不同的渲染状态：</p>
+<ul>
+<li><p><strong>Initial state</strong>：表单没有数据(不受约束)</p>
+</li>
+<li><p><strong>Invalid</strong>：我们添加了 <code>.is-invalid</code> 这个 CSS class 并将错误消息添加到具有 <code>.invalid-feedback</code> class 的元素中</p>
+</li>
+<li><p><strong>Valid</strong>：我们添加了 <code>.is-valid</code> 的 CSS class，以绿色绘制表单域，并向用户反馈它是否可行。</p>
+</li>
+</ul>
+<h3 id="复用表单模板"><a href="#复用表单模板" class="headerlink" title="复用表单模板"></a>复用表单模板</h3><p>模板看起来有点复杂，是吧？有个好消息是我们可以在项目中重复使用它。</p>
+<p>在 <strong>templates</strong> 文件夹中，创建一个新的文件夹命名为 <strong>includes</strong>：</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">myproject/
+ |-- myproject/
+ |    |-- boards/
+ |    |-- myproject/
+ |    |-- templates/
+ |    |    |-- includes/    &lt;-- here!
+ |    |    |-- base.html
+ |    |    |-- home.html
+ |    |    |-- new_topic.html
+ |    |    +-- topics.html
+ |    +-- manage.py
+ +-- venv/</code></pre></figure>
+
+<p>在 <strong>includes</strong> 文件夹中，创建一个 <strong>form.html</strong>：</p>
+<p><strong>templates/includes/form.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load widget_tweaks %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% for field in form %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">    &#123;&#123; field.label_tag &#125;&#125;</span><br><span class="line"></span><br><span class="line">    &#123;% if form.is_bound %&#125;</span><br><span class="line">      &#123;% if field.errors %&#125;</span><br><span class="line">        &#123;% render_field field class="form-control is-invalid" %&#125;</span><br><span class="line">        &#123;% for error in field.errors %&#125;</span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"invalid-feedback"</span>&gt;</span></span><br><span class="line">            &#123;&#123; error &#125;&#125;</span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">      &#123;% else %&#125;</span><br><span class="line">        &#123;% render_field field class="form-control is-valid" %&#125;</span><br><span class="line">      &#123;% endif %&#125;</span><br><span class="line">    &#123;% else %&#125;</span><br><span class="line">      &#123;% render_field field class="form-control" %&#125;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line"></span><br><span class="line">    &#123;% if field.help_text %&#125;</span><br><span class="line">      <span class="tag">&lt;<span class="name">small</span> <span class="attr">class</span>=<span class="string">"form-text text-muted"</span>&gt;</span></span><br><span class="line">        &#123;&#123; field.help_text &#125;&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">small</span>&gt;</span></span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在来修改我们的 <strong>new_topic.html</strong> 模板：</p>
+<p><strong>templates/new_topic.html</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends 'base.html' %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block title %&#125;Start a New Topic&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block breadcrumb %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'home' %&#125;"</span>&gt;</span>Boards<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'board_topics' board.pk %&#125;"</span>&gt;</span>&#123;&#123; board.name &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"breadcrumb-item active"</span>&gt;</span>New topic<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">novalidate</span>&gt;</span></span><br><span class="line">    &#123;% csrf_token %&#125;</span><br><span class="line">    &#123;% include 'includes/form.html' %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-success"</span>&gt;</span>Post<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>顾名思义，<code>{% include %}</code> 用来在其他的模板中包含 HTML 模板。这是在项目中重用 HTML 组件的常用方法。</p>
+<p>在下一个我们实现的表单，我们可以简单地使用 <code>{% include 'includes/form.html' %}</code> 去渲染它。</p>
+<h3 id="Adding-More-Tests"><a href="#Adding-More-Tests" class="headerlink" title="Adding More Tests"></a>Adding More Tests</h3><p>现在我们在使用 Django 表单；我们可以添加更多的测试以确保它能运行顺利</p>
+<p><strong>boards/tests.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ... other imports</span></span><br><span class="line"><span class="keyword">from</span> .forms <span class="keyword">import</span> NewTopicForm</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewTopicTests</span><span class="params">(TestCase)</span>:</span></span><br><span class="line">    <span class="comment"># ... other tests</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_contains_form</span><span class="params">(self)</span>:</span>  <span class="comment"># &lt;- new test</span></span><br><span class="line">        url = reverse(<span class="string">'new_topic'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">        response = self.client.get(url)</span><br><span class="line">        form = response.context.get(<span class="string">'form'</span>)</span><br><span class="line">        self.assertIsInstance(form, NewTopicForm)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_new_topic_invalid_post_data</span><span class="params">(self)</span>:</span>  <span class="comment"># &lt;- updated this one</span></span><br><span class="line">        <span class="string">'''</span></span><br><span class="line"><span class="string">        Invalid post data should not redirect</span></span><br><span class="line"><span class="string">        The expected behavior is to show the form again with validation errors</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        url = reverse(<span class="string">'new_topic'</span>, kwargs=&#123;<span class="string">'pk'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">        response = self.client.post(url, &#123;&#125;)</span><br><span class="line">        form = response.context.get(<span class="string">'form'</span>)</span><br><span class="line">        self.assertEquals(response.status_code, <span class="number">200</span>)</span><br><span class="line">        self.assertTrue(form.errors)</span><br></pre></td></tr></table></figure>
+
+<p>这是我们第一次使用 <code>assertIsInstance</code> 方法。基本上我们的处理是抓取上下文的表单实例，检查它是否是一个<code>NewTopicForm</code>。在最后的测试中，我添加了 <code>self.assertTrue(form.errors)</code> 以确保数据无效的时候表单会显示错误。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在这个课程，我们学习了 URLs, 可重用模板和表单。像往常一样，我们也实现了几个测试用例。这能使我们开发中更自信。</p>
+<p>我们的测试文件变的越来越大，所以在下一节中，我们重构它以提高它的可维护性，从而维持我们代码的增加。</p>
+<p>我们也达到了我们需要与登录的用户进行交互的目的。在下一节，我们学习了关于认证的一切知识和怎么去保护我们的视图和资源。</p>
+<ul>
+<li>参考链接：<a href="https://mp.weixin.qq.com/s/il8i-BLqamNu53i_JjTs5w" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/il8i-BLqamNu53i_JjTs5w</a></li>
+</ul>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/05/04/3.%20Django%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/>https://fishni.github.io/2020/05/04/3.%20Django%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/wechat.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/qq.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-05-06T16:40:25+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年5月6日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Web%E6%A1%86%E6%9E%B6/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Web框架</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/05/04/3.%20Django%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/&title=【Django】3. Django入门与实践-高级概念 - fishni&summary=在本节内容，将深入理解两个基本概念: URLs 和 Forms。在这个过程中，我们还将学习其它很多概念，如创建可重用模板和安装第三方库。同时我们还将编写大量单元测试。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/05/04/3.%20Django%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/&title=【Django】3. Django入门与实践-高级概念 - fishni&summary=在本节内容，将深入理解两个基本概念: URLs 和 Forms。在这个过程中，我们还将学习其它很多概念，如创建可重用模板和安装第三方库。同时我们还将编写大量单元测试。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/05/04/3.%20Django%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/&title=【Django】3. Django入门与实践-高级概念 - fishni&summary=在本节内容，将深入理解两个基本概念: URLs 和 Forms。在这个过程中，我们还将学习其它很多概念，如创建可重用模板和安装第三方库。同时我们还将编写大量单元测试。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2020/04/26/%E6%96%B0%E5%86%A0%E8%82%BA%E7%82%8ECOVID-19%20State%20Data%20Set%E7%9A%84%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90%E4%B8%8E%E5%A4%84%E7%90%86/'>
+                <p class='title'>【数据集分析】新冠肺炎COVID-19数据集简单分析与处理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本文主要是：新冠肺炎COVID-19 State Data Set的简单分析与处理
+
+
+Step 1Use Pandas to load COVID-19 State Data Set as t...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '【Django】3. Django入门与实践-高级概念',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#URLs"><span class="toc-text">URLs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基础-URLs-路由"><span class="toc-text">基础 URLs 路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高级-URLs-路由"><span class="toc-text">高级 URLs 路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-URLs-API"><span class="toc-text">使用 URLs API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实用URL模式列表"><span class="toc-text">实用URL模式列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#复用模板"><span class="toc-text">复用模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表单处理"><span class="toc-text">表单处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自己实现表单"><span class="toc-text">自己实现表单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试表单"><span class="toc-text">测试表单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建表单正确的姿势"><span class="toc-text">创建表单正确的姿势</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用BootStrap-表单渲染"><span class="toc-text">用BootStrap 表单渲染</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复用表单模板"><span class="toc-text">复用表单模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Adding-More-Tests"><span class="toc-text">Adding More Tests</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://fishni.github.io/"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+            
+              <a href="https://github.com/fishni"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://volantis.js.org/" target="_blank" class="codename">fishni's blog</a>
+        作为主题
+        
+          ，
+          总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://fishni.github.io/">Copyright © 2017-2020 Mr.fishmouse</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('') {
+          $('').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("div.fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
