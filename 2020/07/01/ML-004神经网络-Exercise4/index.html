@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>【吴恩达机器学习】练习4-神经网络 - fishni</title>
+  
+    <meta name="keywords" content="python,神经网络">
+  
+  
+    <meta name="description" content="对于这个练习，我们将再次处理手写数字数据集，这次使用反向传播的前馈神经网络。 我们将通过反向传播算法实现神经网络代价函数和梯度计算的非正则化和正则化版本。 我们还将实现随机权重初始化和使用网络进行预测的方法。">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            FISHNI'S BLOG <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-rss fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  更多
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-rss fa-fw'></i>
+        
+        主页
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        分类
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-archive fa-fw'></i>
+        
+        归档
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/07/01/ML-004%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-Exercise4/">
+        【吴恩达机器学习】练习4-神经网络
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://fishni.github.io/" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/ghost1.jpg">
+    <p>fishni</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>人工智能</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年7月1日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>对于这个练习，我们将再次处理手写数字数据集，这次使用反向传播的前馈神经网络。 我们将通过反向传播算法实现神经网络代价函数和梯度计算的非正则化和正则化版本。 我们还将实现随机权重初始化和使用网络进行预测的方法。</p>
+<a id="more"></a>
+
+
+
+
+<h2 id="数据集加载"><a href="#数据集加载" class="headerlink" title="数据集加载"></a>数据集加载</h2><p>由于我们在练习3中使用的数据集是相同的，所以我们将重新使用代码来加载数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> scipy.io <span class="keyword">import</span> loadmat</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data = loadmat(<span class="string">'ex4data1.mat'</span>)</span><br><span class="line">data</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>{&apos;__header__&apos;: b&apos;MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: Sun Oct 16 13:09:09 2011&apos;,
+ &apos;__version__&apos;: &apos;1.0&apos;,
+ &apos;__globals__&apos;: [],
+ &apos;X&apos;: array([[0., 0., 0., ..., 0., 0., 0.],
+        [0., 0., 0., ..., 0., 0., 0.],
+        [0., 0., 0., ..., 0., 0., 0.],
+        ...,
+        [0., 0., 0., ..., 0., 0., 0.],
+        [0., 0., 0., ..., 0., 0., 0.],
+        [0., 0., 0., ..., 0., 0., 0.]]),
+ &apos;y&apos;: array([[10],
+        [10],
+        [10],
+        ...,
+        [ 9],
+        [ 9],
+        [ 9]], dtype=uint8)}</code></pre><p>由于我们以后需要这些（并将经常使用它们），我们先来创建一些有用的变量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X = data[<span class="string">'X'</span>]</span><br><span class="line">y = data[<span class="string">'y'</span>]</span><br><span class="line"></span><br><span class="line">X.shape, y.shape<span class="comment">#看下维度</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>((5000, 400), (5000, 1))</code></pre><h2 id="one-hot编码"><a href="#one-hot编码" class="headerlink" title="one-hot编码"></a>one-hot编码</h2><ul>
+<li>one hot编<blockquote>
+<p>是将类别变量转换为机器学习算法易于利用的一种形式的过程。<br><br>One-Hot编码是分类变量作为二进制向量的表示。这首先要求将分类值映射到整数值。然后，每个整数值被表示为二进制向量，除了整数的索引之外，它都是零值，它被标记为1。</p>
+</blockquote>
+</li>
+<li>示例：<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20706one-hot02.png" alt=""></li>
+</ul>
+<p>我们也需要对我们的y标签进行一次one-hot 编码。 one-hot 编码将类标签n（k类）转换为长度为k的向量，其中索引n为“hot”（1），而其余为0。 Scikitlearn有一个内置的实用程序，我们可以使用这个。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> OneHotEncoder</span><br><span class="line"><span class="comment"># 初始化OneHotEncoder实例时，默认sparse参数为True，编码后返回的是一个稀疏矩阵的对象，</span></span><br><span class="line"><span class="comment">#如果要使用一般要调用toarray()方法转化成array对象。</span></span><br><span class="line"><span class="comment"># 若将sparse参数设置为False，则直接生成array对象，可直接使用。</span></span><br><span class="line">encoder = OneHotEncoder(sparse=<span class="literal">False</span>,categories=<span class="string">'auto'</span>)</span><br><span class="line">y_onehot = encoder.fit_transform(y)</span><br><span class="line">y_onehot.shape</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>(5000, 10)</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y[<span class="number">0</span>], y_onehot[<span class="number">0</span>,:]</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>(array([10], dtype=uint8), array([0., 0., 0., 0., 0., 0., 0., 0., 0., 1.]))</code></pre><p>我们要为此练习构建的神经网络具有与我们的实例数据（400 +偏置单元）大小匹配的输入层，25个单位的隐藏层（带有偏置单元的26个），以及一个输出层， 10个单位对应我们的一个one-hot编码类标签。 有关网络架构的更多详细信息和图像，请参阅“练习”文件夹中的PDF。</p>
+<p>我们需要实现的第一件是评估一组给定的网络参数的损失的代价函数。 源函数在练习文本中（看起来很吓人）。 以下是代价函数的代码。</p>
+<h2 id="sigmoid-函数"><a href="#sigmoid-函数" class="headerlink" title="sigmoid 函数"></a>sigmoid 函数</h2><p>g 代表一个常用的逻辑函数（logistic function）为S形函数（Sigmoid function），公式为： $g\left( z \right)=\frac{1}{1+{{e}^{-z}}}$<br>合起来，我们得到逻辑回归模型的假设函数：<br>    ${{h}_{\theta }}\left( x \right)=\frac{1}{1+{{e}^{-{{\theta }^{T}}X}}}$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmoid</span><span class="params">(z)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span> / (<span class="number">1</span> + np.exp(-z))</span><br></pre></td></tr></table></figure>
+
+<h2 id="前向传播函数"><a href="#前向传播函数" class="headerlink" title="前向传播函数"></a>前向传播函数</h2><blockquote>
+<p>(400 + 1) -&gt; (25 + 1) -&gt; (10)</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20706nn_model01.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">m = X.shape[<span class="number">0</span>]</span><br><span class="line">np.insert(X,<span class="number">0</span>,values=np.ones(m),axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>array([[1., 0., 0., ..., 0., 0., 0.],
+       [1., 0., 0., ..., 0., 0., 0.],
+       [1., 0., 0., ..., 0., 0., 0.],
+       ...,
+       [1., 0., 0., ..., 0., 0., 0.],
+       [1., 0., 0., ..., 0., 0., 0.],
+       [1., 0., 0., ..., 0., 0., 0.]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">forward_propagate</span><span class="params">(X, theta1, theta2)</span>:</span></span><br><span class="line">    m = X.shape[<span class="number">0</span>] <span class="comment"># 行数</span></span><br><span class="line">    </span><br><span class="line">    a1 = np.insert(X, <span class="number">0</span>, values=np.ones(m), axis=<span class="number">1</span>) <span class="comment"># 0插入位置，np.ones(m) m维度，axis=1列的方向插入</span></span><br><span class="line">    z2 = a1 * theta1.T</span><br><span class="line">    a2 = np.insert(sigmoid(z2), <span class="number">0</span>, values=np.ones(m), axis=<span class="number">1</span>)</span><br><span class="line">    z3 = a2 * theta2.T</span><br><span class="line">    h = sigmoid(z3)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> a1, z2, a2, z3, h</span><br></pre></td></tr></table></figure>
+
+<h2 id="代价函数"><a href="#代价函数" class="headerlink" title="代价函数"></a>代价函数</h2><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20706nn_cost04.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cost</span><span class="params">(params, input_size, hidden_size, num_labels, X, y, learning_rate)</span>:</span></span><br><span class="line">    <span class="comment"># 传入：神经网络参数，输入层维度，隐含层维度，标签数，训练数据，学习率</span></span><br><span class="line">    m = X.shape[<span class="number">0</span>] <span class="comment"># 样本个数</span></span><br><span class="line">    X = np.matrix(X) <span class="comment"># 转换为numpy型矩阵</span></span><br><span class="line">    y = np.matrix(y)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># reshape the parameter array into parameter matrices for each layer</span></span><br><span class="line">    <span class="comment"># 为每一层重塑参数数组为参数矩阵</span></span><br><span class="line">    <span class="comment">#从params中获取神经网络参数，并按照输入层维度和隐藏层维度重新定义参数的维度</span></span><br><span class="line">    theta1 = np.matrix(np.reshape(params[:hidden_size * (input_size + <span class="number">1</span>)], (hidden_size, (input_size + <span class="number">1</span>))))</span><br><span class="line">    theta2 = np.matrix(np.reshape(params[hidden_size * (input_size + <span class="number">1</span>):], (num_labels, (hidden_size + <span class="number">1</span>))))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># run the feed-forward pass运行前向传播函数</span></span><br><span class="line">    <span class="comment"># 调用前面写好的前项传播函数</span></span><br><span class="line">    a1, z2, a2, z3, h = forward_propagate(X, theta1, theta2)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># compute the cost计算代价</span></span><br><span class="line">    J = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m): <span class="comment">#遍历每个样本</span></span><br><span class="line">        first_term = np.multiply(-y[i,:], np.log(h[i,:]))</span><br><span class="line">        second_term = np.multiply((<span class="number">1</span> - y[i,:]), np.log(<span class="number">1</span> - h[i,:]))</span><br><span class="line">        J += np.sum(first_term - second_term)</span><br><span class="line">    </span><br><span class="line">    J = J / m</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> J</span><br></pre></td></tr></table></figure>
+
+<p>这个Sigmoid函数我们以前使用过。 前向传播函数计算给定当前参数的每个训练实例的假设。 它的输出形状应该与y的一个one-hot编码相同。 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化设置</span></span><br><span class="line">input_size = <span class="number">400</span></span><br><span class="line">hidden_size = <span class="number">25</span></span><br><span class="line">num_labels = <span class="number">10</span></span><br><span class="line">learning_rate = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机初始化完整网络参数大小的参数数组</span></span><br><span class="line">params = (np.random.random(size=hidden_size * (input_size + <span class="number">1</span>) + num_labels * (hidden_size + <span class="number">1</span>)) - <span class="number">0.5</span>) * <span class="number">0.25</span></span><br><span class="line"></span><br><span class="line">m = X.shape[<span class="number">0</span>]</span><br><span class="line">X = np.matrix(X)</span><br><span class="line">y = np.matrix(y)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将参数数组解开为每个层的参数矩阵（在不更改数组数据的情况下为数组提供新形状）</span></span><br><span class="line">theta1 = np.matrix(np.reshape(params[:hidden_size * (input_size + <span class="number">1</span>)], (hidden_size, (input_size + <span class="number">1</span>))))</span><br><span class="line">theta2 = np.matrix(np.reshape(params[hidden_size * (input_size + <span class="number">1</span>):], (num_labels, (hidden_size + <span class="number">1</span>))))</span><br><span class="line"></span><br><span class="line">theta1.shape, theta2.shape</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>((25, 401), (10, 26))</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a1, z2, a2, z3, h = forward_propagate(X, theta1, theta2)</span><br><span class="line">a1.shape, z2.shape, a2.shape, z3.shape, h.shape</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>((5000, 401), (5000, 25), (5000, 26), (5000, 10), (5000, 10))</code></pre><p>代价函数在计算假设矩阵h之后，应用代价函数来计算y和h之间的总误差。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cost(params, input_size, hidden_size, num_labels, X, y_onehot, learning_rate)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>7.182002885834476</code></pre><ul>
+<li>整合上述代码</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmoid</span><span class="params">(z)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>/(<span class="number">1</span>+np.exp(-z))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">forward_propagate</span><span class="params">(X,theta1,theta2)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># a1 5000*401  theta1.T(25*401).T  = z1 5000*25 </span></span><br><span class="line">    <span class="comment"># a2 5000*26  theta2.T(10*26).T    =5000*10 </span></span><br><span class="line">    m = X.shape[<span class="number">0</span>]</span><br><span class="line">    a1 = np.insert(X, <span class="number">0</span>, values=np.ones(m), axis=<span class="number">1</span>)</span><br><span class="line">    z2 = a1* theta1.T</span><br><span class="line">    a2 = np.insert(sigmoid(z2),<span class="number">0</span>,values=np.ones(m),axis=<span class="number">1</span>)</span><br><span class="line">    z3 = a2 * theta2.T</span><br><span class="line">    h = sigmoid(z3)</span><br><span class="line">    <span class="keyword">return</span> a1,z2,a2,z3,h</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cost</span><span class="params">(params, input_size,hidden_size,num_lables,X,y,learning_rate)</span>:</span></span><br><span class="line">    m = X.shape[<span class="number">0</span>]</span><br><span class="line">    X = np.matrix(X)</span><br><span class="line">    y = np.matrix(y)</span><br><span class="line">    </span><br><span class="line">    theta1 = np.matrix(np.reshape(params[:hidden_size*(input_size+<span class="number">1</span>)],(hidden_size,input_size+<span class="number">1</span>)))</span><br><span class="line">    theta2 = np.matrix(np.reshape(params[hidden_size*(input_size+<span class="number">1</span>):],(num_lables,hidden_size+<span class="number">1</span>)))</span><br><span class="line"></span><br><span class="line">    a1,z2,a2,z3,h = forward_propagate(X,theta1,theta2)</span><br><span class="line">    </span><br><span class="line">    J=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line"></span><br><span class="line">        first_term = np.multiply(-y[i,:], np.log(h[i,:]))</span><br><span class="line">        second_term = np.multiply((<span class="number">1</span> - y[i,:]), np.log(<span class="number">1</span> - h[i,:]))</span><br><span class="line">        J += np.sum(first_term - second_term)</span><br><span class="line"></span><br><span class="line">    J = J / m</span><br><span class="line">    <span class="keyword">return</span> J</span><br><span class="line">input_size= <span class="number">400</span></span><br><span class="line">hidden_size= <span class="number">25</span></span><br><span class="line">num_labels= <span class="number">10</span></span><br><span class="line">learning_rate =<span class="number">1</span></span><br><span class="line"></span><br><span class="line">params = (np.random.random(size=hidden_size * (input_size + <span class="number">1</span>) + num_labels * (hidden_size + <span class="number">1</span>)) - <span class="number">0.5</span>) * <span class="number">0.25</span></span><br><span class="line"></span><br><span class="line">cost(params,input_size,hidden_size,num_labels,X,y_onehot,learning_rate)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>7.132323728323127</code></pre><h2 id="正则化代价函数"><a href="#正则化代价函数" class="headerlink" title="正则化代价函数"></a>正则化代价函数</h2><p>我们的下一步是增加代价函数的正则化。  它实际上并不像看起来那么复杂 - 事实上，正则化术语只是我们已经计算出的代价的一个补充。 下面是修改后的代价函数。<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20706nn_regcost03.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cost</span><span class="params">(params, input_size, hidden_size, num_labels, X, y, learning_rate)</span>:</span></span><br><span class="line">    m = X.shape[<span class="number">0</span>]</span><br><span class="line">    X = np.matrix(X)</span><br><span class="line">    y = np.matrix(y)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># reshape the parameter array into parameter matrices for each layer</span></span><br><span class="line">    theta1 = np.matrix(np.reshape(params[:hidden_size * (input_size + <span class="number">1</span>)], (hidden_size, (input_size + <span class="number">1</span>))))</span><br><span class="line">    theta2 = np.matrix(np.reshape(params[hidden_size * (input_size + <span class="number">1</span>):], (num_labels, (hidden_size + <span class="number">1</span>))))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># run the feed-forward pass</span></span><br><span class="line">    a1, z2, a2, z3, h = forward_propagate(X, theta1, theta2)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># compute the cost</span></span><br><span class="line">    J = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        first_term = np.multiply(-y[i,:], np.log(h[i,:]))</span><br><span class="line">        second_term = np.multiply((<span class="number">1</span> - y[i,:]), np.log(<span class="number">1</span> - h[i,:]))</span><br><span class="line">        J += np.sum(first_term - second_term)</span><br><span class="line">    </span><br><span class="line">    J = J/m</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># add the cost regularization term</span></span><br><span class="line">    J += (float(learning_rate) / (<span class="number">2</span> * m)) * (np.sum(np.power(theta1[:,<span class="number">1</span>:], <span class="number">2</span>)) + np.sum(np.power(theta2[:,<span class="number">1</span>:], <span class="number">2</span>)))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> J</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cost(params, input_size, hidden_size, num_labels, X, y_onehot, learning_rate)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>7.137673923569304</code></pre><h2 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h2><p>接下来是反向传播算法。 反向传播参数更新计算将减少训练数据上的神经网络误差。 我们需要的第一件事是计算我们之前创建的Sigmoid函数的梯度的函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmoid_gradient</span><span class="params">(z)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.multiply(sigmoid(z), (<span class="number">1</span> - sigmoid(z)))</span><br></pre></td></tr></table></figure>
+
+<p>现在我们准备好实施反向传播来计算梯度。 由于反向传播所需的计算是代价函数中所需的计算过程，我们实际上将扩展代价函数以执行反向传播并返回代价和梯度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">backprop</span><span class="params">(params, input_size, hidden_size, num_labels, X, y, learning_rate)</span>:</span></span><br><span class="line">    <span class="comment"># 步骤一：获取样本个数</span></span><br><span class="line">    m = X.shape[<span class="number">0</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 步骤二：将矩阵X,y转换为numpy型矩阵</span></span><br><span class="line">    X = np.matrix(X)</span><br><span class="line">    y = np.matrix(y)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 步骤三：从params中获取神经网络参数，并按照输入层维度和隐含层维度重新定义参数的维度</span></span><br><span class="line">    <span class="comment"># reshape the parameter array into parameter matrices for each layer</span></span><br><span class="line">    theta1 = np.matrix(np.reshape(params[:hidden_size * (input_size + <span class="number">1</span>)], (hidden_size, (input_size + <span class="number">1</span>))))</span><br><span class="line">    theta2 = np.matrix(np.reshape(params[hidden_size * (input_size + <span class="number">1</span>):], (num_labels, (hidden_size + <span class="number">1</span>))))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 步骤四：调用前面写好的前向传播函数</span></span><br><span class="line">    <span class="comment"># run the feed-forward pass</span></span><br><span class="line">    a1, z2, a2, z3, h = forward_propagate(X, theta1, theta2)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 步骤五：初始化</span></span><br><span class="line">    <span class="comment"># initializations</span></span><br><span class="line">    </span><br><span class="line">    J = <span class="number">0</span></span><br><span class="line">    delta1 = np.zeros(theta1.shape)  <span class="comment"># (25, 401)</span></span><br><span class="line">    delta2 = np.zeros(theta2.shape)  <span class="comment"># (10, 26)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 步骤六：计算代价函数</span></span><br><span class="line">    <span class="comment"># compute the cost</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        first_term = np.multiply(-y[i,:], np.log(h[i,:]))</span><br><span class="line">        second_term = np.multiply((<span class="number">1</span> - y[i,:]), np.log(<span class="number">1</span> - h[i,:]))</span><br><span class="line">        J += np.sum(first_term - second_term)</span><br><span class="line">    </span><br><span class="line">    J = J / m</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 步骤七：正则化</span></span><br><span class="line">    <span class="comment"># add the cost regularization term</span></span><br><span class="line">    J += (float(learning_rate) / (<span class="number">2</span> * m)) * (np.sum(np.power(theta1[:,<span class="number">1</span>:], <span class="number">2</span>)) + np.sum(np.power(theta2[:,<span class="number">1</span>:], <span class="number">2</span>)))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 步骤八：实现反向传播</span></span><br><span class="line">    <span class="comment"># perform backpropagation执行反向传播</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># a1 （5000,401），theta1 （25,401）,theta2 (10,26)</span></span><br><span class="line">    <span class="comment"># z2= （5000,401）*（25，401）.T=(5000,25) , a2 = (5000,26)</span></span><br><span class="line">    <span class="comment"># z3 =(5000,26)*(10,26).T= (5000,10)   a3 = h = (5000,10)</span></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> range(m):</span><br><span class="line">        a1t = a1[t,:]  <span class="comment"># (1, 401)</span></span><br><span class="line">        z2t = z2[t,:]  <span class="comment"># (1, 25)</span></span><br><span class="line">        a2t = a2[t,:]  <span class="comment"># (1, 26)</span></span><br><span class="line">        ht = h[t,:]  <span class="comment"># (1, 10)</span></span><br><span class="line">        yt = y[t,:]  <span class="comment"># (1, 10)</span></span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        d3t = ht - yt  <span class="comment"># (1, 10)</span></span><br><span class="line">        <span class="comment"># theta2 （10,26）</span></span><br><span class="line">        z2t = np.insert(z2t, <span class="number">0</span>, values=np.ones(<span class="number">1</span>))  <span class="comment"># (1, 26)</span></span><br><span class="line">        <span class="comment"># sigmoid_gradient(z2t) （1,26）</span></span><br><span class="line">        <span class="comment"># (theta2.T (26,10) d3t（1,10）.T ).T= (26,1).T = (1,26)</span></span><br><span class="line">        d2t = np.multiply((theta2.T * d3t.T).T, sigmoid_gradient(z2t))  <span class="comment"># (1, 26)</span></span><br><span class="line">        </span><br><span class="line">        delta1 = delta1 + (d2t[:,<span class="number">1</span>:]).T * a1t  <span class="comment"># 输入层到隐含层的误差</span></span><br><span class="line">        delta2 = delta2 + d3t.T * a2t     <span class="comment"># 隐含层到输出层的误差</span></span><br><span class="line">        </span><br><span class="line">    delta1 = delta1 / m</span><br><span class="line">    delta2 = delta2 / m</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 步骤九：将梯度矩阵转换为单个数组</span></span><br><span class="line">    <span class="comment"># unravel the gradient matrices into a single array</span></span><br><span class="line">    grad = np.concatenate((np.ravel(delta1), np.ravel(delta2)))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> J, grad</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>梯度矩阵转换为单个数组</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a = np.array([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]])</span><br><span class="line">b = np.array([[<span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line">print(<span class="string">"111:"</span>,np.ravel(a))</span><br><span class="line">print(<span class="string">"222:"</span>,np.concatenate((a,b))) <span class="comment"># 默认axis=0</span></span><br><span class="line">print(<span class="string">"ddd:"</span>,np.concatenate((a, b.T), axis=<span class="number">1</span>))</span><br><span class="line">print(<span class="string">"--------"</span>)</span><br><span class="line">np.concatenate((np.ravel(a),np.ravel(b)))</span><br></pre></td></tr></table></figure>
+
+<pre><code>111: [1 2 3 4]
+222: [[1 2]
+ [3 4]
+ [5 6]]
+ddd: [[1 2 5]
+ [3 4 6]]
+--------
+
+
+
+
+
+array([1, 2, 3, 4, 5, 6])</code></pre><p>反向传播计算的最难的部分（除了理解为什么我们正在做所有这些计算）是获得正确矩阵维度。 顺便说一下，你容易混淆了A * B与np.multiply（A，B）使用。 基本上前者是矩阵乘法，后者是元素乘法（除非A或B是标量值，在这种情况下没关系）。<br>无论如何，让我们测试一下，以确保函数返回我们期望的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">J, grad = backprop(params, input_size, hidden_size, num_labels, X, y_onehot, learning_rate)</span><br><span class="line">J, grad.shape</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>(7.137673923569304, (10285,))</code></pre><h3 id="矩阵乘法和元素乘法"><a href="#矩阵乘法和元素乘法" class="headerlink" title="矩阵乘法和元素乘法"></a>矩阵乘法和元素乘法</h3><ul>
+<li>矩阵乘法</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = np.matrix(np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>]])) <span class="comment"># numpy型矩阵</span></span><br><span class="line">b = np.matrix(np.array([[<span class="number">2</span>],[<span class="number">3</span>],[<span class="number">4</span>],[<span class="number">5</span>]]))</span><br><span class="line"></span><br><span class="line">print(a.shape,b.shape)</span><br><span class="line">print(a*b)</span><br><span class="line">print(np.dot(a,b))</span><br></pre></td></tr></table></figure>
+
+<pre><code>(1, 4) (4, 1)
+[[35]]
+[[35]]</code></pre><ul>
+<li>元素乘法示例</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = np.matrix(np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>]]))</span><br><span class="line">b = np.matrix(np.array([[<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>]]))</span><br><span class="line"></span><br><span class="line">np.multiply(b,a)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>matrix([[ 2,  8, 18, 24]])</code></pre><h3 id="反向传播正则化"><a href="#反向传播正则化" class="headerlink" title="反向传播正则化"></a>反向传播正则化</h3><p> 我们还需要对反向传播函数进行一个修改，即将梯度计算加正则化。 最后的正式版本如下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">backprop</span><span class="params">(params, input_size, hidden_size, num_labels, X, y, learning_rate)</span>:</span></span><br><span class="line">    m = X.shape[<span class="number">0</span>]</span><br><span class="line">    X = np.matrix(X)</span><br><span class="line">    y = np.matrix(y)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># reshape the parameter array into parameter matrices for each layer</span></span><br><span class="line">    theta1 = np.matrix(np.reshape(params[:hidden_size * (input_size + <span class="number">1</span>)], (hidden_size, (input_size + <span class="number">1</span>))))</span><br><span class="line">    theta2 = np.matrix(np.reshape(params[hidden_size * (input_size + <span class="number">1</span>):], (num_labels, (hidden_size + <span class="number">1</span>))))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># run the feed-forward pass</span></span><br><span class="line">    a1, z2, a2, z3, h = forward_propagate(X, theta1, theta2)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># initializations</span></span><br><span class="line">    J = <span class="number">0</span></span><br><span class="line">    delta1 = np.zeros(theta1.shape)  <span class="comment"># (25, 401)</span></span><br><span class="line">    delta2 = np.zeros(theta2.shape)  <span class="comment"># (10, 26)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># compute the cost</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        first_term = np.multiply(-y[i,:], np.log(h[i,:]))</span><br><span class="line">        second_term = np.multiply((<span class="number">1</span> - y[i,:]), np.log(<span class="number">1</span> - h[i,:]))</span><br><span class="line">        J += np.sum(first_term - second_term)</span><br><span class="line">    </span><br><span class="line">    J = J / m</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># add the cost regularization term</span></span><br><span class="line">    J += (float(learning_rate) / (<span class="number">2</span> * m)) * (np.sum(np.power(theta1[:,<span class="number">1</span>:], <span class="number">2</span>)) + np.sum(np.power(theta2[:,<span class="number">1</span>:], <span class="number">2</span>)))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># perform backpropagation</span></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> range(m):</span><br><span class="line">        a1t = a1[t,:]  <span class="comment"># (1, 401)</span></span><br><span class="line">        z2t = z2[t,:]  <span class="comment"># (1, 25)</span></span><br><span class="line">        a2t = a2[t,:]  <span class="comment"># (1, 26)</span></span><br><span class="line">        ht = h[t,:]  <span class="comment"># (1, 10)</span></span><br><span class="line">        yt = y[t,:]  <span class="comment"># (1, 10)</span></span><br><span class="line">        </span><br><span class="line">        d3t = ht - yt  <span class="comment"># (1, 10)</span></span><br><span class="line">        </span><br><span class="line">        z2t = np.insert(z2t, <span class="number">0</span>, values=np.ones(<span class="number">1</span>))  <span class="comment"># (1, 26)</span></span><br><span class="line">        d2t = np.multiply((theta2.T * d3t.T).T, sigmoid_gradient(z2t))  <span class="comment"># (1, 26)</span></span><br><span class="line">        </span><br><span class="line">        delta1 = delta1 + (d2t[:,<span class="number">1</span>:]).T * a1t</span><br><span class="line">        delta2 = delta2 + d3t.T * a2t</span><br><span class="line">        </span><br><span class="line">    delta1 = delta1 / m</span><br><span class="line">    delta2 = delta2 / m</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># add the gradient regularization term</span></span><br><span class="line">    delta1[:,<span class="number">1</span>:] = delta1[:,<span class="number">1</span>:] + (theta1[:,<span class="number">1</span>:] * learning_rate) / m</span><br><span class="line">    delta2[:,<span class="number">1</span>:] = delta2[:,<span class="number">1</span>:] + (theta2[:,<span class="number">1</span>:] * learning_rate) / m</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># unravel the gradient matrices into a single array</span></span><br><span class="line">    grad = np.concatenate((np.ravel(delta1), np.ravel(delta2)))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> J, grad</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">J, grad = backprop(params, input_size, hidden_size, num_labels, X, y_onehot, learning_rate)</span><br><span class="line">J, grad.shape</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>(7.137673923569304, (10285,))</code></pre><p>我们终于准备好训练我们的网络，并用它进行预测。 这与以往的具有多类逻辑回归的练习大致相似。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scipy.optimize <span class="keyword">import</span> minimize</span><br><span class="line"></span><br><span class="line"><span class="comment"># minimize the objective function</span></span><br><span class="line">fmin = minimize(fun=backprop, x0=params, args=(input_size, hidden_size, num_labels, X, y_onehot, learning_rate), </span><br><span class="line">                method=<span class="string">'TNC'</span>, jac=<span class="literal">True</span>, options=&#123;<span class="string">'maxiter'</span>: <span class="number">250</span>&#125;)</span><br><span class="line">fmin</span><br></pre></td></tr></table></figure>
+
+<pre><code>    fun: 0.36936848574990994
+    jac: array([-1.94682911e-04,  2.79038111e-06, -8.05264111e-06, ...,
+      -7.06122696e-04, -9.89911805e-04, -9.76751347e-04])
+message: &apos;Max. number of function evaluations reached&apos;
+   nfev: 250
+    nit: 16
+ status: 3
+success: False
+      x: array([-0.13037322,  0.01395191, -0.04026321, ..., -1.50678966,
+      -0.13882294, -0.24985413])</code></pre><p>由于目标函数不太可能完全收敛，我们对迭代次数进行了限制。 我们的总代价已经下降到0.5以下，这是算法正常工作的一个很好的指标。 让我们使用它发现的参数，并通过网络转发，以获得一些预测。</p>
+<p>让我们使用它找到的参数，并通过网络前向传播以获得预测。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X = np.matrix(X)</span><br><span class="line">theta1 = np.matrix(np.reshape(fmin.x[:hidden_size * (input_size + <span class="number">1</span>)], (hidden_size, (input_size + <span class="number">1</span>))))</span><br><span class="line">theta2 = np.matrix(np.reshape(fmin.x[hidden_size * (input_size + <span class="number">1</span>):], (num_labels, (hidden_size + <span class="number">1</span>))))</span><br><span class="line"></span><br><span class="line">a1, z2, a2, z3, h = forward_propagate(X, theta1, theta2)</span><br><span class="line">y_pred = np.array(np.argmax(h, axis=<span class="number">1</span>) + <span class="number">1</span>)</span><br><span class="line">y_pred</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>array([[10],
+       [10],
+       [10],
+       ...,
+       [ 9],
+       [ 9],
+       [ 9]], dtype=int64)</code></pre><ul>
+<li>np.argmax测试</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a=np.array([[<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>],</span><br><span class="line">           [<span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>]])</span><br><span class="line">np.argmax(a, axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>array([2, 2], dtype=int64)</code></pre><p>最后，我们可以计算准确度，看看我们训练完毕的神经网络效果怎么样。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">correct = [<span class="number">1</span> <span class="keyword">if</span> a == b <span class="keyword">else</span> <span class="number">0</span> <span class="keyword">for</span> (a, b) <span class="keyword">in</span> zip(y_pred, y)]</span><br><span class="line">accuracy = (sum(map(int, correct)) / float(len(correct)))</span><br><span class="line"><span class="keyword">print</span> (<span class="string">'accuracy = &#123;0&#125;%'</span>.format(accuracy * <span class="number">100</span>))</span><br></pre></td></tr></table></figure>
+
+<pre><code>accuracy = 98.34%</code></pre><p>我们已经成功地实施了一个基本的反向传播神经网络，并用它来分类手写数字图像。 在下一个练习中，我们将介绍另一个强大的监督学习算法，支持向量机。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://blog.csdn.net/gdh756462786/article/details/79161525" target="_blank" rel="noopener">one-hot编码</a></li>
+<li><a href="https://www.cnblogs.com/charlotte77/p/5629865.html" target="_blank" rel="noopener">反向传播算法</a></li>
+</ul>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/07/01/ML-004%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-Exercise4/>https://fishni.github.io/2020/07/01/ML-004%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-Exercise4/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/wechat.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/qq.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-06T23:29:42+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年7月6日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>神经网络</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/07/01/ML-004%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-Exercise4/&title=【吴恩达机器学习】练习4-神经网络 - fishni&summary=对于这个练习，我们将再次处理手写数字数据集，这次使用反向传播的前馈神经网络。 我们将通过反向传播算法实现神经网络代价函数和梯度计算的非正则化和正则化版本。 我们还将实现随机权重初始化和使用网络进行预测的方法。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/07/01/ML-004%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-Exercise4/&title=【吴恩达机器学习】练习4-神经网络 - fishni&summary=对于这个练习，我们将再次处理手写数字数据集，这次使用反向传播的前馈神经网络。 我们将通过反向传播算法实现神经网络代价函数和梯度计算的非正则化和正则化版本。 我们还将实现随机权重初始化和使用网络进行预测的方法。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/07/01/ML-004%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-Exercise4/&title=【吴恩达机器学习】练习4-神经网络 - fishni&summary=对于这个练习，我们将再次处理手写数字数据集，这次使用反向传播的前馈神经网络。 我们将通过反向传播算法实现神经网络代价函数和梯度计算的非正则化和正则化版本。 我们还将实现随机权重初始化和使用网络进行预测的方法。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2020/06/23/ML-003%E5%A4%9A%E5%88%86%E7%B1%BB-Exercise3/'>
+                <p class='title'>【吴恩达机器学习】练习3-多分类<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本文运用逻辑回归对手写数字进行分类预测。。。。
+
+
+该代码涵盖了基于Python的解决方案，用于Coursera机器学习课程的第三个编程练习。 有关详细说明和方程式，请参阅exercise te...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true,
+    tags: "ams",
+    macros: {
+      href: "{}"
+    }
+  },
+  options: {
+    ignoreHtmlClass: "tex2jax_ignore|dno",
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+};
+</script>
+
+
+
+
+  <script>
+    window.subData = {
+      title: '【吴恩达机器学习】练习4-神经网络',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据集加载"><span class="toc-text">数据集加载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#one-hot编码"><span class="toc-text">one-hot编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sigmoid-函数"><span class="toc-text">sigmoid 函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前向传播函数"><span class="toc-text">前向传播函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代价函数"><span class="toc-text">代价函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正则化代价函数"><span class="toc-text">正则化代价函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反向传播"><span class="toc-text">反向传播</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#矩阵乘法和元素乘法"><span class="toc-text">矩阵乘法和元素乘法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反向传播正则化"><span class="toc-text">反向传播正则化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://fishni.github.io/"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+            
+              <a href="https://github.com/fishni"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://volantis.js.org/" target="_blank" class="codename">fishni's blog</a>
+        作为主题
+        
+          ，
+          总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://fishni.github.io/">Copyright © 2017-2020 Mr.fishmouse</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('') {
+          $('').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("div.fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
