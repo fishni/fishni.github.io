@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>【吴恩达机器学习】线性SVM-01 - fishni</title>
+  
+    <meta name="keywords" content="python,SVM">
+  
+  
+    <meta name="description" content="本文是对线性SVM实践性理解，利用sklearn.svm中的LinearSVC。此外参考链接给出了几个较为详细的SVM原理理解。">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            FISHNI'S BLOG <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-rss fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  更多
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-rss fa-fw'></i>
+        
+        主页
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        分类
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-archive fa-fw'></i>
+        
+        归档
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/07/14/ML-006%E7%BA%BF%E6%80%A7SVM-1/">
+        【吴恩达机器学习】线性SVM-01
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://fishni.github.io/" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/ghost1.jpg">
+    <p>fishni</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>人工智能</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年7月14日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>本文是对线性SVM实践性理解，利用sklearn.svm中的LinearSVC。此外参考链接给出了几个较为详细的SVM原理理解。</p>
+<a id="more"></a>
+
+
+
+<h2 id="数据集操作"><a href="#数据集操作" class="headerlink" title="数据集操作"></a>数据集操作</h2><ul>
+<li>导入模块</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> sklearn.svm</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> scipy.io <span class="keyword">as</span> sio</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>加载数据集</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mat = sio.loadmat(<span class="string">'./data/ex6data1.mat'</span>)</span><br><span class="line">mat</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>{&apos;__header__&apos;: b&apos;MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: Sun Nov 13 14:28:43 2011&apos;,
+ &apos;__version__&apos;: &apos;1.0&apos;,
+ &apos;__globals__&apos;: [],
+ &apos;X&apos;: array([[1.9643  , 4.5957  ],
+        [2.2753  , 3.8589  ],
+        [2.9781  , 4.5651  ],
+        [2.932   , 3.5519  ],
+        [3.5772  , 2.856   ],
+        [4.015   , 3.1937  ],
+        [3.3814  , 3.4291  ],
+        [3.9113  , 4.1761  ],
+        [2.7822  , 4.0431  ],
+        [2.5518  , 4.6162  ],
+        [3.3698  , 3.9101  ],
+        [3.1048  , 3.0709  ],
+        [1.9182  , 4.0534  ],
+        [2.2638  , 4.3706  ],
+        [2.6555  , 3.5008  ],
+        [3.1855  , 4.2888  ],
+        [3.6579  , 3.8692  ],
+        [3.9113  , 3.4291  ],
+        [3.6002  , 3.1221  ],
+        [3.0357  , 3.3165  ],
+        [1.5841  , 3.3575  ],
+        [2.0103  , 3.2039  ],
+        [1.9527  , 2.7843  ],
+        [2.2753  , 2.7127  ],
+        [2.3099  , 2.9584  ],
+        [2.8283  , 2.6309  ],
+        [3.0473  , 2.2931  ],
+        [2.4827  , 2.0373  ],
+        [2.5057  , 2.3853  ],
+        [1.8721  , 2.0577  ],
+        [2.0103  , 2.3546  ],
+        [1.2269  , 2.3239  ],
+        [1.8951  , 2.9174  ],
+        [1.561   , 3.0709  ],
+        [1.5495  , 2.6923  ],
+        [1.6878  , 2.4057  ],
+        [1.4919  , 2.0271  ],
+        [0.962   , 2.682   ],
+        [1.1693  , 2.9276  ],
+        [0.8122  , 2.9992  ],
+        [0.9735  , 3.3881  ],
+        [1.25    , 3.1937  ],
+        [1.3191  , 3.5109  ],
+        [2.2292  , 2.201   ],
+        [2.4482  , 2.6411  ],
+        [2.7938  , 1.9656  ],
+        [2.091   , 1.6177  ],
+        [2.5403  , 2.8867  ],
+        [0.9044  , 3.0198  ],
+        [0.76615 , 2.5899  ],
+        [0.086405, 4.1045  ]]),
+ &apos;y&apos;: array([[1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [1],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [0],
+        [1]], dtype=uint8)}</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mat = sio.loadmat(<span class="string">'./data/ex6data1.mat'</span>)</span><br><span class="line">print(mat.keys())</span><br><span class="line">data = pd.DataFrame(mat.get(<span class="string">'X'</span>), columns=[<span class="string">'X1'</span>, <span class="string">'X2'</span>])</span><br><span class="line">data[<span class="string">'y'</span>] = mat.get(<span class="string">'y'</span>)</span><br><span class="line"></span><br><span class="line">data.head()</span><br></pre></td></tr></table></figure>
+
+<pre><code>dict_keys([&apos;__header__&apos;, &apos;__version__&apos;, &apos;__globals__&apos;, &apos;X&apos;, &apos;y&apos;])</code></pre><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}</code></pre><p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+      <th>X2</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1.9643</td>
+      <td>4.5957</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2.2753</td>
+      <td>3.8589</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2.9781</td>
+      <td>4.5651</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>2.9320</td>
+      <td>3.5519</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>3.5772</td>
+      <td>2.8560</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>可视化data</p>
+<p>注意左边的边界情况</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fig, ax = plt.subplots(figsize=(<span class="number">8</span>,<span class="number">6</span>))</span><br><span class="line">ax.scatter(data[<span class="string">'X1'</span>], data[<span class="string">'X2'</span>], s=<span class="number">50</span>, c=data[<span class="string">'y'</span>], cmap=<span class="string">'Reds'</span>)</span><br><span class="line">ax.set_title(<span class="string">'Raw data'</span>)</span><br><span class="line">ax.set_xlabel(<span class="string">'X1'</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">'X2'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20718svm01.png" alt="png"></p>
+<h2 id="try-C-1"><a href="#try-C-1" class="headerlink" title="try $C=1$"></a>try $C=1$</h2><p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html#sklearn.svm.LinearSVC" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html#sklearn.svm.LinearSVC</a></p>
+<ul>
+<li>fix(X,y): 训练模型</li>
+<li>predict(X): 用模型进行预测，返回预测值</li>
+<li>score(X,y[, sample_weight]):返回在(X, y)上预测的准确率</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svc1 = sklearn.svm.LinearSVC(C=<span class="number">1</span>, loss=<span class="string">'hinge'</span>)</span><br><span class="line">svc1.fit(data[[<span class="string">'X1'</span>, <span class="string">'X2'</span>]], data[<span class="string">'y'</span>])</span><br><span class="line">svc1.score(data[[<span class="string">'X1'</span>, <span class="string">'X2'</span>]], data[<span class="string">'y'</span>])</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<pre><code>0.9803921568627451</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">'SVM1 Confidence'</span>] = svc1.decision_function(data[[<span class="string">'X1'</span>, <span class="string">'X2'</span>]])</span><br><span class="line">data.head()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}</code></pre><p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+      <th>X2</th>
+      <th>y</th>
+      <th>SVM1 Confidence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1.9643</td>
+      <td>4.5957</td>
+      <td>1</td>
+      <td>0.798413</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2.2753</td>
+      <td>3.8589</td>
+      <td>1</td>
+      <td>0.380796</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2.9781</td>
+      <td>4.5651</td>
+      <td>1</td>
+      <td>1.372965</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>2.9320</td>
+      <td>3.5519</td>
+      <td>1</td>
+      <td>0.518512</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>3.5772</td>
+      <td>2.8560</td>
+      <td>1</td>
+      <td>0.331923</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<ul>
+<li>画出SVM1 confidence图像</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fig, ax = plt.subplots(figsize=(<span class="number">8</span>,<span class="number">6</span>))</span><br><span class="line">ax.scatter(data[<span class="string">'X1'</span>], data[<span class="string">'X2'</span>], s=<span class="number">50</span>, c=data[<span class="string">'SVM1 Confidence'</span>], cmap=<span class="string">'RdBu'</span>)</span><br><span class="line">ax.set_title(<span class="string">'SVM (C=1) Decision Confidence'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20718svm02.png" alt="png"></p>
+<h2 id="try-C-100"><a href="#try-C-100" class="headerlink" title="try $C=100$"></a>try $C=100$</h2><p>对于较大的C，你会尝试过度拟合数据，所以左边的边缘情况现在被归为右边</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svc100 = sklearn.svm.LinearSVC(C=<span class="number">100</span>, loss=<span class="string">'hinge'</span>)</span><br><span class="line">svc100.fit(data[[<span class="string">'X1'</span>, <span class="string">'X2'</span>]], data[<span class="string">'y'</span>])</span><br><span class="line">svc100.score(data[[<span class="string">'X1'</span>, <span class="string">'X2'</span>]], data[<span class="string">'y'</span>])</span><br></pre></td></tr></table></figure>
+
+
+
+<pre><code>0.9803921568627451</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">'SVM100 Confidence'</span>] = svc100.decision_function(data[[<span class="string">'X1'</span>, <span class="string">'X2'</span>]])</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fig, ax = plt.subplots(figsize=(<span class="number">8</span>,<span class="number">6</span>))</span><br><span class="line">ax.scatter(data[<span class="string">'X1'</span>], data[<span class="string">'X2'</span>], s=<span class="number">50</span>, c=data[<span class="string">'SVM100 Confidence'</span>], cmap=<span class="string">'RdBu'</span>)</span><br><span class="line">ax.set_title(<span class="string">'SVM (C=100) Decision Confidence'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20718svm03.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.head()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}</code></pre><p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+      <th>X2</th>
+      <th>y</th>
+      <th>SVM1 Confidence</th>
+      <th>SVM100 Confidence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1.9643</td>
+      <td>4.5957</td>
+      <td>1</td>
+      <td>0.798413</td>
+      <td>3.483024</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2.2753</td>
+      <td>3.8589</td>
+      <td>1</td>
+      <td>0.380796</td>
+      <td>1.652665</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2.9781</td>
+      <td>4.5651</td>
+      <td>1</td>
+      <td>1.372965</td>
+      <td>4.569583</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>2.9320</td>
+      <td>3.5519</td>
+      <td>1</td>
+      <td>0.518512</td>
+      <td>1.502287</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>3.5772</td>
+      <td>2.8560</td>
+      <td>1</td>
+      <td>0.331923</td>
+      <td>0.181774</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><p><a href="https://www.jianshu.com/p/96e8fad1a2a4" target="_blank" rel="noopener">SVM理解参考链接</a></p>
+</li>
+<li><p><a href="https://zhuanlan.zhihu.com/p/74484361" target="_blank" rel="noopener">SVM理解参考链接2：较为细致</a></p>
+</li>
+<li><p><a href="https://www.sohu.com/a/206572358_160850" target="_blank" rel="noopener">从超平面到SVM（一）</a></p>
+</li>
+<li><p><a href="https://www.sohu.com/a/211607605_160850" target="_blank" rel="noopener">从超平面到SVM（二）</a></p>
+</li>
+</ul>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/07/14/ML-006%E7%BA%BF%E6%80%A7SVM-1/>https://fishni.github.io/2020/07/14/ML-006%E7%BA%BF%E6%80%A7SVM-1/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/wechat.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/qq.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-18T11:14:21+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年7月18日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/SVM/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>SVM</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/07/14/ML-006%E7%BA%BF%E6%80%A7SVM-1/&title=【吴恩达机器学习】线性SVM-01 - fishni&summary=本文是对线性SVM实践性理解，利用sklearn.svm中的LinearSVC。此外参考链接给出了几个较为详细的SVM原理理解。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/07/14/ML-006%E7%BA%BF%E6%80%A7SVM-1/&title=【吴恩达机器学习】线性SVM-01 - fishni&summary=本文是对线性SVM实践性理解，利用sklearn.svm中的LinearSVC。此外参考链接给出了几个较为详细的SVM原理理解。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/07/14/ML-006%E7%BA%BF%E6%80%A7SVM-1/&title=【吴恩达机器学习】线性SVM-01 - fishni&summary=本文是对线性SVM实践性理解，利用sklearn.svm中的LinearSVC。此外参考链接给出了几个较为详细的SVM原理理解。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2020/07/07/ML-005%E5%81%8F%E5%B7%AE%E5%92%8C%E6%96%B9%E5%B7%AE-Exercise5/'>
+                <p class='title'>【吴恩达机器学习】练习5-方差与偏差<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>对于这个练习，了解泛化误差中的方差和偏差
+
+
+
+
+
+本章代码涵盖了基于Python的解决方案，用于Coursera机器学习课程的第五个编程练习。 请参考练习文本了解详细的说明和公式。
+导入模块
+...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true,
+    tags: "ams",
+    macros: {
+      href: "{}"
+    }
+  },
+  options: {
+    ignoreHtmlClass: "tex2jax_ignore|dno",
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+};
+</script>
+
+
+
+
+  <script>
+    window.subData = {
+      title: '【吴恩达机器学习】线性SVM-01',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据集操作"><span class="toc-text">数据集操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#try-C-1"><span class="toc-text">try $C&#x3D;1$</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#try-C-100"><span class="toc-text">try $C&#x3D;100$</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://fishni.github.io/"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+            
+              <a href="https://github.com/fishni"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://volantis.js.org/" target="_blank" class="codename">fishni's blog</a>
+        作为主题
+        
+          ，
+          总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://fishni.github.io/">Copyright © 2017-2020 Mr.fishmouse</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('') {
+          $('').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("div.fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
