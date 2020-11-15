@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>【python-Web服务器】1.2 python-Web静态服务器-1-显示固定的页面 - fishni</title>
+    <title>【数据结构与算法】【LeetCode】【链表】83. 删除排序链表中的重复元素 - fishni</title>
   
-    <meta name="keywords" content="Web,python">
+    <meta name="keywords" content="python,数据结构与算法,链表">
   
   
-    <meta name="description" content="本文使用python写个简单的Web静态服务器">
+    <meta name="description" content="将有序链表中重复出现的元素删除，每个元素出现一次。">
   
 
   <!-- feed -->
@@ -305,8 +305,8 @@
         
   
     <h1 class="title">
-      <a href="/2020/04/06/1.2%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1-%E6%98%BE%E7%A4%BA%E5%9B%BA%E5%AE%9A%E7%9A%84%E9%A1%B5%E9%9D%A2/">
-        【python-Web服务器】1.2 python-Web静态服务器-1-显示固定的页面
+      <a href="/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-83.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/">
+        【数据结构与算法】【LeetCode】【链表】83. 删除排序链表中的重复元素
       </a>
     </h1>
   
@@ -332,9 +332,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/python/Web%E6%9C%8D%E5%8A%A1%E5%99%A8/' rel="nofollow">
+    <a href='/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>python&nbsp;/&nbsp;Web服务器</p>
+      <p>数据结构与算法</p>
     </a>
   </div>
 
@@ -345,7 +345,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年4月6日</p>
+    <p>发布于：2020年11月15日</p>
   </a>
 </div>
 
@@ -367,14 +367,26 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>本文使用python写个简单的Web静态服务器</p>
+          <p>将有序链表中重复出现的元素删除，每个元素出现一次。</p>
 <a id="more"></a>
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line">HTML_ROOT_DIR = <span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_client</span><span class="params">(client_socket)</span>:</span></span><br><span class="line">    <span class="string">"""处理客户端请求"""</span></span><br><span class="line">    <span class="comment"># 获取客户端数据</span></span><br><span class="line">    request_data = client_socket.recv(<span class="number">1024</span>)</span><br><span class="line">    print(<span class="string">"request data:"</span>,request_data)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 构造响应数据</span></span><br><span class="line">    response_start_line = <span class="string">"HTTP/1.1 200 0k\r\n"</span></span><br><span class="line">    response_headers = <span class="string">"Server: My testserver\r\n"</span></span><br><span class="line">    response_body = <span class="string">"hello world"</span></span><br><span class="line">    response = response_start_line + response_headers+ <span class="string">"\r\n"</span>+ response_body</span><br><span class="line">    print(<span class="string">"response:"</span>,response)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 向客户端发送数据</span></span><br><span class="line">    client_socket.send(bytes(response,<span class="string">"utf-8"</span>))</span><br><span class="line">    <span class="comment"># 关闭客户端连接</span></span><br><span class="line">    client_socket.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)</span><br><span class="line">    server_socket.bind((<span class="string">""</span>,<span class="number">8000</span>))</span><br><span class="line">    server_socket.listen(<span class="number">128</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        client_socket, client_address = server_socket.accept()</span><br><span class="line">        print(<span class="string">"[%s,%s]用户连接上了"</span>%client_address)</span><br><span class="line">        handle_client_process = Process(target=handle_client, args=(client_socket,))</span><br><span class="line">        handle_client_process.start()</span><br><span class="line">        client_socket.close()</span><br></pre></td></tr></table></figure>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。</p>
+<p>示例</p>
+<pre><code>示例 1:
 
-<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20406python06.png" alt=""></p>
-<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20406python07.png" alt=""></p>
+输入: 1-&gt;1-&gt;2
+输出: 1-&gt;2
 
+示例 2:
+
+输入: 1-&gt;1-&gt;2-&gt;3-&gt;3
+输出: 1-&gt;2-&gt;3</code></pre><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>仅用一个指针</p>
+<pre><code>通过将结点的值与它之后的结点进行比较来确定它是否为重复结点。如果它是重复的，我们更改当前结点的 next 指针，以便它跳过下一个结点并直接指向下一个结点之后的结点。</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createLink_rearinsert</span><span class="params">(lista)</span>:</span></span><br><span class="line">    head = ListNode(<span class="number">-1</span>)</span><br><span class="line">    rear = head</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> lista:</span><br><span class="line">        new_node=ListNode(i)</span><br><span class="line">        rear.next=new_node</span><br><span class="line">        rear=new_node</span><br><span class="line">    <span class="keyword">return</span> head.next</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deleteDuplicates</span><span class="params">(self, head)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (head <span class="keyword">and</span> head.next):</span><br><span class="line">            <span class="keyword">return</span> head</span><br><span class="line">        current=head</span><br><span class="line">        <span class="keyword">while</span> current!=<span class="literal">None</span> <span class="keyword">and</span> current.next!=<span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">if</span> current.next.val==current.val:</span><br><span class="line">                current.next=current.next.next</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                current=current.next</span><br><span class="line">        <span class="keyword">return</span> head</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    a=[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">4</span>]</span><br><span class="line">    new_a=createLink_rearinsert(a)</span><br><span class="line">    a1 = Solution()</span><br><span class="line">    p=a1.deleteDuplicates(new_a)</span><br><span class="line">    list1=[]</span><br><span class="line">    <span class="keyword">while</span>(p!=<span class="literal">None</span>):</span><br><span class="line">        list1.append(p.val)</span><br><span class="line">        <span class="comment">#print(p.val)</span></span><br><span class="line">        p=p.next</span><br><span class="line">    print(list1)</span><br></pre></td></tr></table></figure>
+
+<pre><code>[1, 2, 4]</code></pre><h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>使用了两个指针</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createLink_rearinsert</span><span class="params">(lista)</span>:</span></span><br><span class="line">    head = ListNode(<span class="number">-1</span>)</span><br><span class="line">    rear = head</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> lista:</span><br><span class="line">        new_node=ListNode(i)</span><br><span class="line">        rear.next=new_node</span><br><span class="line">        rear=new_node</span><br><span class="line">    <span class="keyword">return</span> head.next</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deleteDuplicates</span><span class="params">(self, head)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (head <span class="keyword">and</span> head.next):</span><br><span class="line">            <span class="keyword">return</span> head</span><br><span class="line">        a = head</span><br><span class="line">        b = head.next</span><br><span class="line">        <span class="keyword">while</span> b:</span><br><span class="line">            <span class="keyword">if</span> a.val!=b.val:</span><br><span class="line">                a=b</span><br><span class="line">                b=b.next</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">while</span> b <span class="keyword">and</span> a.val==b.val:</span><br><span class="line">                    b = b.next</span><br><span class="line"></span><br><span class="line">                a.next = b</span><br><span class="line">                a=b</span><br><span class="line">                b = b.next <span class="keyword">if</span> b <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line">        <span class="keyword">return</span> head</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    a=[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">4</span>]</span><br><span class="line">    new_a=createLink_rearinsert(a)</span><br><span class="line">    a1 = Solution()</span><br><span class="line">    p=a1.deleteDuplicates(new_a)</span><br><span class="line">    list1=[]</span><br><span class="line">    <span class="keyword">while</span>(p!=<span class="literal">None</span>):</span><br><span class="line">        list1.append(p.val)</span><br><span class="line">        <span class="comment">#print(p.val)</span></span><br><span class="line">        p=p.next</span><br><span class="line">    print(list1)</span><br></pre></td></tr></table></figure>
+
+<pre><code>[1, 2, 4]</code></pre>
           
             <br>
             
@@ -393,7 +405,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://fishni.github.io/2020/04/06/1.2%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1-%E6%98%BE%E7%A4%BA%E5%9B%BA%E5%AE%9A%E7%9A%84%E9%A1%B5%E9%9D%A2/>https://fishni.github.io/2020/04/06/1.2%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1-%E6%98%BE%E7%A4%BA%E5%9B%BA%E5%AE%9A%E7%9A%84%E9%A1%B5%E9%9D%A2/</a></p>
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-83.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/>https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-83.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/</a></p>
           
         
       </blockquote>
@@ -442,10 +454,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-06T17:45:04+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-15T10:24:14+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年4月6日</p>
+    <p>更新于：2020年11月15日</p>
   </a>
 </div>
 
@@ -454,7 +466,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Web/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Web</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据结构与算法</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E9%93%BE%E8%A1%A8/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>链表</p></a></div>
 
 
         
@@ -472,7 +484,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/04/06/1.2%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1-%E6%98%BE%E7%A4%BA%E5%9B%BA%E5%AE%9A%E7%9A%84%E9%A1%B5%E9%9D%A2/&title=【python-Web服务器】1.2 python-Web静态服务器-1-显示固定的页面 - fishni&summary=本文使用python写个简单的Web静态服务器"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-83.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/&title=【数据结构与算法】【LeetCode】【链表】83. 删除排序链表中的重复元素 - fishni&summary=将有序链表中重复出现的元素删除，每个元素出现一次。"
           
           >
           
@@ -484,7 +496,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/04/06/1.2%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1-%E6%98%BE%E7%A4%BA%E5%9B%BA%E5%AE%9A%E7%9A%84%E9%A1%B5%E9%9D%A2/&title=【python-Web服务器】1.2 python-Web静态服务器-1-显示固定的页面 - fishni&summary=本文使用python写个简单的Web静态服务器"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-83.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/&title=【数据结构与算法】【LeetCode】【链表】83. 删除排序链表中的重复元素 - fishni&summary=将有序链表中重复出现的元素删除，每个元素出现一次。"
           
           >
           
@@ -496,7 +508,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/04/06/1.2%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1-%E6%98%BE%E7%A4%BA%E5%9B%BA%E5%AE%9A%E7%9A%84%E9%A1%B5%E9%9D%A2/&title=【python-Web服务器】1.2 python-Web静态服务器-1-显示固定的页面 - fishni&summary=本文使用python写个简单的Web静态服务器"
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-83.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/&title=【数据结构与算法】【LeetCode】【链表】83. 删除排序链表中的重复元素 - fishni&summary=将有序链表中重复出现的元素删除，每个元素出现一次。"
           
           >
           
@@ -520,18 +532,17 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/2020/04/06/1.1%20XSS%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%8E%9F%E7%90%86/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>【XSS（一）】1.1 XSS介绍与原理</p>
-                <p class='content'>本文主要整理了XSS相关知识，XSS类别、利用、危害以及简单的实例分析。
+            
+              <a class='next' href='/2020/11/13/LeetCode-A-%E9%93%BE%E8%A1%A8-82.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0%20II/'>
+                <p class='title'>【数据结构与算法】【LeetCode】【链表】82. 删除排序链表中的重复元素 II<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>将有序链表中重复出现的元素删除。
 
 
-0x01 基础知识1.1 XSS简介跨站脚本（Cross-Site Scripting，XSS）是一种经常出现在 W...</p>
-              </a>
-            
-            
-              <a class='next' href='/2020/04/05/%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86GaussianNB%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/'>
-                <p class='title'>【机器学习算法】鸢尾花数据集GaussianNB分类预测<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>本文主要内容 UC Irvine具有用于存储各种数据的大型存储库。 本文使用鸢尾花数据集（https://archive.ics.uci.edu/ml/datasets/Iris）进行实验。 为...</p>
+
+题目给定一个排序链表，删除所有含有重复数字的节点，只保留原始链表中 没有重复出现 的数字。
+ 示例 1:
+
+ 输入: 1-&gt;2-&gt;3-&gt;...</p>
               </a>
             
           </div>
@@ -555,11 +566,32 @@
 
 <!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
 
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true,
+    tags: "ams",
+    macros: {
+      href: "{}"
+    }
+  },
+  options: {
+    ignoreHtmlClass: "tex2jax_ignore|dno",
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+};
+</script>
+
+
 
 
   <script>
     window.subData = {
-      title: '【python-Web服务器】1.2 python-Web静态服务器-1-显示固定的页面',
+      title: '【数据结构与算法】【LeetCode】【链表】83. 删除排序链表中的重复元素',
       tools: true
     }
   </script>
@@ -585,7 +617,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#服务端"><span class="toc-text">服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端"><span class="toc-text">客户端</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#题解"><span class="toc-text">题解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一"><span class="toc-text">方法一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二"><span class="toc-text">方法二</span></a></li></ol></li></ol>
     </div>
   </section>
 
