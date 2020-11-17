@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>【python-Web服务器】1.2 python-Web静态服务器-1-显示固定的页面 - fishni</title>
+    <title>【数据结构与算法】【LeetCode】【链表】86. 分隔链表 - fishni</title>
   
-    <meta name="keywords" content="Web,python">
+    <meta name="keywords" content="python,数据结构与算法,链表">
   
   
-    <meta name="description" content="本文使用python写个简单的Web静态服务器">
+    <meta name="description" content="链表分隔。">
   
 
   <!-- feed -->
@@ -305,8 +305,8 @@
         
   
     <h1 class="title">
-      <a href="/2020/04/06/1.2%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1-%E6%98%BE%E7%A4%BA%E5%9B%BA%E5%AE%9A%E7%9A%84%E9%A1%B5%E9%9D%A2/">
-        【python-Web服务器】1.2 python-Web静态服务器-1-显示固定的页面
+      <a href="/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-86.%20%E5%88%86%E9%9A%94%E9%93%BE%E8%A1%A8/">
+        【数据结构与算法】【LeetCode】【链表】86. 分隔链表
       </a>
     </h1>
   
@@ -332,9 +332,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/python/Web%E6%9C%8D%E5%8A%A1%E5%99%A8/' rel="nofollow">
+    <a href='/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>python&nbsp;/&nbsp;Web服务器</p>
+      <p>数据结构与算法</p>
     </a>
   </div>
 
@@ -345,7 +345,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年4月6日</p>
+    <p>发布于：2020年11月15日</p>
   </a>
 </div>
 
@@ -367,14 +367,29 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>本文使用python写个简单的Web静态服务器</p>
+          <p>链表分隔。</p>
 <a id="more"></a>
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line">HTML_ROOT_DIR = <span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_client</span><span class="params">(client_socket)</span>:</span></span><br><span class="line">    <span class="string">"""处理客户端请求"""</span></span><br><span class="line">    <span class="comment"># 获取客户端数据</span></span><br><span class="line">    request_data = client_socket.recv(<span class="number">1024</span>)</span><br><span class="line">    print(<span class="string">"request data:"</span>,request_data)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 构造响应数据</span></span><br><span class="line">    response_start_line = <span class="string">"HTTP/1.1 200 0k\r\n"</span></span><br><span class="line">    response_headers = <span class="string">"Server: My testserver\r\n"</span></span><br><span class="line">    response_body = <span class="string">"hello world"</span></span><br><span class="line">    response = response_start_line + response_headers+ <span class="string">"\r\n"</span>+ response_body</span><br><span class="line">    print(<span class="string">"response:"</span>,response)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 向客户端发送数据</span></span><br><span class="line">    client_socket.send(bytes(response,<span class="string">"utf-8"</span>))</span><br><span class="line">    <span class="comment"># 关闭客户端连接</span></span><br><span class="line">    client_socket.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)</span><br><span class="line">    server_socket.bind((<span class="string">""</span>,<span class="number">8000</span>))</span><br><span class="line">    server_socket.listen(<span class="number">128</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        client_socket, client_address = server_socket.accept()</span><br><span class="line">        print(<span class="string">"[%s,%s]用户连接上了"</span>%client_address)</span><br><span class="line">        handle_client_process = Process(target=handle_client, args=(client_socket,))</span><br><span class="line">        handle_client_process.start()</span><br><span class="line">        client_socket.close()</span><br></pre></td></tr></table></figure>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于 x 的节点都在大于或等于 x 的节点之前。
 
-<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20406python06.png" alt=""></p>
-<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20406python07.png" alt=""></p>
+你应当保留两个分区中每个节点的初始相对位置。</code></pre><p> 示例:</p>
+<pre><code>输入: head = 1-&gt;4-&gt;3-&gt;2-&gt;5-&gt;2, x = 3
+输出: 1-&gt;2-&gt;2-&gt;4-&gt;3-&gt;5</code></pre><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><ul>
+<li>双指针法，创建两个带头结点（哑结点）的指针before_x和after_x</li>
+<li>遍历链表<ul>
+<li>将小于x的值添加到链表before_x中</li>
+<li>大于等于x的值添加到链表after_x中</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createLink_rearinsert</span><span class="params">(lista)</span>:</span></span><br><span class="line">    head = ListNode(<span class="number">-1</span>)</span><br><span class="line">    rear = head</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> lista:</span><br><span class="line">        new_node=ListNode(i)</span><br><span class="line">        rear.next=new_node</span><br><span class="line">        rear=new_node</span><br><span class="line">    <span class="keyword">return</span> head.next</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(self, head: ListNode, x: int)</span> -&gt; ListNode:</span></span><br><span class="line">        <span class="comment"># before_x构造小于x的节点链表,利用头结点，也即哑结点</span></span><br><span class="line">        before_x = ListNode(<span class="number">-1</span>)</span><br><span class="line">        <span class="comment"># after_x 构造大于x的结点链表</span></span><br><span class="line">        after_x=ListNode(<span class="number">-1</span>)</span><br><span class="line">        b=before_x</span><br><span class="line">        a=after_x</span><br><span class="line">        <span class="comment"># 遍历head</span></span><br><span class="line">        <span class="keyword">while</span> head!=<span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">if</span> head.val&lt;x:</span><br><span class="line">                b.next=head</span><br><span class="line">                b=head</span><br><span class="line">                head=head.next</span><br><span class="line">                b.next=<span class="literal">None</span></span><br><span class="line">            <span class="keyword">elif</span> head!=<span class="literal">None</span>:</span><br><span class="line">                a.next=head</span><br><span class="line">                a=head</span><br><span class="line">                head=head.next</span><br><span class="line">                a.next=<span class="literal">None</span></span><br><span class="line">        b.next=after_x.next</span><br><span class="line">        <span class="keyword">return</span> before_x.next</span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    a=[<span class="number">1</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">2</span>]</span><br><span class="line">    x=<span class="number">3</span></span><br><span class="line">    new_a=createLink_rearinsert(a)</span><br><span class="line">    a1 = Solution()</span><br><span class="line">    p=a1.partition(new_a,x)</span><br><span class="line">    list1=[]</span><br><span class="line">    <span class="keyword">while</span>(p!=<span class="literal">None</span>):</span><br><span class="line">        list1.append(p.val)</span><br><span class="line">        <span class="comment">#print(p.val)</span></span><br><span class="line">        p=p.next</span><br><span class="line">    print(list1)</span><br></pre></td></tr></table></figure>
 
+<pre><code>[1, 2, 2, 4, 3, 5]</code></pre><ul>
+<li>简化</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createLink_rearinsert</span><span class="params">(lista)</span>:</span></span><br><span class="line">    head = ListNode(<span class="number">-1</span>)</span><br><span class="line">    rear = head</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> lista:</span><br><span class="line">        new_node=ListNode(i)</span><br><span class="line">        rear.next=new_node</span><br><span class="line">        rear=new_node</span><br><span class="line">    <span class="keyword">return</span> head.next</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(self, head: ListNode, x: int)</span> -&gt; ListNode:</span></span><br><span class="line">        <span class="comment"># before_x构造小于x的节点链表,利用头结点，也即哑结点</span></span><br><span class="line">        before_x = ListNode(<span class="number">-1</span>)</span><br><span class="line">        <span class="comment"># after_x 构造大于x的结点链表</span></span><br><span class="line">        after_x=ListNode(<span class="number">-1</span>)</span><br><span class="line">        b=before_x</span><br><span class="line">        a=after_x</span><br><span class="line">        <span class="comment"># 遍历head</span></span><br><span class="line">        <span class="keyword">while</span> head:</span><br><span class="line">            <span class="keyword">if</span> head.val&lt;x:</span><br><span class="line">                b.next=head</span><br><span class="line">                b=b.next</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                a.next=head</span><br><span class="line">                a=a.next</span><br><span class="line">            head=head.next</span><br><span class="line">        a.next = <span class="literal">None</span></span><br><span class="line">        b.next=after_x.next</span><br><span class="line">        <span class="keyword">return</span> before_x.next</span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    a=[<span class="number">1</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">2</span>]</span><br><span class="line">    x=<span class="number">3</span></span><br><span class="line">    new_a=createLink_rearinsert(a)</span><br><span class="line">    a1 = Solution()</span><br><span class="line">    p=a1.partition(new_a,x)</span><br><span class="line">    list1=[]</span><br><span class="line">    <span class="keyword">while</span>(p!=<span class="literal">None</span>):</span><br><span class="line">        list1.append(p.val)</span><br><span class="line">        <span class="comment">#print(p.val)</span></span><br><span class="line">        p=p.next</span><br><span class="line">    print(list1)</span><br></pre></td></tr></table></figure>
+
+<pre><code>[1, 2, 2, 4, 3, 5]</code></pre>
           
             <br>
             
@@ -393,7 +408,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://fishni.github.io/2020/04/06/1.2%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1-%E6%98%BE%E7%A4%BA%E5%9B%BA%E5%AE%9A%E7%9A%84%E9%A1%B5%E9%9D%A2/>https://fishni.github.io/2020/04/06/1.2%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1-%E6%98%BE%E7%A4%BA%E5%9B%BA%E5%AE%9A%E7%9A%84%E9%A1%B5%E9%9D%A2/</a></p>
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-86.%20%E5%88%86%E9%9A%94%E9%93%BE%E8%A1%A8/>https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-86.%20%E5%88%86%E9%9A%94%E9%93%BE%E8%A1%A8/</a></p>
           
         
       </blockquote>
@@ -442,10 +457,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-06T17:45:04+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-17T09:49:14+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年4月6日</p>
+    <p>更新于：2020年11月17日</p>
   </a>
 </div>
 
@@ -454,7 +469,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Web/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Web</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据结构与算法</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E9%93%BE%E8%A1%A8/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>链表</p></a></div>
 
 
         
@@ -472,7 +487,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/04/06/1.2%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1-%E6%98%BE%E7%A4%BA%E5%9B%BA%E5%AE%9A%E7%9A%84%E9%A1%B5%E9%9D%A2/&title=【python-Web服务器】1.2 python-Web静态服务器-1-显示固定的页面 - fishni&summary=本文使用python写个简单的Web静态服务器"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-86.%20%E5%88%86%E9%9A%94%E9%93%BE%E8%A1%A8/&title=【数据结构与算法】【LeetCode】【链表】86. 分隔链表 - fishni&summary=链表分隔。"
           
           >
           
@@ -484,7 +499,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/04/06/1.2%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1-%E6%98%BE%E7%A4%BA%E5%9B%BA%E5%AE%9A%E7%9A%84%E9%A1%B5%E9%9D%A2/&title=【python-Web服务器】1.2 python-Web静态服务器-1-显示固定的页面 - fishni&summary=本文使用python写个简单的Web静态服务器"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-86.%20%E5%88%86%E9%9A%94%E9%93%BE%E8%A1%A8/&title=【数据结构与算法】【LeetCode】【链表】86. 分隔链表 - fishni&summary=链表分隔。"
           
           >
           
@@ -496,7 +511,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/04/06/1.2%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1-%E6%98%BE%E7%A4%BA%E5%9B%BA%E5%AE%9A%E7%9A%84%E9%A1%B5%E9%9D%A2/&title=【python-Web服务器】1.2 python-Web静态服务器-1-显示固定的页面 - fishni&summary=本文使用python写个简单的Web静态服务器"
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-86.%20%E5%88%86%E9%9A%94%E9%93%BE%E8%A1%A8/&title=【数据结构与算法】【LeetCode】【链表】86. 分隔链表 - fishni&summary=链表分隔。"
           
           >
           
@@ -520,22 +535,15 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/2020/04/06/1.1%20XSS%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%8E%9F%E7%90%86/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>【XSS（一）】1.1 XSS介绍与原理</p>
-                <p class='content'>本文主要整理了XSS相关知识，XSS类别、利用、危害以及简单的实例分析。
-
-
-0x01 基础知识1.1 XSS简介跨站脚本（Cross-Site Scripting，XSS）是一种经常出现在 W...</p>
-              </a>
             
-            
-              <a class='next' href='/2020/04/06/1.1%20HTTP%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/'>
-                <p class='title'>【python-Web服务器】1.1 HTTP协议简介<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>本文主要结合浏览器开发者工具理解HTTP协议，分析浏览器与服务器之间的请求和响应。
+              <a class='next' href='/2020/11/15/%E6%9D%82%E9%A1%B9-01-markdown%E5%85%AC%E5%BC%8F%E5%A4%A7%E5%85%A8/'>
+                <p class='title'>【杂项】01-MarkDown公式大全<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>markdown公式符号大全。
 
 
-0x01 使用谷歌/火狐浏览器分析
-在Web应用中，服务器把网页传给浏览器，实际上就是把网页的HTML代码...</p>
+上下标
+$a_0$，$a_{pre}\Longrightarrow$a_0，a_{pre}
+$a^0，a^{[0]}\Longrightarrow$a^0，a...</p>
               </a>
             
           </div>
@@ -559,11 +567,32 @@
 
 <!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
 
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true,
+    tags: "ams",
+    macros: {
+      href: "{}"
+    }
+  },
+  options: {
+    ignoreHtmlClass: "tex2jax_ignore|dno",
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+};
+</script>
+
+
 
 
   <script>
     window.subData = {
-      title: '【python-Web服务器】1.2 python-Web静态服务器-1-显示固定的页面',
+      title: '【数据结构与算法】【LeetCode】【链表】86. 分隔链表',
       tools: true
     }
   </script>
@@ -589,7 +618,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#服务端"><span class="toc-text">服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端"><span class="toc-text">客户端</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#题解"><span class="toc-text">题解</span></a></li></ol>
     </div>
   </section>
 
