@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>【数据结构与算法】【LeetCode】【链表】83. 删除排序链表中的重复元素 - fishni</title>
+    <title>【数据结构与算法】【LeetCode】【链表】142.环形链表II - fishni</title>
   
     <meta name="keywords" content="python,数据结构与算法,链表">
   
   
-    <meta name="description" content="将有序链表中重复出现的元素删除，每个元素出现一次。">
+    <meta name="description" content="返回链表入环开始的第一个节点。">
   
 
   <!-- feed -->
@@ -305,8 +305,8 @@
         
   
     <h1 class="title">
-      <a href="/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-83.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/">
-        【数据结构与算法】【LeetCode】【链表】83. 删除排序链表中的重复元素
+      <a href="/2020/11/20/LeetCode-A-%E9%93%BE%E8%A1%A8-142.%20%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%20II/">
+        【数据结构与算法】【LeetCode】【链表】142.环形链表II
       </a>
     </h1>
   
@@ -345,7 +345,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年11月15日</p>
+    <p>发布于：2020年11月20日</p>
   </a>
 </div>
 
@@ -367,26 +367,53 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>将有序链表中重复出现的元素删除，每个元素出现一次。</p>
+          <p>返回链表入环开始的第一个节点。</p>
 <a id="more"></a>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
 
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。</p>
-<p>示例</p>
-<pre><code>示例 1:
+为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。注意，pos 仅仅是用于标识环的情况，并不会作为参数传递到函数中。
 
-输入: 1-&gt;1-&gt;2
-输出: 1-&gt;2
+说明：不允许修改给定的链表。</code></pre><p>进阶：</p>
+<p>你是否可以使用 O(1) 空间解决此题？</p>
+<p>示例1</p>
+<img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/201119circularlinkedlist.png" align="left">
 
-示例 2:
+<pre><code>输入：head = [3,2,0,-4], pos = 1
+输出：返回索引为 1 的链表节点
+解释：链表中有一个环，其尾部连接到第二个节点</code></pre><p>示例2</p>
+<img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/201119circularlinkedlist_test2.png" align="left">
 
-输入: 1-&gt;1-&gt;2-&gt;3-&gt;3
-输出: 1-&gt;2-&gt;3</code></pre><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>仅用一个指针</p>
-<pre><code>通过将结点的值与它之后的结点进行比较来确定它是否为重复结点。如果它是重复的，我们更改当前结点的 next 指针，以便它跳过下一个结点并直接指向下一个结点之后的结点。</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createLink_rearinsert</span><span class="params">(lista)</span>:</span></span><br><span class="line">    head = ListNode(<span class="number">-1</span>)</span><br><span class="line">    rear = head</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> lista:</span><br><span class="line">        new_node=ListNode(i)</span><br><span class="line">        rear.next=new_node</span><br><span class="line">        rear=new_node</span><br><span class="line">    <span class="keyword">return</span> head.next</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deleteDuplicates</span><span class="params">(self, head)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (head <span class="keyword">and</span> head.next):</span><br><span class="line">            <span class="keyword">return</span> head</span><br><span class="line">        current=head</span><br><span class="line">        <span class="keyword">while</span> current!=<span class="literal">None</span> <span class="keyword">and</span> current.next!=<span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">if</span> current.next.val==current.val:</span><br><span class="line">                current.next=current.next.next</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                current=current.next</span><br><span class="line">        <span class="keyword">return</span> head</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    a=[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">4</span>]</span><br><span class="line">    new_a=createLink_rearinsert(a)</span><br><span class="line">    a1 = Solution()</span><br><span class="line">    p=a1.deleteDuplicates(new_a)</span><br><span class="line">    list1=[]</span><br><span class="line">    <span class="keyword">while</span>(p!=<span class="literal">None</span>):</span><br><span class="line">        list1.append(p.val)</span><br><span class="line">        <span class="comment">#print(p.val)</span></span><br><span class="line">        p=p.next</span><br><span class="line">    print(list1)</span><br></pre></td></tr></table></figure>
+<pre><code>输入：head = [1,2], pos = 0
+输出：返回索引为 0 的链表节点
+解释：链表中有一个环，其尾部连接到第一个节点。</code></pre><p>示例3</p>
+<img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/201119circularlinkedlist_test3.png" align="left">
 
-<pre><code>[1, 2, 4]</code></pre><h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>使用了两个指针</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createLink_rearinsert</span><span class="params">(lista)</span>:</span></span><br><span class="line">    head = ListNode(<span class="number">-1</span>)</span><br><span class="line">    rear = head</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> lista:</span><br><span class="line">        new_node=ListNode(i)</span><br><span class="line">        rear.next=new_node</span><br><span class="line">        rear=new_node</span><br><span class="line">    <span class="keyword">return</span> head.next</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deleteDuplicates</span><span class="params">(self, head)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (head <span class="keyword">and</span> head.next):</span><br><span class="line">            <span class="keyword">return</span> head</span><br><span class="line">        a = head</span><br><span class="line">        b = head.next</span><br><span class="line">        <span class="keyword">while</span> b:</span><br><span class="line">            <span class="keyword">if</span> a.val!=b.val:</span><br><span class="line">                a=b</span><br><span class="line">                b=b.next</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">while</span> b <span class="keyword">and</span> a.val==b.val:</span><br><span class="line">                    b = b.next</span><br><span class="line"></span><br><span class="line">                a.next = b</span><br><span class="line">                a=b</span><br><span class="line">                b = b.next <span class="keyword">if</span> b <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line">        <span class="keyword">return</span> head</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    a=[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">4</span>]</span><br><span class="line">    new_a=createLink_rearinsert(a)</span><br><span class="line">    a1 = Solution()</span><br><span class="line">    p=a1.deleteDuplicates(new_a)</span><br><span class="line">    list1=[]</span><br><span class="line">    <span class="keyword">while</span>(p!=<span class="literal">None</span>):</span><br><span class="line">        list1.append(p.val)</span><br><span class="line">        <span class="comment">#print(p.val)</span></span><br><span class="line">        p=p.next</span><br><span class="line">    print(list1)</span><br></pre></td></tr></table></figure>
+<pre><code>输入：head = [1], pos = -1
+输出：返回 null
+解释：链表中没有环。</code></pre><p>提示：</p>
+<p>链表中节点的数目范围是 $[0, 10^4]$</p>
+<p>$-10^5 &lt;= Node.val &lt;= 10^5$</p>
+<p>pos 为 -1 或者链表中的一个 有效索引 。</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="方法一：哈希表法"><a href="#方法一：哈希表法" class="headerlink" title="方法一：哈希表法"></a>方法一：哈希表法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createLink_rearinsert_cycle</span><span class="params">(lista,pos)</span>:</span></span><br><span class="line">    head = ListNode(<span class="number">-1</span>)</span><br><span class="line">    rear = head</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(lista)):</span><br><span class="line">        new_node=ListNode(lista[i])</span><br><span class="line">        <span class="keyword">if</span> i==pos:</span><br><span class="line">            pos_node = new_node</span><br><span class="line">        rear.next=new_node</span><br><span class="line">        rear=new_node</span><br><span class="line">    <span class="keyword">if</span> pos!=<span class="number">-1</span>:</span><br><span class="line">        rear.next=pos_node</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> head.next</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">detectCycle</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">        seen = set()</span><br><span class="line">        <span class="keyword">while</span> head:</span><br><span class="line">            <span class="keyword">if</span> head <span class="keyword">in</span> seen:</span><br><span class="line">                <span class="keyword">return</span> head</span><br><span class="line">            seen.add(head)</span><br><span class="line">            head = head.next</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    head = [<span class="number">3</span>,<span class="number">2</span>,<span class="number">0</span>,<span class="number">-4</span>]</span><br><span class="line">    pos = <span class="number">1</span></span><br><span class="line">    new_a=createLink_rearinsert_cycle(head,pos)</span><br><span class="line">    a1 = Solution()</span><br><span class="line">    p=a1.detectCycle(new_a)</span><br><span class="line">    print(p)</span><br></pre></td></tr></table></figure>
 
-<pre><code>[1, 2, 4]</code></pre>
+<pre><code>&lt;__main__.ListNode object at 0x000001CED72B6A48&gt;</code></pre><p>复杂度分析</p>
+<p>时间复杂度：O(N)，其中 N 为链表中节点的数目。我们恰好需要访问链表中的每一个节点。</p>
+<p>空间复杂度：O(N)，其中 N 为链表中节点的数目。我们需要将链表中的每个节点都保存在哈希表当中。</p>
+<h3 id="方法二：快慢指针"><a href="#方法二：快慢指针" class="headerlink" title="方法二：快慢指针"></a>方法二：快慢指针</h3><ul>
+<li>思路与算法</li>
+</ul>
+<p>我们使用两个指针，<code>fast</code>和<code>slow</code>。它们起始都位于链表的头部。随后，<code>slow</code>指针每次向后移动一个位置，而 <code>fast</code>指针向后移动两个位置。如果链表中存在环，则 <code>fast</code> 指针最终将再次与 <code>slow</code> 指针在环中相遇。</p>
+<p>如下图所示，设链表中环外部分的长度为 <code>a</code>。<code>slow</code> 指针进入环后，又走了 <code>b</code>的距离与 <code>fast</code> 相遇。此时，<code>fast</code>指针已经走完了环的<code>n</code>圈，因此它走过的总距离为 <code>a+n(b+c)+b=a+(n+1)b+nc</code>。</p>
+<img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/201120fig1.png"  width='500px'>
+
+
+<p>根据题意，任意时刻，<code>fast</code> 指针走过的距离都为 <code>slow</code>指针的 2 倍。因此，我们有</p>
+<p>$a+(n+1)b+nc=2(a+b)⟹a=c+(n−1)(b+c)$</p>
+<p>有了 $a=c+(n-1)(b+c)a=c+(n−1)(b+c)$ 的等量关系，我们会发现：从相遇点到入环点的距离加上 <code>n-1</code> 圈的环长，恰好等于从链表头部到入环点的距离。</p>
+<p>因此，当发现 <code>slow</code> 与 <code>fast</code>相遇时，我们再额外使用一个指针 <code>ptr</code>。起始，它指向链表头部；随后，它和 <code>slow</code> 每次向后移动一个位置。最终，它们会在入环点相遇。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createLink_rearinsert_cycle</span><span class="params">(lista,pos)</span>:</span></span><br><span class="line">    head = ListNode(<span class="number">-1</span>)</span><br><span class="line">    rear = head</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(lista)):</span><br><span class="line">        new_node=ListNode(lista[i])</span><br><span class="line">        <span class="keyword">if</span> i==pos:</span><br><span class="line">            pos_node = new_node</span><br><span class="line">        rear.next=new_node</span><br><span class="line">        rear=new_node</span><br><span class="line">    <span class="keyword">if</span> pos!=<span class="number">-1</span>:</span><br><span class="line">        rear.next=pos_node</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> head.next</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">detectCycle</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head <span class="keyword">or</span> <span class="keyword">not</span> head.next:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        </span><br><span class="line">        slow = head</span><br><span class="line">        fast = head.next</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> slow != fast:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> fast <span class="keyword">or</span> <span class="keyword">not</span> fast.next:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">            slow = slow.next</span><br><span class="line">            fast = fast.next.next</span><br><span class="line">        ptr=head</span><br><span class="line">        <span class="keyword">while</span> ptr!=slow.next:</span><br><span class="line">            ptr=ptr.next</span><br><span class="line">            slow=slow.next</span><br><span class="line">        <span class="keyword">return</span> ptr</span><br><span class="line">    </span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    head = [<span class="number">3</span>,<span class="number">2</span>,<span class="number">0</span>,<span class="number">-4</span>]</span><br><span class="line">    pos = <span class="number">1</span></span><br><span class="line">    new_a=createLink_rearinsert_cycle(head,pos)</span><br><span class="line">    a1 = Solution()</span><br><span class="line">    p=a1.detectCycle(new_a)</span><br><span class="line">    print(p)</span><br></pre></td></tr></table></figure>
+
+<pre><code>&lt;__main__.ListNode object at 0x000001CED72B6208&gt;</code></pre>
           
             <br>
             
@@ -405,7 +432,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-83.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/>https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-83.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/</a></p>
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/11/20/LeetCode-A-%E9%93%BE%E8%A1%A8-142.%20%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%20II/>https://fishni.github.io/2020/11/20/LeetCode-A-%E9%93%BE%E8%A1%A8-142.%20%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%20II/</a></p>
           
         
       </blockquote>
@@ -454,10 +481,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-15T10:24:14+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-20T15:24:01+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年11月15日</p>
+    <p>更新于：2020年11月20日</p>
   </a>
 </div>
 
@@ -484,7 +511,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-83.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/&title=【数据结构与算法】【LeetCode】【链表】83. 删除排序链表中的重复元素 - fishni&summary=将有序链表中重复出现的元素删除，每个元素出现一次。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/11/20/LeetCode-A-%E9%93%BE%E8%A1%A8-142.%20%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%20II/&title=【数据结构与算法】【LeetCode】【链表】142.环形链表II - fishni&summary=返回链表入环开始的第一个节点。"
           
           >
           
@@ -496,7 +523,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-83.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/&title=【数据结构与算法】【LeetCode】【链表】83. 删除排序链表中的重复元素 - fishni&summary=将有序链表中重复出现的元素删除，每个元素出现一次。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/11/20/LeetCode-A-%E9%93%BE%E8%A1%A8-142.%20%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%20II/&title=【数据结构与算法】【LeetCode】【链表】142.环形链表II - fishni&summary=返回链表入环开始的第一个节点。"
           
           >
           
@@ -508,7 +535,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/11/15/LeetCode-A-%E9%93%BE%E8%A1%A8-83.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/&title=【数据结构与算法】【LeetCode】【链表】83. 删除排序链表中的重复元素 - fishni&summary=将有序链表中重复出现的元素删除，每个元素出现一次。"
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/11/20/LeetCode-A-%E9%93%BE%E8%A1%A8-142.%20%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%20II/&title=【数据结构与算法】【LeetCode】【链表】142.环形链表II - fishni&summary=返回链表入环开始的第一个节点。"
           
           >
           
@@ -532,27 +559,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/2020/11/15/%E6%9D%82%E9%A1%B9-01-markdown%E5%85%AC%E5%BC%8F%E5%A4%A7%E5%85%A8/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>【杂项】01-MarkDown公式大全</p>
-                <p class='content'>markdown公式符号大全。
-
-
-上下标
-$a_0$，$a_{pre}\Longrightarrow$a_0，a_{pre}
-$a^0，a^{[0]}\Longrightarrow$a^0，a...</p>
-              </a>
             
-            
-              <a class='next' href='/2020/11/13/LeetCode-A-%E9%93%BE%E8%A1%A8-82.%20%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0%20II/'>
-                <p class='title'>【数据结构与算法】【LeetCode】【链表】82. 删除排序链表中的重复元素 II<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>将有序链表中重复出现的元素删除。
+              <a class='next' href='/2020/11/19/LeetCode-A-%E9%93%BE%E8%A1%A8-141.%20%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/'>
+                <p class='title'>【数据结构与算法】【LeetCode】【链表】141.环形链表I<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>判断链表是否有环
 
 
-
-题目给定一个排序链表，删除所有含有重复数字的节点，只保留原始链表中 没有重复出现 的数字。
- 示例 1:
-
- 输入: 1-&gt;2-&gt;3-&gt;...</p>
+题目给定一个链表，判断链表中是否有环。
+如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，我们使用整数 pos 来表...</p>
               </a>
             
           </div>
@@ -601,7 +615,7 @@ window.MathJax = {
 
   <script>
     window.subData = {
-      title: '【数据结构与算法】【LeetCode】【链表】83. 删除排序链表中的重复元素',
+      title: '【数据结构与算法】【LeetCode】【链表】142.环形链表II',
       tools: true
     }
   </script>
@@ -627,7 +641,7 @@ window.MathJax = {
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#题解"><span class="toc-text">题解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一"><span class="toc-text">方法一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二"><span class="toc-text">方法二</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#题解"><span class="toc-text">题解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一：哈希表法"><span class="toc-text">方法一：哈希表法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二：快慢指针"><span class="toc-text">方法二：快慢指针</span></a></li></ol></li></ol>
     </div>
   </section>
 
