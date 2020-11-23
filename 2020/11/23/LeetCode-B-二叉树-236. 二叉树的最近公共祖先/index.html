@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>【python-Web服务器】1.3 python-Web静态服务器-2-显示需要的页面 - fishni</title>
+    <title>【数据结构与算法】【LeetCode】【二叉树】236.二叉树的最近公共祖先 - fishni</title>
   
-    <meta name="keywords" content="Web,python">
+    <meta name="keywords" content="python,数据结构与算法,二叉树">
   
   
-    <meta name="description" content="本文使用python写个可以显示需要页面的Web静态服务器。">
+    <meta name="description" content="二叉树创建，最近公共祖先">
   
 
   <!-- feed -->
@@ -305,8 +305,8 @@
         
   
     <h1 class="title">
-      <a href="/2020/04/06/1.3%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-2-%E6%98%BE%E7%A4%BA%E9%9C%80%E8%A6%81%E7%9A%84%E9%A1%B5%E9%9D%A2/">
-        【python-Web服务器】1.3 python-Web静态服务器-2-显示需要的页面
+      <a href="/2020/11/23/LeetCode-B-%E4%BA%8C%E5%8F%89%E6%A0%91-236.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/">
+        【数据结构与算法】【LeetCode】【二叉树】236.二叉树的最近公共祖先
       </a>
     </h1>
   
@@ -332,9 +332,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/python/Web%E6%9C%8D%E5%8A%A1%E5%99%A8/' rel="nofollow">
+    <a href='/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>python&nbsp;/&nbsp;Web服务器</p>
+      <p>数据结构与算法</p>
     </a>
   </div>
 
@@ -345,7 +345,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年4月6日</p>
+    <p>发布于：2020年11月23日</p>
   </a>
 </div>
 
@@ -367,11 +367,73 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>本文使用python写个可以显示需要页面的Web静态服务器。</p>
+          <p>二叉树创建，最近公共祖先</p>
 <a id="more"></a>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。</p>
+<p>最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”</p>
+<p>例如，给定如下二叉树:  root = [3,5,1,6,2,0,8,null,null,7,4]</p>
+<img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/201123binarytree.png" width="500px">
 
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">HTML_ROOT_DIR = <span class="string">"./html"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_client</span><span class="params">(client_socket)</span>:</span></span><br><span class="line">    <span class="string">"""处理客户端请求"""</span></span><br><span class="line">    <span class="comment"># 获取客户端数据</span></span><br><span class="line">    request_data = client_socket.recv(<span class="number">1024</span>)</span><br><span class="line">    print(<span class="string">"request data:"</span>,request_data)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 处理请求数据</span></span><br><span class="line">    request_lines = request_data.splitlines()</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> request_lines:</span><br><span class="line">        print(line)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># "GET / HTTP/1.1"</span></span><br><span class="line">    request_start_line = request_lines[<span class="number">0</span>]</span><br><span class="line">    file_name = re.match(<span class="string">r"\w+ +(/[^ ]*)"</span>,request_start_line.decode(<span class="string">"utf-8"</span>)).group(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="string">"/"</span> == file_name:</span><br><span class="line">        file_name= <span class="string">"/index.html"</span></span><br><span class="line">    <span class="comment"># 打开文件</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        file = open(HTML_ROOT_DIR+file_name,<span class="string">"rb"</span>)</span><br><span class="line">    <span class="keyword">except</span> IOError:</span><br><span class="line">        <span class="comment"># 构造响应数据</span></span><br><span class="line">        response_start_line = <span class="string">"HTTP/1.1 404 Not Found\r\n"</span></span><br><span class="line">        response_headers = <span class="string">"Server: My testserver\r\n"</span></span><br><span class="line">        response_body = <span class="string">"file is not found!"</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        file_data = file.read()</span><br><span class="line">        file.close()</span><br><span class="line">        <span class="comment"># 构造响应数据</span></span><br><span class="line">        response_start_line = <span class="string">"HTTP/1.1 200 0k\r\n"</span></span><br><span class="line">        response_headers = <span class="string">"Server: My testserver\r\n"</span></span><br><span class="line">        response_body = file_data.decode(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    response = response_start_line + response_headers+ <span class="string">"\r\n"</span>+ response_body</span><br><span class="line">    print(<span class="string">"response:"</span>,response)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 向客户端发送数据</span></span><br><span class="line">    client_socket.send(bytes(response,<span class="string">"utf-8"</span>))</span><br><span class="line">    <span class="comment"># 关闭客户端连接</span></span><br><span class="line">    client_socket.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)</span><br><span class="line">    server_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,<span class="number">1</span>)</span><br><span class="line">    server_socket.bind((<span class="string">""</span>,<span class="number">8000</span>))</span><br><span class="line">    server_socket.listen(<span class="number">128</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        client_socket, client_address = server_socket.accept()</span><br><span class="line">        print(<span class="string">"[%s,%s]用户连接上了"</span>%client_address)</span><br><span class="line">        handle_client_process = Process(target=handle_client, args=(client_socket,))</span><br><span class="line">        handle_client_process.start()</span><br><span class="line">        client_socket.close()</span><br></pre></td></tr></table></figure>
+<p>示例 1:</p>
+<pre><code>输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+输出: 3
+解释: 节点 5 和节点 1 的最近公共祖先是节点 3。</code></pre><p>示例 2:</p>
+<pre><code>输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+输出: 5
+解释: 节点 5 和节点 4 的最近公共祖先是节点 5。因为根据定义最近公共祖先节点可以为节点本身。</code></pre><p>说明:</p>
+<pre><code>所有节点的值都是唯一的。
+p、q 为不同节点且均存在于给定的二叉树中。</code></pre><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><ul>
+<li><p>最近公共祖先的定义： </p>
+<pre><code>设节点 root为节点 p, q的某公共祖先，若其左子节点 root.left 和右子节点 root.right都不是 p,q的公共祖先，则称 root 是 “最近的公共祖先” 。</code></pre></li>
+</ul>
+<ul>
+<li>根据以上定义，若 rootroot 是 p, qp,q 的 最近公共祖先 ，则只可能为以下情况之一：<ol>
+<li>p 和 q 在 root 的子树中，且分列root 的 异侧（即分别在左、右子树中）；</li>
+<li>p = root ，且q 在 root 的左或右子树中；</li>
+<li>q = root ，且 p 在 root的左或右子树中；</li>
+</ol>
+</li>
+</ul>
+<img  src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/201123binarytree01.png" width="500px">
+
+<p>考虑通过递归对二叉树进行后序遍历，当遇到节点 p 或 q 时返回。从底至顶回溯，当节点 p, q在节点 root的异侧时，节点root 即为最近公共祖先，则向上返回 root 。</p>
+<ul>
+<li>递归解析：<ol>
+<li>终止条件：<ul>
+<li>当越过叶节点，则直接返回 null ；</li>
+<li>当 root 等于 p,q，则直接返回 root；</li>
+</ul>
+</li>
+<li>递推工作：<ul>
+<li>开启递归左子节点，返回值记为 left ；</li>
+<li>开启递归右子节点，返回值记为 right ；</li>
+</ul>
+</li>
+<li>返回值： 根据 left和 right ，可展开为四种情况；<ul>
+<li>1.当 left 和 right 同时为空 ：说明root 的左 / 右子树中都不包含 p,q ，返回null ；</li>
+<li>2.当 left和 right 同时不为空 ：说明 p, q分列在 root 的 异侧 （分别在 左 / 右子树），因此 root 为最近公共祖先，返回 root ；</li>
+<li>3.当 left 为空 ，right 不为空 ：p,q 都不在 root 的左子树中，直接返回 right 。具体可分为两种情况：<ul>
+<li>p,q 其中一个在root 的 右子树 中，此时right 指向 p（假设为p ）；</li>
+<li>p,q 两节点都在 root 的 右子树 中，此时的right 指向 最近公共祖先节点 ；</li>
+</ul>
+</li>
+<li>4.当 left 不为空 ，right 为空 ：与情况 3. 同理；<blockquote>
+<p>观察发现， 情况 1. 可合并至 3. 和 4. 内，详见文章末尾代码。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="keyword">from</span> queue <span class="keyword">import</span> Queue</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.left = <span class="literal">None</span></span><br><span class="line">        self.right = <span class="literal">None</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_tree</span><span class="params">(list_tree,p,q)</span>:</span></span><br><span class="line">    <span class="keyword">if</span>  <span class="keyword">not</span> list_tree:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    new_queue= Queue()</span><br><span class="line">    root = TreeNode(list_tree[<span class="number">0</span>])</span><br><span class="line">    new_queue.put(root) <span class="comment"># 先入队一个结点</span></span><br><span class="line">    count = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> new_queue.empty() <span class="keyword">and</span> count&lt;len(list_tree):</span><br><span class="line">        dequeue = new_queue.get() <span class="comment"># 出队</span></span><br><span class="line">        <span class="comment"># 返回p,q指向结点</span></span><br><span class="line">        <span class="keyword">if</span> p==dequeue.val:</span><br><span class="line">            p=dequeue</span><br><span class="line">        <span class="keyword">if</span> q==dequeue.val:</span><br><span class="line">            q=dequeue</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> dequeue.left <span class="keyword">and</span>  <span class="keyword">not</span> dequeue.right:</span><br><span class="line">            <span class="keyword">if</span> count&lt;len(list_tree) <span class="keyword">and</span> list_tree[count]:</span><br><span class="line">                dequeue.left=TreeNode(list_tree[count])</span><br><span class="line">            count= count+<span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> count&lt;len(list_tree) <span class="keyword">and</span> list_tree[count]:</span><br><span class="line">                dequeue.right=TreeNode(list_tree[count])</span><br><span class="line">            count= count+<span class="number">1</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> dequeue.left:</span><br><span class="line">                new_queue.put(dequeue.left)</span><br><span class="line">            <span class="keyword">if</span> dequeue.right:</span><br><span class="line">                new_queue.put(dequeue.right)</span><br><span class="line">    <span class="comment">#print(p.val,q.val)</span></span><br><span class="line">    <span class="keyword">return</span> root,p,q</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lowestCommonAncestor</span><span class="params">(self, root: <span class="string">'TreeNode'</span>, p: <span class="string">'TreeNode'</span>, q: <span class="string">'TreeNode'</span>)</span> -&gt; 'TreeNode':</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root <span class="keyword">or</span> root == p <span class="keyword">or</span> root == q: <span class="keyword">return</span> root</span><br><span class="line">        left = self.lowestCommonAncestor(root.left, p, q)</span><br><span class="line">        right = self.lowestCommonAncestor(root.right, p, q)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> left: <span class="keyword">return</span> right</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> right: <span class="keyword">return</span> left</span><br><span class="line">        <span class="keyword">return</span> root</span><br><span class="line"></span><br><span class="line">root = [<span class="number">3</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">0</span>,<span class="number">8</span>,<span class="literal">None</span>,<span class="literal">None</span>,<span class="number">7</span>,<span class="number">4</span>]</span><br><span class="line">p=<span class="number">5</span></span><br><span class="line">q=<span class="number">1</span></span><br><span class="line">root_tree,p,q=create_tree(root,p,q)</span><br><span class="line">a=Solution()</span><br><span class="line">result =a.lowestCommonAncestor(root_tree,p,q)</span><br><span class="line">result.val</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>3</code></pre><p>时间复杂度 O(N) ： 其中 N 为二叉树节点数；最差情况下，需要递归遍历树的所有节点。</p>
+<p>空间复杂度 O(N) ： 最差情况下，递归深度达到 N ，系统使用 O(N) 大小的额外空间。</p>
 
           
             <br>
@@ -391,7 +453,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://fishni.github.io/2020/04/06/1.3%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-2-%E6%98%BE%E7%A4%BA%E9%9C%80%E8%A6%81%E7%9A%84%E9%A1%B5%E9%9D%A2/>https://fishni.github.io/2020/04/06/1.3%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-2-%E6%98%BE%E7%A4%BA%E9%9C%80%E8%A6%81%E7%9A%84%E9%A1%B5%E9%9D%A2/</a></p>
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/11/23/LeetCode-B-%E4%BA%8C%E5%8F%89%E6%A0%91-236.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/>https://fishni.github.io/2020/11/23/LeetCode-B-%E4%BA%8C%E5%8F%89%E6%A0%91-236.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/</a></p>
           
         
       </blockquote>
@@ -440,10 +502,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-08T21:09:52+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-23T17:25:30+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年4月8日</p>
+    <p>更新于：2020年11月23日</p>
   </a>
 </div>
 
@@ -452,7 +514,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Web/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Web</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据结构与算法</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>二叉树</p></a></div>
 
 
         
@@ -470,7 +532,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/04/06/1.3%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-2-%E6%98%BE%E7%A4%BA%E9%9C%80%E8%A6%81%E7%9A%84%E9%A1%B5%E9%9D%A2/&title=【python-Web服务器】1.3 python-Web静态服务器-2-显示需要的页面 - fishni&summary=本文使用python写个可以显示需要页面的Web静态服务器。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/11/23/LeetCode-B-%E4%BA%8C%E5%8F%89%E6%A0%91-236.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/&title=【数据结构与算法】【LeetCode】【二叉树】236.二叉树的最近公共祖先 - fishni&summary=二叉树创建，最近公共祖先"
           
           >
           
@@ -482,7 +544,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/04/06/1.3%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-2-%E6%98%BE%E7%A4%BA%E9%9C%80%E8%A6%81%E7%9A%84%E9%A1%B5%E9%9D%A2/&title=【python-Web服务器】1.3 python-Web静态服务器-2-显示需要的页面 - fishni&summary=本文使用python写个可以显示需要页面的Web静态服务器。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/11/23/LeetCode-B-%E4%BA%8C%E5%8F%89%E6%A0%91-236.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/&title=【数据结构与算法】【LeetCode】【二叉树】236.二叉树的最近公共祖先 - fishni&summary=二叉树创建，最近公共祖先"
           
           >
           
@@ -494,7 +556,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/04/06/1.3%20python-Web%E9%9D%99%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-2-%E6%98%BE%E7%A4%BA%E9%9C%80%E8%A6%81%E7%9A%84%E9%A1%B5%E9%9D%A2/&title=【python-Web服务器】1.3 python-Web静态服务器-2-显示需要的页面 - fishni&summary=本文使用python写个可以显示需要页面的Web静态服务器。"
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/11/23/LeetCode-B-%E4%BA%8C%E5%8F%89%E6%A0%91-236.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/&title=【数据结构与算法】【LeetCode】【二叉树】236.二叉树的最近公共祖先 - fishni&summary=二叉树创建，最近公共祖先"
           
           >
           
@@ -518,27 +580,15 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/2020/04/08/1.5%20python-Web%E5%8A%A8%E6%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8-1/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>【python-Web服务器】1.5 python-Web动态服务器-1</p>
-                <p class='content'>本文主要内容
-服务器动态资源请求相关知识（WSGI）
-python实现Web动态服务器示例
-
-
-
-0x01 服务器动态资源请求1.1 浏览器请求动态页面过程
-1.2 WSGI
-Web服务器网关接...</p>
-              </a>
             
-            
-              <a class='next' href='/2020/04/06/1.1%20HTTP%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/'>
-                <p class='title'>【python-Web服务器】1.1 HTTP协议简介<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>本文主要结合浏览器开发者工具理解HTTP协议，分析浏览器与服务器之间的请求和响应。
+              <a class='next' href='/2020/11/22/LeetCode-A-%E9%93%BE%E8%A1%A8-148.%20%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/'>
+                <p class='title'>【数据结构与算法】【LeetCode】【链表】148.排序链表<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>链表中点查找、链表排序、归并排序、分治与递归、递归、非递归。
 
 
-0x01 使用谷歌/火狐浏览器分析
-在Web应用中，服务器把网页传给浏览器，实际上就是把网页的HTML代码...</p>
+题目给你链表的头结点 head ，请将其按 升序 排列并返回 排序后的链表 。
+进阶：
+你可以在 O(n log n) 时间复杂...</p>
               </a>
             
           </div>
@@ -562,11 +612,32 @@ Web服务器网关接...</p>
 
 <!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
 
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true,
+    tags: "ams",
+    macros: {
+      href: "{}"
+    }
+  },
+  options: {
+    ignoreHtmlClass: "tex2jax_ignore|dno",
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+};
+</script>
+
+
 
 
   <script>
     window.subData = {
-      title: '【python-Web服务器】1.3 python-Web静态服务器-2-显示需要的页面',
+      title: '【数据结构与算法】【LeetCode】【二叉树】236.二叉树的最近公共祖先',
       tools: true
     }
   </script>
@@ -581,6 +652,20 @@ Web服务器网关接...</p>
     
     
 
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#题解"><span class="toc-text">题解</span></a></li></ol>
+    </div>
+  </section>
 
 
   
