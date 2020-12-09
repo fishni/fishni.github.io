@@ -16,15 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>【文件上传（二）：前端检测绕过】2.1客户端检测绕过 - fishni</title>
+    <title>【数据结构与算法】【LeetCode】【二叉树】701.二叉搜索树中的插入操作 - fishni</title>
   
-    <meta name="keywords" content="fileupload">
+    <meta name="keywords" content="python,数据结构与算法,二叉树">
   
   
-    <meta name="description" content="本文主要内容
-主要客户端检测绕过类型
-前端js检测绕过示例
-">
+    <meta name="description" content="二叉搜索查找，插入">
   
 
   <!-- feed -->
@@ -308,8 +305,8 @@
         
   
     <h1 class="title">
-      <a href="/2020/03/26/2.1%20%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/">
-        【文件上传（二）：前端检测绕过】2.1客户端检测绕过
+      <a href="/2020/12/09/LeetCode-B-%E4%BA%8C%E5%8F%89%E6%A0%91-701.%20%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C/">
+        【数据结构与算法】【LeetCode】【二叉树】701.二叉搜索树中的插入操作
       </a>
     </h1>
   
@@ -335,9 +332,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/Web%E5%AE%89%E5%85%A8/' rel="nofollow">
+    <a href='/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>网络安全&nbsp;/&nbsp;Web安全</p>
+      <p>数据结构与算法</p>
     </a>
   </div>
 
@@ -348,7 +345,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年3月26日</p>
+    <p>发布于：2020年12月9日</p>
   </a>
 </div>
 
@@ -370,38 +367,36 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <h3 id="本文主要内容"><a href="#本文主要内容" class="headerlink" title="本文主要内容"></a>本文主要内容</h3><ul>
-<li>主要客户端检测绕过类型</li>
-<li>前端js检测绕过示例</li>
-</ul>
+          <p>二叉搜索查找，插入</p>
 <a id="more"></a>
 
-<h3 id="0x01-客户端检测绕过"><a href="#0x01-客户端检测绕过" class="headerlink" title="0x01 客户端检测绕过"></a>0x01 客户端检测绕过</h3><p>（1）JavaScript检测：通过浏览器提交上传请求前，触发检测用JS脚本进行检测。</p>
-<pre><code>例如：普通的表单上传</code></pre><p>（2）Flash AS脚本检测：上传用Flash，提交上传请求前，触发检测用AS脚本进行检测。</p>
-<pre><code>例如:DZ的头像上传</code></pre><p>（3）APP上传检测：检测写在APP客户端代码中，或者所调用的HTML页面中</p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定二叉搜索树（BST）的根节点和要插入树中的值，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 保证 ，新值和原始二叉搜索树中的任意节点值都不同。</p>
+<p>注意，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 任意有效的结果 。</p>
+<p>示例1</p>
+<img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/201209binarytree01.png" width="600px">
+
+<pre><code>输入：root = [4,2,7,1,3], val = 5
+输出：[4,2,7,1,3,5]
+解释：另一个满足题目要求可以通过的树是：</code></pre><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/201209binarrytree02.png" width="300px">
+
+<p>示例2</p>
+<pre><code>输入：root = [40,20,60,10,30,50,70], val = 25
+输出：[40,20,60,10,30,50,70,null,null,25]</code></pre><p>示例3</p>
+<pre><code>输入：root = [4,2,7,1,3,null,null,null,null,null,null], val = 5
+输出：[4,2,7,1,3,5]</code></pre><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>思路与算法</p>
+<p>首先回顾二叉搜索树的性质：对于任意节点 root 而言，左子树（如果存在）上所有节点的值均小于root.val，右子树（如果存在）上所有节点的值均大于 root.val，且它们都是二叉搜索树。</p>
+<p>因此，当将 val 插入到以root 为根的子树上时，根据 val 与 root.val 的大小关系，就可以确定要将val 插入到哪个子树中。</p>
 <ul>
-<li>客户端检测一般只检测文件扩展名<blockquote>
-<p>客户端进行的检测，可通过对客户端代码的一些修改或直接拦截修改报文即可绕过，所以这种上传限制约等于没有</p>
-</blockquote>
-</li>
+<li>如果该子树不为空，则问题转化成了将 val 插入到对应子树上。</li>
+<li>否则，在此处新建一个以 val 为值的节点，并链接到其父节点root 上</li>
 </ul>
-<h3 id="0x02-前端JavaScript检测绕过"><a href="#0x02-前端JavaScript检测绕过" class="headerlink" title="0x02 前端JavaScript检测绕过"></a>0x02 前端JavaScript检测绕过</h3><ul>
-<li>查看onchange、onsubmit等事件<ul>
-<li>onchange事件会在域的内容改变时发生</li>
-<li>onsubmit事件会在表单中的确认按钮被点击时发生</li>
-</ul>
-</li>
-<li>删除掉相关事件中的检测函数</li>
-</ul>
-<h3 id="0x03-测试案例"><a href="#0x03-测试案例" class="headerlink" title="0x03 测试案例"></a>0x03 测试案例</h3><p>（1）环境</p>
-<pre><code>windows+phpstudy+uploadlab</code></pre><p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass01.png" alt=""></p>
-<p>（2）尝试上传含phpinfo()函数的php文件（phpinfo.php）</p>
-<p>   <img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass02.png" alt=""></p>
-<p>（3）F12审查元素代码，找到事件触发函数<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass03.png" alt=""></p>
-<p>（4）删除onsubmit，重新提交，并访问上传的文件<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass04.png" alt=""></p>
-<p>（5）查看网页源代码可找到上传文件路径相关信息<br><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20330pass05.png" alt=""></p>
-<p>（6）js校验代码如下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> file = <span class="built_in">document</span>.getElementsByName(<span class="string">'upload_file'</span>)[<span class="number">0</span>].value;</span><br><span class="line">        <span class="keyword">if</span> (file == <span class="literal">null</span> || file == <span class="string">""</span>) &#123;</span><br><span class="line">            alert(<span class="string">"请选择要上传的文件!"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//定义允许上传的文件类型</span></span><br><span class="line">        <span class="keyword">var</span> allow_ext = <span class="string">".jpg|.png|.gif"</span>;</span><br><span class="line">        <span class="comment">//提取上传文件的类型</span></span><br><span class="line">        <span class="keyword">var</span> ext_name = file.substring(file.lastIndexOf(<span class="string">"."</span>));</span><br><span class="line">        <span class="comment">//判断上传文件类型是否允许上传</span></span><br><span class="line">        <span class="keyword">if</span> (allow_ext.indexOf(ext_name) == <span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">var</span> errMsg = <span class="string">"该文件不允许上传，请上传"</span> + allow_ext + <span class="string">"类型的文件,当前文件类型为："</span> + ext_name;</span><br><span class="line">            alert(errMsg);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>复杂度分析</p>
+<p>时间复杂度：O(N)，其中 N 为树中节点的数目。最坏情况下，我们需要将值插入到树的最深的叶子结点上，而叶子节点最深为 O(N)</p>
+<p>空间复杂度：O(1)。我们只使用了常数大小的空间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="keyword">from</span> queue <span class="keyword">import</span> Queue</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.left = <span class="literal">None</span></span><br><span class="line">        self.right = <span class="literal">None</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_tree</span><span class="params">(list_tree)</span>:</span></span><br><span class="line">    <span class="keyword">if</span>  <span class="keyword">not</span> list_tree:</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line">    new_queue= Queue()</span><br><span class="line">    root = TreeNode(list_tree[<span class="number">0</span>])</span><br><span class="line">    new_queue.put(root) <span class="comment"># 先入队一个结点</span></span><br><span class="line">    count = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> new_queue.empty() <span class="keyword">and</span> count&lt;len(list_tree):</span><br><span class="line">        dequeue = new_queue.get() <span class="comment"># 出队</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> dequeue.left <span class="keyword">and</span>  <span class="keyword">not</span> dequeue.right:</span><br><span class="line">            <span class="keyword">if</span> count&lt;len(list_tree) <span class="keyword">and</span> list_tree[count]:</span><br><span class="line">                dequeue.left=TreeNode(list_tree[count])</span><br><span class="line">            count= count+<span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> count&lt;len(list_tree) <span class="keyword">and</span> list_tree[count]:</span><br><span class="line">                dequeue.right=TreeNode(list_tree[count])</span><br><span class="line">            count= count+<span class="number">1</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> dequeue.left:</span><br><span class="line">                new_queue.put(dequeue.left)</span><br><span class="line">            <span class="keyword">if</span> dequeue.right:</span><br><span class="line">                new_queue.put(dequeue.right)</span><br><span class="line">    <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">insertIntoBST</span><span class="params">(self, root: TreeNode, val: int)</span> -&gt; TreeNode:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">            <span class="keyword">return</span> TreeNode(val)</span><br><span class="line">        </span><br><span class="line">        pos = root</span><br><span class="line">        <span class="keyword">while</span> pos:</span><br><span class="line">            <span class="keyword">if</span> val &lt; pos.val:</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> pos.left:</span><br><span class="line">                    pos.left = TreeNode(val)</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    pos = pos.left</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> pos.right:</span><br><span class="line">                    pos.right = TreeNode(val)</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    pos = pos.right</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> root</span><br><span class="line"></span><br><span class="line">root = [<span class="number">40</span>,<span class="number">20</span>,<span class="number">60</span>,<span class="number">10</span>,<span class="number">30</span>,<span class="number">50</span>,<span class="number">70</span>]</span><br><span class="line">val = <span class="number">25</span></span><br><span class="line">root_tree=create_tree(root)</span><br><span class="line">a=Solution()</span><br><span class="line">result =a.insertIntoBST(root_tree,val)</span><br></pre></td></tr></table></figure>
 
           
             <br>
@@ -421,7 +416,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://fishni.github.io/2020/03/26/2.1%20%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/>https://fishni.github.io/2020/03/26/2.1%20%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/</a></p>
+            <p>本文永久链接是：<a href=https://fishni.github.io/2020/12/09/LeetCode-B-%E4%BA%8C%E5%8F%89%E6%A0%91-701.%20%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C/>https://fishni.github.io/2020/12/09/LeetCode-B-%E4%BA%8C%E5%8F%89%E6%A0%91-701.%20%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C/</a></p>
           
         
       </blockquote>
@@ -470,10 +465,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-14T16:53:10+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-09T10:17:06+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年4月14日</p>
+    <p>更新于：2020年12月9日</p>
   </a>
 </div>
 
@@ -482,7 +477,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/fileupload/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>fileupload</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据结构与算法</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>二叉树</p></a></div>
 
 
         
@@ -500,10 +495,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/03/26/2.1%20%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&title=【文件上传（二）：前端检测绕过】2.1客户端检测绕过 - fishni&summary=本文主要内容
-主要客户端检测绕过类型
-前端js检测绕过示例
-"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2020/12/09/LeetCode-B-%E4%BA%8C%E5%8F%89%E6%A0%91-701.%20%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C/&title=【数据结构与算法】【LeetCode】【二叉树】701.二叉搜索树中的插入操作 - fishni&summary=二叉搜索查找，插入"
           
           >
           
@@ -515,10 +507,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/03/26/2.1%20%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&title=【文件上传（二）：前端检测绕过】2.1客户端检测绕过 - fishni&summary=本文主要内容
-主要客户端检测绕过类型
-前端js检测绕过示例
-"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2020/12/09/LeetCode-B-%E4%BA%8C%E5%8F%89%E6%A0%91-701.%20%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C/&title=【数据结构与算法】【LeetCode】【二叉树】701.二叉搜索树中的插入操作 - fishni&summary=二叉搜索查找，插入"
           
           >
           
@@ -530,10 +519,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/03/26/2.1%20%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&title=【文件上传（二）：前端检测绕过】2.1客户端检测绕过 - fishni&summary=本文主要内容
-主要客户端检测绕过类型
-前端js检测绕过示例
-"
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2020/12/09/LeetCode-B-%E4%BA%8C%E5%8F%89%E6%A0%91-701.%20%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C/&title=【数据结构与算法】【LeetCode】【二叉树】701.二叉搜索树中的插入操作 - fishni&summary=二叉搜索查找，插入"
           
           >
           
@@ -557,32 +543,15 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/2020/03/27/3.1%20%E6%9C%8D%E5%8A%A1%E7%AB%AFMIME%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>【文件上传（三）：服务端检测绕过】3.1服务端MIME类型检测绕过</p>
-                <p class='content'>本文内容
-文件头content-type字段校验（image/gif等）绕过
-
-
-
-0x01 服务端一般检测的内容
-上传的文件名（扩展名、黑白名单）
-MIME/TYPE （浏览器根据文件扩展名自...</p>
-              </a>
             
-            
-              <a class='next' href='/2020/03/26/2.2%20%E6%8F%90%E4%BA%A4%E6%8A%A5%E6%96%87%E4%BF%AE%E6%94%B9%E6%A3%80%E6%B5%8B/'>
-                <p class='title'>【文件上传（二）：前端检测绕过】2.2提交报文修改检测<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>本文主要内容
-提交报文修改检测
-绕过示例
+              <a class='next' href='/2020/12/08/LeetCode-B-%E4%BA%8C%E5%8F%89%E6%A0%91-124.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E7%9A%84%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/'>
+                <p class='title'>【数据结构与算法】【LeetCode】【二叉树】124.二叉树中的最大路径和<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>递归，最优
 
 
-
-0x01 提交报文修改检测（前端检测通用）
-首先选择正常的文件进行上传
-
-而后通过BurpSuite进行截包改包或改包重放完成文件上传
-  这种方...</p>
+题目给定一个非空二叉树，返回其最大路径和。
+本题中，路径被定义为一条从树中任意节点出发，沿父节点-子节点连接，达到任意节点的序列。该路径至少包含一个节点，且不一定经过根节点。
+示...</p>
               </a>
             
           </div>
@@ -606,11 +575,32 @@ MIME/TYPE （浏览器根据文件扩展名自...</p>
 
 <!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
 
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true,
+    tags: "ams",
+    macros: {
+      href: "{}"
+    }
+  },
+  options: {
+    ignoreHtmlClass: "tex2jax_ignore|dno",
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+};
+</script>
+
+
 
 
   <script>
     window.subData = {
-      title: '【文件上传（二）：前端检测绕过】2.1客户端检测绕过',
+      title: '【数据结构与算法】【LeetCode】【二叉树】701.二叉搜索树中的插入操作',
       tools: true
     }
   </script>
@@ -636,7 +626,7 @@ MIME/TYPE （浏览器根据文件扩展名自...</p>
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#本文主要内容"><span class="toc-text">本文主要内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-客户端检测绕过"><span class="toc-text">0x01 客户端检测绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-前端JavaScript检测绕过"><span class="toc-text">0x02 前端JavaScript检测绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-测试案例"><span class="toc-text">0x03 测试案例</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#题解"><span class="toc-text">题解</span></a></li></ol>
     </div>
   </section>
 
