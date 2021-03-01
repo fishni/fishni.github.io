@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>【数据结构与算法】【LeetCode】【双指针】76.最小覆盖子串 - fishni</title>
+    <title>【数据结构与算法】【LeetCode】【二分查找】34.在排序数组中查找元素的第一个和最后一个位置 - fishni</title>
   
-    <meta name="keywords" content="python,数据结构与算法,双指针">
+    <meta name="keywords" content="python,数据结构与算法,二分查找">
   
   
-    <meta name="description" content="滑动窗口">
+    <meta name="description" content="二分查找">
   
 
   <!-- feed -->
@@ -305,8 +305,8 @@
         
   
     <h1 class="title">
-      <a href="/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-76.%20%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/">
-        【数据结构与算法】【LeetCode】【双指针】76.最小覆盖子串
+      <a href="/2021/03/01/LeetCode-F-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-34.%20%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E6%89%BE%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE/">
+        【数据结构与算法】【LeetCode】【二分查找】34.在排序数组中查找元素的第一个和最后一个位置
       </a>
     </h1>
   
@@ -345,7 +345,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2021年2月1日</p>
+    <p>发布于：2021年3月1日</p>
   </a>
 </div>
 
@@ -367,65 +367,22 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>滑动窗口</p>
+          <p>二分查找</p>
 <a id="more"></a>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个字符串 <code>s</code> 、一个字符串<code>t</code> 。返回 <code>s</code> 中涵盖<code>t</code>所有字符的最小子串。如果 <code>s</code>中不存在涵盖 <code>t</code>所有字符的子串，则返回空字符串 “” 。</p>
-<p>注意：如果 <code>s</code> 中存在这样的子串，我们保证它是唯一的答案。</p>
-<p>示例1：</p>
-<pre><code>输入：s = &quot;ADOBECODEBANC&quot;, t = &quot;ABC&quot;
-输出：&quot;BANC&quot;</code></pre><p>示例2：</p>
-<pre><code>输入：s = &quot;a&quot;, t = &quot;a&quot;
-输出：&quot;a&quot;</code></pre><p>提示：</p>
-<pre><code>1 &lt;= s.length, t.length &lt;= 10^5
-s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p><strong>滑动窗口思想</strong></p>
-<p>用<code>l,r</code>表示滑动窗口的<strong>左边界和右边界</strong>，通过改变<code>l,r</code>来<strong>扩展和收缩</strong>滑动窗口，可以想象成一个窗口在字符串上游走，当这个窗口包含的元素满足条件，即包含字符串T的所有元素，记录下这个滑动窗口的长度<strong>r-l+1</strong>，这些长度中的最小值就是要求的结果。</p>
-<ul>
-<li><p>步骤一：不断增加<code>r</code>使滑动窗口增大，直到窗口包含了T的所有元素</p>
-</li>
-<li><p>步骤二：不断增加<code>l</code>使滑动窗口缩小，因为是要求最小字串，所以将不必要的元素排除在外，使长度减小，直到碰到一个必须包含的元素，这个时候不能再扔了，再扔就不满足条件了，记录此时滑动窗口的长度，并保存最小值</p>
-</li>
-<li><p>步骤三：让<code>l</code>再增加一个位置，这个时候滑动窗口肯定不满足条件了，那么继续从步骤一开始执行，寻找新的满足条件的滑动窗口，如此反复，直到j超出了字符串S范围。</p>
-</li>
-</ul>
-<p><strong>判断窗口是否包含T中所有元素</strong></p>
-<p>用字典<code>need</code>表示当前滑动窗口中需要的各元素数量，一开始滑动窗口为空，用T中各元素初始化<code>need</code>，在滑动窗口扩展或者收缩时，维护该<code>need</code>字典</p>
-<ul>
-<li>当窗口包含某个元素，<code>need</code>中该元素数量减1，表示所需元素减少1个；</li>
-<li>当窗口移除某个元素，<code>need</code>中钙元素的数量加1</li>
-</ul>
-<p><code>need</code>始终记录当前滑动窗口下，还需的元素数量，在改变<code>l,r</code>时，需同步维护<code>need</code></p>
-<p>注意：只要某个元素包含在滑动窗口中，<code>need</code>中就存储这个元素的数量，如果某个元素存储的是负数表示这个元素是多余的。如<code>need={‘A’:-2,&#39;C&#39;:1}</code>时，表示当前窗口中，2个A是多余的，同时还需要一个C。此目的是步骤二中排除不必要的元素，数量为负的就是不必要的元素，而数量为0表示刚刚好。</p>
-<p>当<code>need</code>中所有元素的数量都小于等于0时，表示当前滑动窗口不再需要任何元素</p>
-<p><strong>优化</strong></p>
-<p>如果每次判断滑动窗口是否包含了T的所有元素，都去遍历<code>need</code>看是否所有元素数量都小于等于0，这个会耗费<code>O(k)</code>的时间复杂度，k代表字典长度，最坏情况下，k可能等于len(S)。</p>
-<p>其实这个是可以避免的，我们可以维护一个额外的变量<code>needCnt</code>来记录所需元素的总数量，当我们碰到一个所需元素<code>c</code>，不仅<code>need[c]</code>的数量减少1，同时<code>needCnt</code>也要减少1，这样我们通过needCnt就可以知道是否满足条件，而无需遍历字典了。<br>前面也提到过，<code>need</code>记录了遍历到的所有元素，而只有<code>need[c]&gt;0</code>大于0时，代表<code>c</code>就是所需元素</p>
-<p><strong>图示</strong></p>
-<p>以S=”DOABECODEBANC”，T=”ABC”为例</p>
-<p>初始状态：</p>
-<img src ="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210201doublepoint01.png" width="800px">
-
-<ul>
-<li>步骤一：不断增加j使滑动窗口增大，直到窗口包含了T的所有元素，need中所有元素的数量都小于等于0，同时needCnt也是0</li>
-</ul>
-<img src ="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210201doublepoint02.png" width="800px">
-
-<ul>
-<li>步骤二：不断增加i使滑动窗口缩小，直到碰到一个必须包含的元素A，此时记录长度更新结果</li>
-</ul>
-<img src ="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210201doublepoint03.png" width="800px">
-
-<p>步骤三：让i再增加一个位置，开始寻找下一个满足条件的滑动窗口</p>
-<img src ="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210201doublepoint04.png" width="800px">
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。</p>
+<p>如果数组中不存在目标值 target，返回 [-1, -1]</p>
+<p>示例 1：</p>
+<pre><code>输入：nums = [5,7,7,8,8,10], target = 8
+输出：[3,4]</code></pre><p>示例2：</p>
+<pre><code>输入：nums = [5,7,7,8,8,10], target = 6
+输出：[-1,-1]</code></pre><p>示例3：</p>
+<pre><code>输入：nums = [], target = 0
+输出：[-1,-1]</code></pre><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">searchRange</span><span class="params">(self, nums, target)</span>:</span> <span class="comment"># nums list[int] ,target:int</span></span><br><span class="line">        <span class="keyword">if</span> len(nums)==<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> [<span class="number">-1</span>,<span class="number">-1</span>]</span><br><span class="line">        first=self.findleftpos(nums,target)</span><br><span class="line">        <span class="keyword">if</span> first==<span class="number">-1</span>:</span><br><span class="line">            <span class="keyword">return</span> [<span class="number">-1</span>,<span class="number">-1</span>]</span><br><span class="line">        last =self.findrightpos(nums,target)</span><br><span class="line">        <span class="keyword">return</span> [first,last]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findleftpos</span><span class="params">(self,nums,target)</span>:</span></span><br><span class="line">        l=<span class="number">0</span></span><br><span class="line">        r=len(nums)<span class="number">-1</span></span><br><span class="line">        <span class="keyword">while</span> l&lt;r:</span><br><span class="line">            mid= (l+r)//<span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> nums[mid]==target:</span><br><span class="line">                r=mid</span><br><span class="line">            <span class="keyword">elif</span> nums[mid]&gt;target:</span><br><span class="line">                r=mid<span class="number">-1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                l=mid+<span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> nums[l]==target:</span><br><span class="line">            <span class="keyword">return</span> l</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findrightpos</span><span class="params">(self,nums,target)</span>:</span></span><br><span class="line">        l=<span class="number">0</span></span><br><span class="line">        r= len(nums)<span class="number">-1</span></span><br><span class="line">        <span class="keyword">while</span> l&lt;r:</span><br><span class="line">            mid = (l+r+<span class="number">1</span>)//<span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> nums[mid]&gt;target:</span><br><span class="line">                r=mid<span class="number">-1</span></span><br><span class="line">            <span class="keyword">elif</span> nums[mid]==target:</span><br><span class="line">                l=mid</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                l=mid+<span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
 
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> collections</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minWindow</span><span class="params">(self, s: str, t: str)</span> -&gt; str:</span></span><br><span class="line">        need=collections.defaultdict(int) <span class="comment"># int可以用来计数，重复出现的key，对应值增加1</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> t:</span><br><span class="line">            need[c] += <span class="number">1</span></span><br><span class="line">        needCnt= len(t)</span><br><span class="line">        l=<span class="number">0</span></span><br><span class="line">        res = (<span class="number">0</span>,float(<span class="string">'inf'</span>)) </span><br><span class="line">        <span class="keyword">for</span> r,c <span class="keyword">in</span> enumerate(s):</span><br><span class="line">            <span class="keyword">if</span> need[c]&gt;<span class="number">0</span>:</span><br><span class="line">                needCnt -=<span class="number">1</span></span><br><span class="line">            need[c] -=<span class="number">1</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> needCnt==<span class="number">0</span>:<span class="comment"># 步骤一：滑动窗口包含了所有T元素</span></span><br><span class="line">                <span class="keyword">while</span> <span class="literal">True</span>: <span class="comment"># 步骤二：增加l,排除多余元素</span></span><br><span class="line">                    c=s[l]</span><br><span class="line">                    <span class="keyword">if</span> need[c]==<span class="number">0</span>:</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    need[c] +=<span class="number">1</span></span><br><span class="line">                    l +=<span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> r-l&lt;res[<span class="number">1</span>]-res[<span class="number">0</span>]: <span class="comment">#记录结果</span></span><br><span class="line">                    res=(l,r)</span><br><span class="line">                need[s[l]]+=<span class="number">1</span> <span class="comment"># 步骤三：l增加一个位置，寻找新的满足条件滑动窗口</span></span><br><span class="line">                needCnt +=<span class="number">1</span></span><br><span class="line">                l +=<span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span>  <span class="string">''</span> <span class="keyword">if</span> res[<span class="number">1</span>]&gt;len(s) <span class="keyword">else</span> s[res[<span class="number">0</span>]:res[<span class="number">1</span>]+<span class="number">1</span>]    <span class="comment">#如果res始终没被更新过，代表无满足条件的结果</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a= Solution()</span><br><span class="line">nums = [<span class="number">5</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">8</span>,<span class="number">10</span>]</span><br><span class="line">target = <span class="number">8</span></span><br><span class="line">result=a.searchRange(nums,target)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
 
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">'ADOBECODEBANC'</span></span><br><span class="line">t = <span class="string">"ABC"</span></span><br><span class="line">a= Solution()</span><br><span class="line">print(a.minWindow(s,t))</span><br></pre></td></tr></table></figure>
-
-<pre><code>BANC</code></pre><p><strong>复杂度</strong></p>
-<p>我们会用<code>r</code>扫描一遍<code>S</code>，也会用<code>l</code>扫描一遍<code>S</code>，最多扫描2次S，所以时间复杂度是<code>O(n)</code>，空间复杂度为<code>O(k)</code>，k为S和T中的字符集合。</p>
-
+<pre><code>[3, 4]</code></pre>
           
             <br>
             
@@ -444,7 +401,7 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
           
         
           
-            <p>本文永久链接是：<a href=https://fishni.github.io/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-76.%20%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/>https://fishni.github.io/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-76.%20%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/</a></p>
+            <p>本文永久链接是：<a href=https://fishni.github.io/2021/03/01/LeetCode-F-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-34.%20%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E6%89%BE%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE/>https://fishni.github.io/2021/03/01/LeetCode-F-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-34.%20%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E6%89%BE%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE/</a></p>
           
         
       </blockquote>
@@ -493,10 +450,10 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-01T16:04:07+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-01T18:54:33+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2021年2月1日</p>
+    <p>更新于：2021年3月1日</p>
   </a>
 </div>
 
@@ -505,7 +462,7 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据结构与算法</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>双指针</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据结构与算法</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>二分查找</p></a></div>
 
 
         
@@ -523,7 +480,7 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-76.%20%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/&title=【数据结构与算法】【LeetCode】【双指针】76.最小覆盖子串 - fishni&summary=滑动窗口"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2021/03/01/LeetCode-F-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-34.%20%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E6%89%BE%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE/&title=【数据结构与算法】【LeetCode】【二分查找】34.在排序数组中查找元素的第一个和最后一个位置 - fishni&summary=二分查找"
           
           >
           
@@ -535,7 +492,7 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-76.%20%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/&title=【数据结构与算法】【LeetCode】【双指针】76.最小覆盖子串 - fishni&summary=滑动窗口"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2021/03/01/LeetCode-F-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-34.%20%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E6%89%BE%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE/&title=【数据结构与算法】【LeetCode】【二分查找】34.在排序数组中查找元素的第一个和最后一个位置 - fishni&summary=二分查找"
           
           >
           
@@ -547,7 +504,7 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-76.%20%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/&title=【数据结构与算法】【LeetCode】【双指针】76.最小覆盖子串 - fishni&summary=滑动窗口"
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2021/03/01/LeetCode-F-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-34.%20%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E6%89%BE%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE/&title=【数据结构与算法】【LeetCode】【二分查找】34.在排序数组中查找元素的第一个和最后一个位置 - fishni&summary=二分查找"
           
           >
           
@@ -571,23 +528,17 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
         
           <div class="prev-next">
             
-              <a class='prev' href='/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-88.%20%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>【数据结构与算法】【LeetCode】【双指针】88.合并两个有序数组</p>
-                <p class='content'>三指针
-
-
-题目给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
-初始化 nums1 和 nums2 的元素数量分...</p>
-              </a>
             
-            
-              <a class='next' href='/2021/01/24/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-167.%20%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C%20II%20-%20%E8%BE%93%E5%85%A5%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84/'>
-                <p class='title'>【数据结构与算法】【LeetCode】【双指针】167.两数之和II-输入有序数组<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>双指针
+              <a class='next' href='/2021/02/28/LeetCode-F-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-69.%20x%20%E7%9A%84%E5%B9%B3%E6%96%B9%E6%A0%B9/'>
+                <p class='title'>【数据结构与算法】【LeetCode】【二分查找】69.x的平方根<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>开方
 
 
-题目给定一个已按照升序排列的有序数组，找到两个数使得它们相加之和等于目标数。
-函数应该返回这两个下标值 index1 和 index2，其中 index1 必须小于 index2。
+题目实现 int sqrt(int x) 函数。
+计算并返回 x 的平方根，其中 x 是非负整数。
+由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。
+示例1：
+输入: 4
 ...</p>
               </a>
             
@@ -637,7 +588,7 @@ window.MathJax = {
 
   <script>
     window.subData = {
-      title: '【数据结构与算法】【LeetCode】【双指针】76.最小覆盖子串',
+      title: '【数据结构与算法】【LeetCode】【二分查找】34.在排序数组中查找元素的第一个和最后一个位置',
       tools: true
     }
   </script>
