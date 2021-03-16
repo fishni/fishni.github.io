@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>【数据结构与算法】【LeetCode】【双指针】76.最小覆盖子串 - fishni</title>
+    <title>【Crypto-CTF】Diffie-Hellman(DH)密钥交换 - fishni</title>
   
-    <meta name="keywords" content="python,数据结构与算法,双指针">
+    <meta name="keywords" content="python,密码学,Crypto-CTF,密钥交换">
   
   
-    <meta name="description" content="滑动窗口">
+    <meta name="description" content="本文主要内容：简要介绍Diffie-Hellman密钥交换基本原理，所存在的中间人攻击，以及UCTF2021比赛中关于DH的Small p Problems暴力破解题">
   
 
   <!-- feed -->
@@ -305,8 +305,8 @@
         
   
     <h1 class="title">
-      <a href="/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-76.%20%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/">
-        【数据结构与算法】【LeetCode】【双指针】76.最小覆盖子串
+      <a href="/2021/03/16/Crypto-02-Diffie-Hellman%EF%BC%88DH%EF%BC%89%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/">
+        【Crypto-CTF】Diffie-Hellman(DH)密钥交换
       </a>
     </h1>
   
@@ -332,9 +332,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/' rel="nofollow">
+    <a href='/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>数据结构与算法</p>
+      <p>密码学</p>
     </a>
   </div>
 
@@ -345,7 +345,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2021年2月1日</p>
+    <p>发布于：2021年3月16日</p>
   </a>
 </div>
 
@@ -367,64 +367,55 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>滑动窗口</p>
+          <p>本文主要内容：简要介绍Diffie-Hellman密钥交换基本原理，所存在的中间人攻击，以及UCTF2021比赛中关于DH的Small p Problems暴力破解题</p>
 <a id="more"></a>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个字符串 <code>s</code> 、一个字符串<code>t</code> 。返回 <code>s</code> 中涵盖<code>t</code>所有字符的最小子串。如果 <code>s</code>中不存在涵盖 <code>t</code>所有字符的子串，则返回空字符串 “” 。</p>
-<p>注意：如果 <code>s</code> 中存在这样的子串，我们保证它是唯一的答案。</p>
-<p>示例1：</p>
-<pre><code>输入：s = &quot;ADOBECODEBANC&quot;, t = &quot;ABC&quot;
-输出：&quot;BANC&quot;</code></pre><p>示例2：</p>
-<pre><code>输入：s = &quot;a&quot;, t = &quot;a&quot;
-输出：&quot;a&quot;</code></pre><p>提示：</p>
-<pre><code>1 &lt;= s.length, t.length &lt;= 10^5
-s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p><strong>滑动窗口思想</strong></p>
-<p>用<code>l,r</code>表示滑动窗口的<strong>左边界和右边界</strong>，通过改变<code>l,r</code>来<strong>扩展和收缩</strong>滑动窗口，可以想象成一个窗口在字符串上游走，当这个窗口包含的元素满足条件，即包含字符串T的所有元素，记录下这个滑动窗口的长度<strong>r-l+1</strong>，这些长度中的最小值就是要求的结果。</p>
-<ul>
-<li><p>步骤一：不断增加<code>r</code>使滑动窗口增大，直到窗口包含了T的所有元素</p>
-</li>
-<li><p>步骤二：不断增加<code>l</code>使滑动窗口缩小，因为是要求最小字串，所以将不必要的元素排除在外，使长度减小，直到碰到一个必须包含的元素，这个时候不能再扔了，再扔就不满足条件了，记录此时滑动窗口的长度，并保存最小值</p>
-</li>
-<li><p>步骤三：让<code>l</code>再增加一个位置，这个时候滑动窗口肯定不满足条件了，那么继续从步骤一开始执行，寻找新的满足条件的滑动窗口，如此反复，直到j超出了字符串S范围。</p>
-</li>
-</ul>
-<p><strong>判断窗口是否包含T中所有元素</strong></p>
-<p>用字典<code>need</code>表示当前滑动窗口中需要的各元素数量，一开始滑动窗口为空，用T中各元素初始化<code>need</code>，在滑动窗口扩展或者收缩时，维护该<code>need</code>字典</p>
-<ul>
-<li>当窗口包含某个元素，<code>need</code>中该元素数量减1，表示所需元素减少1个；</li>
-<li>当窗口移除某个元素，<code>need</code>中钙元素的数量加1</li>
-</ul>
-<p><code>need</code>始终记录当前滑动窗口下，还需的元素数量，在改变<code>l,r</code>时，需同步维护<code>need</code></p>
-<p>注意：只要某个元素包含在滑动窗口中，<code>need</code>中就存储这个元素的数量，如果某个元素存储的是负数表示这个元素是多余的。如<code>need={‘A’:-2,&#39;C&#39;:1}</code>时，表示当前窗口中，2个A是多余的，同时还需要一个C。此目的是步骤二中排除不必要的元素，数量为负的就是不必要的元素，而数量为0表示刚刚好。</p>
-<p>当<code>need</code>中所有元素的数量都小于等于0时，表示当前滑动窗口不再需要任何元素</p>
-<p><strong>优化</strong></p>
-<p>如果每次判断滑动窗口是否包含了T的所有元素，都去遍历<code>need</code>看是否所有元素数量都小于等于0，这个会耗费<code>O(k)</code>的时间复杂度，k代表字典长度，最坏情况下，k可能等于len(S)。</p>
-<p>其实这个是可以避免的，我们可以维护一个额外的变量<code>needCnt</code>来记录所需元素的总数量，当我们碰到一个所需元素<code>c</code>，不仅<code>need[c]</code>的数量减少1，同时<code>needCnt</code>也要减少1，这样我们通过needCnt就可以知道是否满足条件，而无需遍历字典了。<br>前面也提到过，<code>need</code>记录了遍历到的所有元素，而只有<code>need[c]&gt;0</code>大于0时，代表<code>c</code>就是所需元素</p>
-<p><strong>图示</strong></p>
-<p>以S=”DOABECODEBANC”，T=”ABC”为例</p>
-<p>初始状态：</p>
-<img src ="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210201doublepoint01.png" width="800px">
+
+<h2 id="简要介绍"><a href="#简要介绍" class="headerlink" title="简要介绍"></a>简要介绍</h2><p>Diffie-Hellman密钥交换是一种在公共通道上安全交换加密密钥的方法，该公共通道相较传统意义两方加密通信需先通过物理安全通道有较大不同，也即此通道运行通过<strong>不安全通道</strong>共同建立<strong>共享密钥</strong>。</p>
+<p>DH可广泛应用于保护各种Internet服务，比如DH-RSA算法组合应用于TLS协议中。</p>
+<h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><p>采用wiki上一张图形象解释：</p>
+<img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210316dh01.png" width="300px">
 
 <ul>
-<li>步骤一：不断增加j使滑动窗口增大，直到窗口包含了T的所有元素，need中所有元素的数量都小于等于0，同时needCnt也是0</li>
+<li>step1：Alice和Bob共同选择公开的颜色(图中黄色)</li>
+<li>step2：Alice和Bob各自选择自己的秘密颜色（黄色：蓝绿色）</li>
+<li>step3：Alice和Bob各自将公开颜色和自己秘密颜色混合形成各自即将交换的颜色（橙色棕褐色：浅蓝色）</li>
+<li>step4：最后，Alice和Bob再将从对方收到颜色和自己秘密颜色混合，得到最终配色（黄棕色），此配色也即共享的密钥</li>
 </ul>
-<img src ="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210201doublepoint02.png" width="800px">
+<p>如果第三方监听到，交换信息，由于不知道各自的秘密颜色，无法获取共享密钥</p>
+<p><strong>密码学解释</strong></p>
+<img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210316dh02.png" width="600px">
 
+<p>选择素数p及其本原根g，是为了确保共享密钥在1到p-1之间</p>
+<h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><p>DH密钥交换的安全性建立在以下事实：</p>
+<blockquote>
 <ul>
-<li>步骤二：不断增加i使滑动窗口缩小，直到碰到一个必须包含的元素A，此时记录长度更新结果</li>
+<li>计算素数模幂相对容易（$g^a mod p$称为模幂）</li>
+<li>对于大素数p，求其离散对数被认为是困难的</li>
 </ul>
-<img src ="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210201doublepoint03.png" width="800px">
+</blockquote>
+<p>当p为600位以上的质数时，不知私钥a和b时是很难解出a的。</p>
+<h3 id="中间人攻击"><a href="#中间人攻击" class="headerlink" title="中间人攻击"></a>中间人攻击</h3><p>由于DH密钥交换本身不提供通信方的身份验证，因此容易受到中间人攻击。</p>
+<p>也即中间人分别和Alice和Bob构建共享密钥K1和K2</p>
+<ul>
+<li>中间人可以查看消息并转发两者消息</li>
+<li>中间人可以修改消息转发给另一人</li>
+</ul>
+<p>更多信息可参考：<a href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange</a></p>
+<h2 id="UCTF2021-Small-p-Problems"><a href="#UCTF2021-Small-p-Problems" class="headerlink" title="UCTF2021-Small p Problems"></a>UCTF2021-Small p Problems</h2><p>示例通过一道CTF题，来反映在DH密钥交换中，p选择素数较小，使用暴力破解便可获取共享密钥的过程</p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>My buddies Whitfield and Martin were trying to share a secret key between themselves, and I was able to eavesdrop on their conversation. I bet I could probably figure out their shared secret with a little math…</p>
+<pre><code>p = 69691
+g = 1001
 
-<p>步骤三：让i再增加一个位置，开始寻找下一个满足条件的滑动窗口</p>
-<img src ="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210201doublepoint04.png" width="800px">
+A = 17016
+B = 47643</code></pre><p>Note: submit either the shared secret or the shared secret wrapped in utflag{}</p>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p>根据题目，无法得知各自私钥</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">p=<span class="number">69691</span></span><br><span class="line">g=<span class="number">1001</span></span><br><span class="line">A=<span class="number">17016</span></span><br><span class="line">B=<span class="number">47643</span></span><br><span class="line"><span class="comment"># 暴力破解a或者b ,范围从1-p-1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,p):</span><br><span class="line">    <span class="keyword">if</span> pow(g,i,p)==A: <span class="comment"># 若满足g^i mod p = A，则说明i为A的私钥a</span></span><br><span class="line">        print(<span class="string">"a:"</span>,i,<span class="string">"\nK:"</span>,pow(B,i,p))</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
 
+<pre><code>a: 12552 
+K: 53919</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">p=<span class="number">69691</span></span><br><span class="line">g=<span class="number">1001</span></span><br><span class="line">A=<span class="number">17016</span></span><br><span class="line">B=<span class="number">47643</span></span><br><span class="line"><span class="comment"># 暴力破解a或者b ,范围从1-p-1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,p):</span><br><span class="line">    <span class="keyword">if</span> pow(g,i,p)==B: <span class="comment"># 若满足g^i mod p = B，则说明i为B的私钥b</span></span><br><span class="line">        print(<span class="string">"b:"</span>,i,<span class="string">"\nK:"</span>,pow(A,i,p))</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> collections</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minWindow</span><span class="params">(self, s: str, t: str)</span> -&gt; str:</span></span><br><span class="line">        need=collections.defaultdict(int) <span class="comment"># int可以用来计数，重复出现的key，对应值增加1</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> t:</span><br><span class="line">            need[c] += <span class="number">1</span></span><br><span class="line">        needCnt= len(t)</span><br><span class="line">        l=<span class="number">0</span></span><br><span class="line">        res = (<span class="number">0</span>,float(<span class="string">'inf'</span>)) </span><br><span class="line">        <span class="keyword">for</span> r,c <span class="keyword">in</span> enumerate(s):</span><br><span class="line">            <span class="keyword">if</span> need[c]&gt;<span class="number">0</span>:</span><br><span class="line">                needCnt -=<span class="number">1</span></span><br><span class="line">            need[c] -=<span class="number">1</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> needCnt==<span class="number">0</span>:<span class="comment"># 步骤一：滑动窗口包含了所有T元素</span></span><br><span class="line">                <span class="keyword">while</span> <span class="literal">True</span>: <span class="comment"># 步骤二：增加l,排除多余元素</span></span><br><span class="line">                    c=s[l]</span><br><span class="line">                    <span class="keyword">if</span> need[c]==<span class="number">0</span>:</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    need[c] +=<span class="number">1</span></span><br><span class="line">                    l +=<span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> r-l&lt;res[<span class="number">1</span>]-res[<span class="number">0</span>]: <span class="comment">#记录结果</span></span><br><span class="line">                    res=(l,r)</span><br><span class="line">                need[s[l]]+=<span class="number">1</span> <span class="comment"># 步骤三：l增加一个位置，寻找新的满足条件滑动窗口</span></span><br><span class="line">                needCnt +=<span class="number">1</span></span><br><span class="line">                l +=<span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span>  <span class="string">''</span> <span class="keyword">if</span> res[<span class="number">1</span>]&gt;len(s) <span class="keyword">else</span> s[res[<span class="number">0</span>]:res[<span class="number">1</span>]+<span class="number">1</span>]    <span class="comment">#如果res始终没被更新过，代表无满足条件的结果</span></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">'ADOBECODEBANC'</span></span><br><span class="line">t = <span class="string">"ABC"</span></span><br><span class="line">a= Solution()</span><br><span class="line">print(a.minWindow(s,t))</span><br></pre></td></tr></table></figure>
-
-<pre><code>BANC</code></pre><p><strong>复杂度</strong></p>
-<p>我们会用<code>r</code>扫描一遍<code>S</code>，也会用<code>l</code>扫描一遍<code>S</code>，最多扫描2次S，所以时间复杂度是<code>O(n)</code>，空间复杂度为<code>O(k)</code>，k为S和T中的字符集合。</p>
+<pre><code>b: 7919 
+K: 53919</code></pre><p>所以，当p选取较小时，可以使用暴力破解方式得当各自私钥</p>
 
           
             <br>
@@ -444,7 +435,7 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
           
         
           
-            <p>本文永久链接是：<a href=https://fishni.github.io/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-76.%20%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/>https://fishni.github.io/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-76.%20%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/</a></p>
+            <p>本文永久链接是：<a href=https://fishni.github.io/2021/03/16/Crypto-02-Diffie-Hellman%EF%BC%88DH%EF%BC%89%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/>https://fishni.github.io/2021/03/16/Crypto-02-Diffie-Hellman%EF%BC%88DH%EF%BC%89%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/</a></p>
           
         
       </blockquote>
@@ -493,10 +484,10 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-01T16:04:07+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-16T14:40:29+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2021年2月1日</p>
+    <p>更新于：2021年3月16日</p>
   </a>
 </div>
 
@@ -505,7 +496,7 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据结构与算法</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>双指针</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>密码学</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Crypto-CTF/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Crypto-CTF</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>密钥交换</p></a></div>
 
 
         
@@ -523,7 +514,7 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-76.%20%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/&title=【数据结构与算法】【LeetCode】【双指针】76.最小覆盖子串 - fishni&summary=滑动窗口"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2021/03/16/Crypto-02-Diffie-Hellman%EF%BC%88DH%EF%BC%89%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/&title=【Crypto-CTF】Diffie-Hellman(DH)密钥交换 - fishni&summary=本文主要内容：简要介绍Diffie-Hellman密钥交换基本原理，所存在的中间人攻击，以及UCTF2021比赛中关于DH的Small p Problems暴力破解题"
           
           >
           
@@ -535,7 +526,7 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-76.%20%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/&title=【数据结构与算法】【LeetCode】【双指针】76.最小覆盖子串 - fishni&summary=滑动窗口"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2021/03/16/Crypto-02-Diffie-Hellman%EF%BC%88DH%EF%BC%89%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/&title=【Crypto-CTF】Diffie-Hellman(DH)密钥交换 - fishni&summary=本文主要内容：简要介绍Diffie-Hellman密钥交换基本原理，所存在的中间人攻击，以及UCTF2021比赛中关于DH的Small p Problems暴力破解题"
           
           >
           
@@ -547,7 +538,7 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-76.%20%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/&title=【数据结构与算法】【LeetCode】【双指针】76.最小覆盖子串 - fishni&summary=滑动窗口"
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2021/03/16/Crypto-02-Diffie-Hellman%EF%BC%88DH%EF%BC%89%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/&title=【Crypto-CTF】Diffie-Hellman(DH)密钥交换 - fishni&summary=本文主要内容：简要介绍Diffie-Hellman密钥交换基本原理，所存在的中间人攻击，以及UCTF2021比赛中关于DH的Small p Problems暴力破解题"
           
           >
           
@@ -571,24 +562,16 @@ s 和 t 由英文字母组成</code></pre><h2 id="题解"><a href="#题解" clas
         
           <div class="prev-next">
             
-              <a class='prev' href='/2021/02/01/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-88.%20%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>【数据结构与算法】【LeetCode】【双指针】88.合并两个有序数组</p>
-                <p class='content'>三指针
-
-
-题目给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
-初始化 nums1 和 nums2 的元素数量分...</p>
-              </a>
             
-            
-              <a class='next' href='/2021/01/24/LeetCode-E-%E5%8F%8C%E6%8C%87%E9%92%88-167.%20%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C%20II%20-%20%E8%BE%93%E5%85%A5%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84/'>
-                <p class='title'>【数据结构与算法】【LeetCode】【双指针】167.两数之和II-输入有序数组<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>双指针
+              <a class='next' href='/2021/03/15/Hexo-01-Hexo%E5%8D%9A%E5%AE%A2%E6%94%B6%E5%BD%95%E7%99%BE%E5%BA%A6%E5%92%8C%E8%B0%B7%E6%AD%8C/'>
+                <p class='title'>【hexo】Hexo博客收录百度和谷歌<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本文博客搭建：hexo+github方式
 
 
-题目给定一个已按照升序排列的有序数组，找到两个数使得它们相加之和等于目标数。
-函数应该返回这两个下标值 index1 和 index2，其中 index1 必须小于 index2。
-...</p>
+
+确定网站是否已经被收录site:你的网站
+同样可测试是否被google收录
+安装扩展插件站点地图是一种文件，您可以通过该文件列出您网站上的网页，从...</p>
               </a>
             
           </div>
@@ -637,7 +620,7 @@ window.MathJax = {
 
   <script>
     window.subData = {
-      title: '【数据结构与算法】【LeetCode】【双指针】76.最小覆盖子串',
+      title: '【Crypto-CTF】Diffie-Hellman(DH)密钥交换',
       tools: true
     }
   </script>
@@ -663,7 +646,7 @@ window.MathJax = {
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#题解"><span class="toc-text">题解</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简要介绍"><span class="toc-text">简要介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本原理"><span class="toc-text">基本原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安全性"><span class="toc-text">安全性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#中间人攻击"><span class="toc-text">中间人攻击</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UCTF2021-Small-p-Problems"><span class="toc-text">UCTF2021-Small p Problems</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#题解"><span class="toc-text">题解</span></a></li></ol></li></ol>
     </div>
   </section>
 
