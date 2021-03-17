@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>【Crypto-CTF】Crpyto-RSA stereotyped message atack-(UCTF2021-a bit weird) - fishni</title>
+  
+    <meta name="keywords" content="python,密码学,Crypto-CTF,RSA">
+  
+  
+    <meta name="description" content="前段时间做UCTF2021的Crypto题时，遇到的一道RSA stereotyped message攻击的题，主要涉及的知识有RSA 、Coppersmith、与 and和或 or的理解、移位操作。">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            FISHNI'S BLOG <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-rss fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  更多
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-rss fa-fw'></i>
+        
+        主页
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        分类
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-archive fa-fw'></i>
+        
+        归档
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2021/03/17/Crypto-03-RSA%20Stereotyped%20message%20attack-(UCTF2021-a%20bit%20weird)/">
+        【Crypto-CTF】Crpyto-RSA stereotyped message atack-(UCTF2021-a bit weird)
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://fishni.github.io/" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/ghost1.jpg">
+    <p>fishni</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>密码学</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2021年3月17日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>前段时间做UCTF2021的Crypto题时，遇到的一道RSA stereotyped message攻击的题，主要涉及的知识有RSA 、Coppersmith、<code>与 and</code>和<code>或 or</code>的理解、移位操作。</p>
+<a id="more"></a>
+
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>要传递的message格式：</p>
+<p><code>hello ,my name is xxx</code></p>
+<p>在使用RSA对这个message加密，我们知道密文ciphertext和公钥（N,e=3），如何求原始的message</p>
+<h2 id="攻击阐述"><a href="#攻击阐述" class="headerlink" title="攻击阐述"></a>攻击阐述</h2><p>我们用<code>b&#39;\x00&#39;</code>替换消息中的<code>x</code>，这样就有了$(m+x)^e$ mod n=c</p>
+<blockquote>
+<ul>
+<li>m 是用<code>b&#39;\x00&#39;</code>替换后的消息</li>
+<li>x是<code>xxx</code>我们要发现的</li>
+<li>(e,n)是公钥，c是密文</li>
+</ul>
+</blockquote>
+<p>问题变为如何找到$x$</p>
+<p>Coppersmith解决了这个问题，更多可参考：<a href="https://github.com/mimoo/RSA-and-LLL-attacks" target="_blank" rel="noopener">Comppersmith</a></p>
+<h3 id="攻击成功条件"><a href="#攻击成功条件" class="headerlink" title="攻击成功条件"></a>攻击成功条件</h3><ul>
+<li>e=3</li>
+<li>$x&lt;N^{\frac{1}{e}}$</li>
+</ul>
+<h2 id="UCTF2021-a-bit-weird"><a href="#UCTF2021-a-bit-weird" class="headerlink" title="UCTF2021-a bit weird"></a>UCTF2021-a bit weird</h2><p>I found this weird RSA looking thing somewhere. Can you break it for me? I managed to find x for you, but I don’t know how to solve it without d…</p>
+<p><a href="msg.txt">msg.txt</a></p>
+<p><a href="main.py">main.py</a></p>
+<h3 id="简要分析"><a href="#简要分析" class="headerlink" title="简要分析"></a>简要分析</h3><ul>
+<li>题目给出的挑战</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#main.py</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util <span class="keyword">import</span> number</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">length = <span class="number">2048</span></span><br><span class="line">p, q = number.getPrime(length//<span class="number">2</span>), number.getPrime(length//<span class="number">2</span>)</span><br><span class="line">N = p*q</span><br><span class="line">e = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">m = number.bytes_to_long(flag)</span><br><span class="line">x = number.bytes_to_long(os.urandom(length//<span class="number">8</span>))</span><br><span class="line"></span><br><span class="line">c = pow(m|x, e, N)</span><br><span class="line">print(<span class="string">'N ='</span>, N);</span><br><span class="line">print(<span class="string">'e ='</span>, e);</span><br><span class="line">print(<span class="string">'c ='</span>, c);</span><br><span class="line">print(<span class="string">'m&amp;x ='</span>, m&amp;x);</span><br></pre></td></tr></table></figure>
+
+<p>依据msg.txt，知道</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">N = <span class="number">13876129555781460073002089038351520612247655754841714940325194761154811715694900213267064079029042442997358889794972854389557630367771777876508793474170741947269348292776484727853353467216624504502363412563718921205109890927597601496686803975210884730367005708579251258930365320553408690272909557812147058458101934416094961654819292033675534518433169541534918719715858981571188058387655828559632455020249603990658414972550914448303438265789951615868454921813881331283621117678174520240951067354671343645161030847894042795249824975975123293970250188757622530156083354425897120362794296499989540418235408089516991225649</span></span><br><span class="line">e = <span class="number">3</span></span><br><span class="line">c = <span class="number">6581985633799906892057438125576915919729685289065773835188688336898671475090397283236146369846971577536055404744552000913009436345090659234890289251210725630126240983696894267667325908895755610921151796076651419491871249815427670907081328324660532079703528042745484899868019846050803531065674821086527587813490634542863407667629281865859168224431930971680966013847327545587494254199639534463557869211251870726331441006052480498353072578366929904335644501242811360758566122007864009155945266316460389696089058959764212987491632905588143831831973272715981653196928234595155023233235134284082645872266135170511490429493</span></span><br><span class="line"><span class="comment"># m&amp;x</span></span><br><span class="line">m_x = <span class="number">947571396785487533546146461810836349016633316292485079213681708490477178328756478620234135446017364353903883460574081324427546739724</span></span><br><span class="line"></span><br><span class="line">x = <span class="number">15581107453382746363421172426030468550126181195076252322042322859748260918197659408344673747013982937921433767135271108413165955808652424700637809308565928462367274272294975755415573706749109706624868830430686443947948537923430882747239965780990192617072654390726447304728671150888061906213977961981340995242772304458476566590730032592047868074968609272272687908019911741096824092090512588043445300077973100189180460193467125092550001098696240395535375456357081981657552860000358049631730893603020057137233513015505547751597823505590900290756694837641762534009330797696018713622218806608741753325137365900124739257740</span></span><br></pre></td></tr></table></figure>
+
+<p>我们知道<code>m&amp;x，x</code>但并恢复不了<code>m</code>,看来我们必须解密c才能得到$m | x$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#简单统计一下，m&amp;x和x的位数</span></span><br><span class="line">len(bin(m_x)[<span class="number">2</span>:]),len(bin(x)[<span class="number">2</span>:])</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># x比m多的位数</span></span><br><span class="line"><span class="number">2048</span><span class="number">-440</span></span><br></pre></td></tr></table></figure>
+
+<p>由此，可得知以下关于<code>m|x</code></p>
+<ul>
+<li>由<code>m&amp;x</code>和<code>x</code>知<code>m</code>为440位，x为2048位</li>
+<li>也就意味着<code>m|x</code>的高1608位对应x的高位</li>
+</ul>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p>故有以下已知信息：</p>
+<ul>
+<li>a =m | x( 取低440位）</li>
+<li>b =x(取x高1680位，低440位赋值为0)</li>
+<li>则 m | x==b+a，有$c==(b+a)^e mod N$</li>
+</ul>
+<p>这可以归为RSA中stereotyped messages类型攻击，我们能使用Coppersmith恢复<code>a</code></p>
+<h4 id="了解RSA-stereotyped-messages"><a href="#了解RSA-stereotyped-messages" class="headerlink" title="了解RSA-stereotyped messages"></a>了解RSA-stereotyped messages</h4><ul>
+<li><p>使用场景：知道消息的部分关键位数，使用该方法可以找到消息的其他位</p>
+</li>
+<li><p>RSA的一个模型：$m^e=c (mod N)$，这个模型可以解决$c=(m+x)^e$，你知道明文的部分m，但是不知道x</p>
+<blockquote>
+<p>如果寻找的是消息的$N^{1/e}$，并且是个较小的根，应该可以较快找到</p>
+</blockquote>
+</li>
+<li><p>多项式为$f(x)=(m+x)^e-c$ 想发现模N的一个根。</p>
+</li>
+<li><p>代码实现：</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dd = f.degree()</span><br><span class="line">beta = <span class="number">1</span></span><br><span class="line">epsilon = beta / <span class="number">7</span></span><br><span class="line">mm = ceil(beta**<span class="number">2</span> / (dd * epsilon))</span><br><span class="line">tt = floor(dd * mm * ((<span class="number">1</span>/beta) - <span class="number">1</span>))</span><br><span class="line">XX = ceil(N**((beta**<span class="number">2</span>/dd) - epsilon))</span><br><span class="line">roots = coppersmith_howgrave_univariate(f, N, beta, mm, tt, XX)</span><br></pre></td></tr></table></figure>
+
+<p>您可以使用这些值，直到它找到根。默认值应该是一个很好的开始。如果你想调整:</p>
+<ul>
+<li>beta：在这种情况下总是1</li>
+<li>XX是根节点的上界。未知数越大，XX也就越大。而且它越大……花的时间越多</li>
+</ul>
+<h4 id="sage脚本获取x-coppersmith-sage"><a href="#sage脚本获取x-coppersmith-sage" class="headerlink" title="sage脚本获取x(coppersmith.sage)"></a>sage脚本获取x(coppersmith.sage)</h4><p>获取x的低440位的sage脚本，可在线运行sage脚本<a href="https://sagecell.sagemath.org/" target="_blank" rel="noopener">https://sagecell.sagemath.org/</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Coppersmith implementation </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">debug = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># display matrix picture with 0 and X</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">matrix_overview</span><span class="params">(BB, bound)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> range(BB.dimensions()[<span class="number">0</span>]):</span><br><span class="line">        a = (<span class="string">'%02d '</span> % ii)</span><br><span class="line">        <span class="keyword">for</span> jj <span class="keyword">in</span> range(BB.dimensions()[<span class="number">1</span>]):</span><br><span class="line">            a += <span class="string">'0'</span> <span class="keyword">if</span> BB[ii,jj] == <span class="number">0</span> <span class="keyword">else</span> <span class="string">'X'</span></span><br><span class="line">            a += <span class="string">' '</span></span><br><span class="line">        <span class="keyword">if</span> BB[ii, ii] &gt;= bound:</span><br><span class="line">            a += <span class="string">'~'</span></span><br><span class="line">        print(a)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">coppersmith_howgrave_univariate</span><span class="params">(pol, modulus, beta, mm, tt, XX)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Coppersmith revisited by Howgrave-Graham</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    finds a solution if:</span></span><br><span class="line"><span class="string">    * b|modulus, b &gt;= modulus^beta , 0 &lt; beta &lt;= 1</span></span><br><span class="line"><span class="string">    * |x| &lt; XX</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment"># init</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    dd = pol.degree()</span><br><span class="line">    nn = dd * mm + tt</span><br><span class="line"></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment"># checks</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> <span class="number">0</span> &lt; beta &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">"beta should belongs in (0, 1]"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> pol.is_monic():</span><br><span class="line">        <span class="keyword">raise</span> ArithmeticError(<span class="string">"Polynomial must be monic."</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment"># calculate bounds and display them</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    * we want to find g(x) such that ||g(xX)|| &lt;= b^m / sqrt(n)</span></span><br><span class="line"><span class="string">    * we know LLL will give us a short vector v such that:</span></span><br><span class="line"><span class="string">    ||v|| &lt;= 2^((n - 1)/4) * det(L)^(1/n)</span></span><br><span class="line"><span class="string">    * we will use that vector as a coefficient vector for our g(x)</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    * so we want to satisfy:</span></span><br><span class="line"><span class="string">    2^((n - 1)/4) * det(L)^(1/n) &lt; N^(beta*m) / sqrt(n)</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    so we can obtain ||v|| &lt; N^(beta*m) / sqrt(n) &lt;= b^m / sqrt(n)</span></span><br><span class="line"><span class="string">    (it's important to use N because we might not know b)</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        <span class="comment"># t optimized?</span></span><br><span class="line">        print(<span class="string">"\n# Optimized t?\n"</span>)</span><br><span class="line">        print(<span class="string">"we want X^(n-1) &lt; N^(beta*m) so that each vector is helpful"</span>)</span><br><span class="line">        cond1 = RR(XX^(nn<span class="number">-1</span>))</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"* X^(n-1) = "</span>, cond1)</span><br><span class="line">        cond2 = pow(modulus, beta*mm)</span><br><span class="line">        print(<span class="string">"* N^(beta*m) = "</span>, cond2)</span><br><span class="line">        print(<span class="string">"* X^(n-1) &lt; N^(beta*m) \n-&gt; GOOD"</span> <span class="keyword">if</span> cond1 &lt; cond2 <span class="keyword">else</span> <span class="string">"* X^(n-1) &gt;= N^(beta*m) \n-&gt; NOT GOOD"</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># bound for X</span></span><br><span class="line">        print(<span class="string">"\n# X bound respected?\n"</span>)</span><br><span class="line">        print(<span class="string">"we want X &lt;= N^(((2*beta*m)/(n-1)) - ((delta*m*(m+1))/(n*(n-1)))) / 2 = M"</span>)</span><br><span class="line">        print(<span class="string">"* X ="</span>, XX)</span><br><span class="line">        cond2 = RR(modulus^(((<span class="number">2</span>*beta*mm)/(nn<span class="number">-1</span>)) - ((dd*mm*(mm+<span class="number">1</span>))/(nn*(nn<span class="number">-1</span>)))) / <span class="number">2</span>)</span><br><span class="line">        print(<span class="string">"* M ="</span>, cond2)</span><br><span class="line">        print(<span class="string">"* X &lt;= M \n-&gt; GOOD"</span> <span class="keyword">if</span> XX &lt;= cond2 <span class="keyword">else</span> <span class="string">"* X &gt; M \n-&gt; NOT GOOD"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># solution possible?</span></span><br><span class="line">        print(<span class="string">"\n# Solutions possible?\n"</span>)</span><br><span class="line">        detL = RR(modulus^(dd * mm * (mm + <span class="number">1</span>) / <span class="number">2</span>) * XX^(nn * (nn - <span class="number">1</span>) / <span class="number">2</span>))</span><br><span class="line">        print(<span class="string">"we can find a solution if 2^((n - 1)/4) * det(L)^(1/n) &lt; N^(beta*m) / sqrt(n)"</span>)</span><br><span class="line">        cond1 = RR(<span class="number">2</span>^((nn - <span class="number">1</span>)/<span class="number">4</span>) * detL^(<span class="number">1</span>/nn))</span><br><span class="line">        print(<span class="string">"* 2^((n - 1)/4) * det(L)^(1/n) = "</span>, cond1)</span><br><span class="line">        cond2 = RR(modulus^(beta*mm) / sqrt(nn))</span><br><span class="line">        print(<span class="string">"* N^(beta*m) / sqrt(n) = "</span>, cond2)</span><br><span class="line">        print(<span class="string">"* 2^((n - 1)/4) * det(L)^(1/n) &lt; N^(beta*m) / sqrt(n) \n-&gt; SOLUTION WILL BE FOUND"</span> <span class="keyword">if</span> cond1 &lt; cond2 <span class="keyword">else</span> <span class="string">"* 2^((n - 1)/4) * det(L)^(1/n) &gt;= N^(beta*m) / sqroot(n) \n-&gt; NO SOLUTIONS MIGHT BE FOUND (but we never know)"</span>)</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">        <span class="comment"># warning about X</span></span><br><span class="line">        print(<span class="string">"\n# Note that no solutions will be found _for sure_ if you don't respect:\n* |root| &lt; X \n* b &gt;= modulus^beta\n"</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment"># Coppersmith revisited algo for univariate</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># change ring of pol and x</span></span><br><span class="line">    polZ = pol.change_ring(ZZ)</span><br><span class="line">    x = polZ.parent().gen()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># compute polynomials</span></span><br><span class="line">    gg = []</span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> range(mm):</span><br><span class="line">        <span class="keyword">for</span> jj <span class="keyword">in</span> range(dd):</span><br><span class="line">            gg.append((x * XX)**jj * modulus**(mm - ii) * polZ(x * XX)**ii)</span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> range(tt):</span><br><span class="line">        gg.append((x * XX)**ii * polZ(x * XX)**mm)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># construct lattice B</span></span><br><span class="line">    BB = Matrix(ZZ, nn)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> range(nn):</span><br><span class="line">        <span class="keyword">for</span> jj <span class="keyword">in</span> range(ii+<span class="number">1</span>):</span><br><span class="line">            BB[ii, jj] = gg[ii][jj]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># display basis matrix</span></span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        matrix_overview(BB, modulus^mm)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># LLL</span></span><br><span class="line">    BB = BB.LLL()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># transform shortest vector in polynomial    </span></span><br><span class="line">    new_pol = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> range(nn):</span><br><span class="line">        new_pol += x**ii * BB[<span class="number">0</span>, ii] / XX**ii</span><br><span class="line"></span><br><span class="line">    <span class="comment"># factor polynomial</span></span><br><span class="line">    potential_roots = new_pol.roots()</span><br><span class="line">    print(<span class="string">"potential roots:"</span>, potential_roots)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># test roots</span></span><br><span class="line">    roots = []</span><br><span class="line">    <span class="keyword">for</span> root <span class="keyword">in</span> potential_roots:</span><br><span class="line">        <span class="keyword">if</span> root[<span class="number">0</span>].is_integer():</span><br><span class="line">            result = polZ(ZZ(root[<span class="number">0</span>]))</span><br><span class="line">            <span class="keyword">if</span> gcd(modulus, result) &gt;= modulus^beta:</span><br><span class="line">                roots.append(ZZ(root[<span class="number">0</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># </span></span><br><span class="line">    <span class="keyword">return</span> roots</span><br><span class="line"></span><br><span class="line"><span class="comment"># Public key</span></span><br><span class="line">N = <span class="number">13876129555781460073002089038351520612247655754841714940325194761154811715694900213267064079029042442997358889794972854389557630367771777876508793474170741947269348292776484727853353467216624504502363412563718921205109890927597601496686803975210884730367005708579251258930365320553408690272909557812147058458101934416094961654819292033675534518433169541534918719715858981571188058387655828559632455020249603990658414972550914448303438265789951615868454921813881331283621117678174520240951067354671343645161030847894042795249824975975123293970250188757622530156083354425897120362794296499989540418235408089516991225649</span></span><br><span class="line">length_N = <span class="number">2048</span></span><br><span class="line">ZmodN = Zmod(N);</span><br><span class="line">e = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Obscuring term (was called `x` previously)</span></span><br><span class="line">obs = <span class="number">15581107453382746363421172426030468550126181195076252322042322859748260918197659408344673747013982937921433767135271108413165955808652424700637809308565928462367274272294975755415573706749109706624868830430686443947948537923430882747239965780990192617072654390726447304728671150888061906213977961981340995242772304458476566590730032592047868074968609272272687908019911741096824092090512588043445300077973100189180460193467125092550001098696240395535375456357081981657552860000358049631730893603020057137233513015505547751597823505590900290756694837641762534009330797696018713622218806608741753325137365900124739257740</span></span><br><span class="line">length_obs = <span class="number">440</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Ciphertext</span></span><br><span class="line">C = <span class="number">6581985633799906892057438125576915919729685289065773835188688336898671475090397283236146369846971577536055404744552000913009436345090659234890289251210725630126240983696894267667325908895755610921151796076651419491871249815427670907081328324660532079703528042745484899868019846050803531065674821086527587813490634542863407667629281865859168224431930971680966013847327545587494254199639534463557869211251870726331441006052480498353072578366929904335644501242811360758566122007864009155945266316460389696089058959764212987491632905588143831831973272715981653196928234595155023233235134284082645872266135170511490429493</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Obsuring term with lower 440 bits zero'd (was called 'b' previously)</span></span><br><span class="line"></span><br><span class="line">obs_clean = (obs &gt;&gt; length_obs) &lt;&lt; length_obs</span><br><span class="line"></span><br><span class="line"><span class="comment"># Problem to equation.</span></span><br><span class="line"><span class="comment"># The `x` here was called `a` previously, which we are now solving for.</span></span><br><span class="line">P.&lt;x&gt; = PolynomialRing(ZmodN)</span><br><span class="line">pol = (obs_clean + x)^e - C</span><br><span class="line"></span><br><span class="line">dd = pol.degree()</span><br><span class="line">beta = <span class="number">1</span>                                <span class="comment"># b = N</span></span><br><span class="line">epsilon = beta / <span class="number">7</span>                      <span class="comment"># &lt;= beta / 7</span></span><br><span class="line">mm = ceil(beta**<span class="number">2</span> / (dd * epsilon))     <span class="comment"># optimized value</span></span><br><span class="line">tt = floor(dd * mm * ((<span class="number">1</span>/beta) - <span class="number">1</span>))    <span class="comment"># optimized value</span></span><br><span class="line">XX = ceil(N**((beta**<span class="number">2</span>/dd) - epsilon))  <span class="comment"># optimized value</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Coppersmith</span></span><br><span class="line">roots = coppersmith_howgrave_univariate(pol, N, beta, mm, tt, XX)</span><br><span class="line"></span><br><span class="line">print()</span><br><span class="line">print(<span class="string">"Solutions"</span>)</span><br><span class="line">print(<span class="string">"We found:"</span>, str(roots))</span><br></pre></td></tr></table></figure>
+
+<p>sage脚本运行结果：</p>
+<pre><code># Optimized t?
+
+we want X^(n-1) &lt; N^(beta*m) so that each vector is helpful
+* X^(n-1) =  7.64639144486953e938
+* N^(beta*m) =  2671806721397343609369125721689846363846823887595317169259208269410807613515138193272735950395342600354585884618596837138454312445763723886601166952043062748009505139217794681937611360645445444140769994643446818754534866298130651329433014724715889837444867182984191620190905818803588933562722223328979700923934070485221893022649172511067198019458620445165662776678908770872500383557396520873649954695933963393304148547194098533517769688355801169062583949901346704912994207653877424119826970416572728246446525108981742453007188018279798743202379750534406784078069421672055702384012232185139872186089443647992149818358893834997950425662042050549158210414590239894415499371752895019920281114015215479652534190130397775610338712743962931327219145055957487978233015931879293485628652795746982880303598514651118264609343317354096189644231871614967872526120966984276731281546669197245726209804436508113354381914315232435894150854988195962920941429615473853382836785869279384612192426076678623082066854288934520774307146911493350318344271370346300740624871491708331236066262479670355346647414096649266862487754904950869424292066310431256633985253697575515680033391453124985988988670191902111914051233299493877035782843638962398086115700226338455677786300225885984533601124871244669214214105103887099092767042659106858007541232363169127153863660502490389037875332835859504268824420222360070871822883878805542227544448876610761790896706106782074035914998714448926799887557941643969590869586865208655191892111098282289241597413702345534627562696456765064323919706870792491286590311106687866963980133668858578681546024445557042142046310271577884977392878357234252136015344414426228232128893808200127782962118800708442012306882529157602730015548081294901794784475069861171020927127171831672885720955503939986515276832850113174993877171846111637519924505032034449
+* X^(n-1) &lt; N^(beta*m) 
+-&gt; GOOD
+
+# X bound respected?
+
+we want X &lt;= N^(((2*beta*m)/(n-1)) - ((delta*m*(m+1))/(n*(n-1)))) / 2 = M
+* X = 2293147898964117288808008000805061598361990209625542167130389100774470198047923394475218668318195962237962277248056358
+* M = 5.42671596118645e153
+* X &lt;= M 
+-&gt; GOOD
+
+# Solutions possible?
+
+we can find a solution if 2^((n - 1)/4) * det(L)^(1/n) &lt; N^(beta*m) / sqrt(n)
+* 2^((n - 1)/4) * det(L)^(1/n) =  2.12973195403260e1702
+* N^(beta*m) / sqrt(n) =  8.90602240465781e1847
+* 2^((n - 1)/4) * det(L)^(1/n) &lt; N^(beta*m) / sqrt(n) 
+-&gt; SOLUTION WILL BE FOUND
+
+# Note that no solutions will be found _for sure_ if you don&apos;t respect:
+* |root| &lt; X 
+* b &gt;= modulus^beta
+
+00 X 0 0 0 0 0 0 0 0 ~
+01 0 X 0 0 0 0 0 0 0 ~
+02 0 0 X 0 0 0 0 0 0 ~
+03 X X X X 0 0 0 0 0 
+04 0 X X X X 0 0 0 0 
+05 0 0 X X X X 0 0 0 
+06 X X X X X X X 0 0 
+07 0 X X X X X X X 0 
+08 0 0 X X X X X X X 
+potential roots: [(2722393138562666557007231734043804673010965247853655886232567981247025605356740318867235245940388712958024648376448739432029199788029, 1)]
+
+Solutions
+We found: [2722393138562666557007231734043804673010965247853655886232567981247025605356740318867235245940388712958024648376448739432029199788029]</code></pre><h4 id="恢复明文m"><a href="#恢复明文m" class="headerlink" title="恢复明文m"></a>恢复明文m</h4><ul>
+<li>现在知道<code>m|x</code>的低440位，可恢复m</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">recover</span><span class="params">(x, m_and_x, m_or_x)</span>:</span></span><br><span class="line">    ans = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> m_and_x &gt; <span class="number">0</span>:</span><br><span class="line">        a = x &amp; <span class="number">1</span> <span class="comment">#取x的最低一位</span></span><br><span class="line">        b = m_and_x &amp; <span class="number">1</span></span><br><span class="line">        c = m_or_x &amp; <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> a == <span class="number">0</span>: <span class="comment"># 若a=0，0 and (0 或1)=0 故看 0 or c=c</span></span><br><span class="line">            <span class="keyword">assert</span> b == <span class="number">0</span></span><br><span class="line">            ans.append(str(c))</span><br><span class="line">        <span class="keyword">else</span>:     <span class="comment"># 若a=1,则 1 or (1 or 0)=1 ，故看1 and b=b</span></span><br><span class="line">            ans.append(str(b))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 都右移看下一位</span></span><br><span class="line">        m_or_x &gt;&gt;= <span class="number">1</span></span><br><span class="line">        m_and_x &gt;&gt;= <span class="number">1</span></span><br><span class="line">        x &gt;&gt;= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    ans = ans[::<span class="number">-1</span>]</span><br><span class="line">    ans = <span class="string">""</span>.join(ans)</span><br><span class="line">    <span class="keyword">return</span> libnum.n2s(int(<span class="string">'0b'</span>+ans,<span class="number">2</span>))</span><br><span class="line">m_or_x=<span class="number">2722393138562666557007231734043804673010965247853655886232567981247025605356740318867235245940388712958024648376448739432029199788029</span></span><br><span class="line"><span class="comment"># m_and_x为m|x低440位</span></span><br><span class="line">m_and_x = <span class="number">947571396785487533546146461810836349016633316292485079213681708490477178328756478620234135446017364353903883460574081324427546739724</span></span><br><span class="line">x = <span class="number">15581107453382746363421172426030468550126181195076252322042322859748260918197659408344673747013982937921433767135271108413165955808652424700637809308565928462367274272294975755415573706749109706624868830430686443947948537923430882747239965780990192617072654390726447304728671150888061906213977961981340995242772304458476566590730032592047868074968609272272687908019911741096824092090512588043445300077973100189180460193467125092550001098696240395535375456357081981657552860000358049631730893603020057137233513015505547751597823505590900290756694837641762534009330797696018713622218806608741753325137365900124739257740</span></span><br><span class="line">m=recover(x,m_and_x,m_or_x)</span><br><span class="line">print(m)</span><br></pre></td></tr></table></figure>
+
+<pre><code>utflag{C0u1dNt_c0m3_uP_w1tH_A_Cl3veR_f1aG_b61a2defc55f}</code></pre><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><p><a href="https://github.com/cscosu/ctf-writeups/tree/master/2021/utctf/A_Bit_Weird" target="_blank" rel="noopener">https://github.com/cscosu/ctf-writeups/tree/master/2021/utctf/A_Bit_Weird</a></p>
+</li>
+<li><p><a href="https://github.com/mimoo/RSA-and-LLL-attacks/blob/master/coppersmith.sage" target="_blank" rel="noopener">https://github.com/mimoo/RSA-and-LLL-attacks/blob/master/coppersmith.sage</a></p>
+</li>
+</ul>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://fishni.github.io/2021/03/17/Crypto-03-RSA%20Stereotyped%20message%20attack-(UCTF2021-a%20bit%20weird)/>https://fishni.github.io/2021/03/17/Crypto-03-RSA%20Stereotyped%20message%20attack-(UCTF2021-a%20bit%20weird)/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/wechat.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/qq.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-17T15:33:51+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2021年3月17日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>密码学</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Crypto-CTF/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Crypto-CTF</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/RSA/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>RSA</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2021/03/17/Crypto-03-RSA%20Stereotyped%20message%20attack-(UCTF2021-a%20bit%20weird)/&title=【Crypto-CTF】Crpyto-RSA stereotyped message atack-(UCTF2021-a bit weird) - fishni&summary=前段时间做UCTF2021的Crypto题时，遇到的一道RSA stereotyped message攻击的题，主要涉及的知识有RSA 、Coppersmith、与 and和或 or的理解、移位操作。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2021/03/17/Crypto-03-RSA%20Stereotyped%20message%20attack-(UCTF2021-a%20bit%20weird)/&title=【Crypto-CTF】Crpyto-RSA stereotyped message atack-(UCTF2021-a bit weird) - fishni&summary=前段时间做UCTF2021的Crypto题时，遇到的一道RSA stereotyped message攻击的题，主要涉及的知识有RSA 、Coppersmith、与 and和或 or的理解、移位操作。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2021/03/17/Crypto-03-RSA%20Stereotyped%20message%20attack-(UCTF2021-a%20bit%20weird)/&title=【Crypto-CTF】Crpyto-RSA stereotyped message atack-(UCTF2021-a bit weird) - fishni&summary=前段时间做UCTF2021的Crypto题时，遇到的一道RSA stereotyped message攻击的题，主要涉及的知识有RSA 、Coppersmith、与 and和或 or的理解、移位操作。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2021/03/16/Crypto-02-Diffie-Hellman%EF%BC%88DH%EF%BC%89%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/'>
+                <p class='title'>【Crypto-CTF】Diffie-Hellman(DH)密钥交换<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本文主要内容：简要介绍Diffie-Hellman密钥交换基本原理，所存在的中间人攻击，以及UCTF2021比赛中关于DH的Small p Problems暴力破解题
+
+
+简要介绍Diffie-...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true,
+    tags: "ams",
+    macros: {
+      href: "{}"
+    }
+  },
+  options: {
+    ignoreHtmlClass: "tex2jax_ignore|dno",
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+};
+</script>
+
+
+
+
+  <script>
+    window.subData = {
+      title: '【Crypto-CTF】Crpyto-RSA stereotyped message atack-(UCTF2021-a bit weird)',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#场景"><span class="toc-text">场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#攻击阐述"><span class="toc-text">攻击阐述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#攻击成功条件"><span class="toc-text">攻击成功条件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UCTF2021-a-bit-weird"><span class="toc-text">UCTF2021-a bit weird</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简要分析"><span class="toc-text">简要分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#题解"><span class="toc-text">题解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#了解RSA-stereotyped-messages"><span class="toc-text">了解RSA-stereotyped messages</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sage脚本获取x-coppersmith-sage"><span class="toc-text">sage脚本获取x(coppersmith.sage)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#恢复明文m"><span class="toc-text">恢复明文m</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://fishni.github.io/"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+            
+              <a href="https://github.com/fishni"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://volantis.js.org/" target="_blank" class="codename">fishni's blog</a>
+        作为主题
+        
+          ，
+          总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://fishni.github.io/">Copyright © 2017-2020 Mr.fishmouse</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20718gongsenkui02.jpg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('') {
+          $('').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.2.1/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("div.fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

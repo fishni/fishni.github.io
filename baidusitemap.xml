@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://fishni.github.io/2021/03/17/Crypto-03-RSA%20Stereotyped%20message%20attack-(UCTF2021-a%20bit%20weird)/</loc>
+    <lastmod>2021-03-17</lastmod>
+  </url>
+  <url>
     <loc>https://fishni.github.io/2021/03/16/Crypto-02-Diffie-Hellman%EF%BC%88DH%EF%BC%89%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/</loc>
     <lastmod>2021-03-16</lastmod>
   </url>
