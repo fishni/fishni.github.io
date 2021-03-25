@@ -508,7 +508,22 @@ NUM_CPUS = 4</code></pre><ul>
 <p>至此windows下已安装完成</p>
 <h2 id="Linux下安装"><a href="#Linux下安装" class="headerlink" title="Linux下安装"></a>Linux下安装</h2><p>下载msieve：<a href="https://github.com/MersenneForum/msieve" target="_blank" rel="noopener">https://github.com/MersenneForum/msieve</a><br>其中包含了gnfs我们就直接在该文件夹下,终端输入make all即可</p>
 <p>我使用的是kail所以命令如下：</p>
-<pre><code>root@kali:~/myctf/msieve# make all</code></pre><h1 id="题目-LineCTF2021-babycrypto3"><a href="#题目-LineCTF2021-babycrypto3" class="headerlink" title="题目-LineCTF2021-babycrypto3"></a>题目-LineCTF2021-babycrypto3</h1><p>Plesase decrypt and get flag.</p>
+<pre><code>root@kali:~/myctf/msieve# make all</code></pre><h1 id="CADO-NFS安装"><a href="#CADO-NFS安装" class="headerlink" title="CADO-NFS安装"></a>CADO-NFS安装</h1><p>CADO-NFS是C / C ++中数字字段筛选（NFS）算法的完整实现，用于分解整数并计算有限字段中的离散对数。它包含与算法所有阶段相对应的各种程序，以及可能在计算机网络上并行运行它们的通用脚本</p>
+<h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><p>下载mitchelldehaven/cado-nfs镜像，大约1个G</p>
+<pre><code>docker pull mitchelldehaven/cado-nfs</code></pre><ul>
+<li><p>运行容器，打开交互界面，进入/bin/bash目录，然后再进入/cado-nfs-2.3.0目录</p>
+<p>  docker run -it mitchelldehaven/cado-nfs /bin/bash</p>
+</li>
+<li><p>这个镜像预先是没有make的，所以需要make，等一会即可</p>
+</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210325rsa01.png" alt=""></p>
+<p>简单测试：分解</p>
+<p>90377629292003121684002147101760858109247336549001090677693</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./cado-nfs.py <span class="number">90377629292003121684002147101760858109247336549001090677693</span></span><br></pre></td></tr></table></figure>
+
+<p>260938498861057 588120598053661 760926063870977 773951836515617</p>
+<h1 id="题目-LineCTF2021-babycrypto3"><a href="#题目-LineCTF2021-babycrypto3" class="headerlink" title="题目-LineCTF2021-babycrypto3"></a>题目-LineCTF2021-babycrypto3</h1><p>Plesase decrypt and get flag.</p>
 <p>Flag is LINECTF{<decryped text>} and<br>decrypted text is human-readable text.</p>
 <ul>
 <li>附件：ciphertext.txt和pub.pem</li>
@@ -644,10 +659,10 @@ b&apos;\x02`g\xff\x85\x1e\xcd\xcba\xe5\x0b\x83\xa5\x15\xe3\x00Q0xPU0lORyBUSEUgRE
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-24T22:03:18+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-25T21:46:47+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2021年3月24日</p>
+    <p>更新于：2021年3月25日</p>
   </a>
 </div>
 
@@ -816,7 +831,7 @@ window.MathJax = {
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#n较小，直接分解几种算法"><span class="toc-text">n较小，直接分解几种算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#短除法"><span class="toc-text">短除法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Miller-Rabin素性测试和离散对数Pollard-rho分解"><span class="toc-text">Miller-Rabin素性测试和离散对数Pollard_rho分解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#n较大，在线查找"><span class="toc-text">n较大，在线查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Wiener’s-attack"><span class="toc-text">Wiener’s attack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#适用情况"><span class="toc-text">适用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简单介绍"><span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#费马分解"><span class="toc-text">费马分解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#适用情况-1"><span class="toc-text">适用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码示例"><span class="toc-text">代码示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#windows下安装"><span class="toc-text">windows下安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ECM在线和windows下yafu分解测试"><span class="toc-text">ECM在线和windows下yafu分解测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载msieve"><span class="toc-text">下载msieve</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载ggnfs"><span class="toc-text">下载ggnfs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改factmsieve-py文件"><span class="toc-text">修改factmsieve.py文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多项式选择"><span class="toc-text">多项式选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux下安装"><span class="toc-text">Linux下安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分析密文"><span class="toc-text">分析密文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解析公钥文件"><span class="toc-text">解析公钥文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方式1：OpenSSL软件"><span class="toc-text">方式1：OpenSSL软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方式2：Python库RSA"><span class="toc-text">方式2：Python库RSA</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分解n"><span class="toc-text">分解n</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解密"><span class="toc-text">解密</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#n较小，直接分解几种算法"><span class="toc-text">n较小，直接分解几种算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#短除法"><span class="toc-text">短除法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Miller-Rabin素性测试和离散对数Pollard-rho分解"><span class="toc-text">Miller-Rabin素性测试和离散对数Pollard_rho分解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#n较大，在线查找"><span class="toc-text">n较大，在线查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Wiener’s-attack"><span class="toc-text">Wiener’s attack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#适用情况"><span class="toc-text">适用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简单介绍"><span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#费马分解"><span class="toc-text">费马分解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#适用情况-1"><span class="toc-text">适用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码示例"><span class="toc-text">代码示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#windows下安装"><span class="toc-text">windows下安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ECM在线和windows下yafu分解测试"><span class="toc-text">ECM在线和windows下yafu分解测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载msieve"><span class="toc-text">下载msieve</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载ggnfs"><span class="toc-text">下载ggnfs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改factmsieve-py文件"><span class="toc-text">修改factmsieve.py文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多项式选择"><span class="toc-text">多项式选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux下安装"><span class="toc-text">Linux下安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载镜像"><span class="toc-text">下载镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分析密文"><span class="toc-text">分析密文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解析公钥文件"><span class="toc-text">解析公钥文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方式1：OpenSSL软件"><span class="toc-text">方式1：OpenSSL软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方式2：Python库RSA"><span class="toc-text">方式2：Python库RSA</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分解n"><span class="toc-text">分解n</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解密"><span class="toc-text">解密</span></a></li></ol>
     </div>
   </section>
 
