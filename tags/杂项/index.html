@@ -18,7 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>标签：搜索 - fishni</title>
+    <title>标签：杂项 - fishni</title>
   
   
 
@@ -315,8 +315,8 @@
       
         
   <h2 class="title">
-    <a href="/2021/03/10/LeetCode-H-%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95-695.%20%E5%B2%9B%E5%B1%BF%E7%9A%84%E6%9C%80%E5%A4%A7%E9%9D%A2%E7%A7%AF/">
-      【数据结构与算法】【LeetCode】【搜索】695.岛屿的最大面积
+    <a href="/2021/03/30/Crypto-05-%E6%9D%82%E9%A1%B9LSB%E8%A7%86%E9%A2%91%E9%9A%90%E5%86%99-Chosen%20One%20from%20VolgaCTF%20Qualifier%202021/">
+      【Crypto-CTF】杂项LSB隐写-VolgaCTF Qualifier 2021-Chosen One
     </a>
   </h2>
 
@@ -341,9 +341,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/' rel="nofollow">
+    <a href='/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>数据结构与算法</p>
+      <p>密码学</p>
     </a>
   </div>
 
@@ -354,7 +354,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2021年3月10日</p>
+    <p>发布于：2021年3月30日</p>
   </a>
 </div>
 
@@ -381,15 +381,22 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <p>深度优先搜索、栈</p>
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>There is a hidden message in this slide-show, we’re absolutely sure! Can you find it?</p>
+<p><a href="movie.apng">movie.apng</a></p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>准备首先利用apngdis将apng转换成一帧一帧形式，windows下我使用apngdis_gui.exe进行转换</p>
+<p>转换结果包含多张图片，从大小推断有两种较大图片，大小不连续，猜测可能存在问题apngframe0438.png和apngframe0580.png</p>
+<p>使用<a href="https://stegonline.georgeom.net/upload" target="_blank" rel="noopener">https://stegonline.georgeom.net/upload</a> 查看bitplanes，发现两张图片Blue 0可以衔接起来</p>
+<p>涉及LSB图片隐写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2 <span class="keyword">as</span> cv</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> bitstring <span class="keyword">import</span> BitStream, BitArray</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"out.rar"</span>, <span class="string">"wb"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> [<span class="string">"apngframe0438.png"</span>, <span class="string">"apngframe0580.png"</span>]:</span><br><span class="line">        img = cv.imread(name)</span><br><span class="line">        blue_plane = img[:,:,<span class="number">0</span>] &amp; <span class="number">1</span> <span class="comment"># get LSB from 0'th channel (blue)获取Blue通道最低有效位</span></span><br><span class="line">        plt.imshow(blue_plane); plt.show()  <span class="comment"># debug printing so that we know we have the correct files</span></span><br><span class="line">        bits = <span class="string">""</span>.join(blue_plane.flatten().astype(str))  <span class="comment"># flatten 1920x1080 array of 0/1 to string</span></span><br><span class="line">        by = BitArray(bin=bits).tobytes()  <span class="comment"># bitstring to bytes</span></span><br><span class="line">        f.write(by)</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210330lsb01.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210330lsb02.png" alt=""></p>
+<p>简单修复一下，并观看视频</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/210330lsb03.png" alt=""></p>
+
       
       
-        
-          <div class="button readmore">
-            <a href="/2021/03/10/LeetCode-H-%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95-695.%20%E5%B2%9B%E5%B1%BF%E7%9A%84%E6%9C%80%E5%A4%A7%E9%9D%A2%E7%A7%AF/">
-              Read More <i class="fas fa-chevron-right"></i>
-            </a>
-          </div>
         
       
     </div>
