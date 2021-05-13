@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>分类：机器学习算法 - fishni</title>
+    <title>LeetCode-J-栈-20. 有效的括号 - fishni</title>
   
+    <meta name="keywords" content="数据结构与算法,栈">
+  
+  
+    <meta name="description" content="栈、括号匹配">
   
 
   <!-- feed -->
@@ -287,25 +289,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -314,11 +303,13 @@
     <div class="meta" id="header-meta">
       
         
-  <h2 class="title">
-    <a href="/2020/04/05/%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86GaussianNB%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/">
-      【机器学习算法】鸢尾花数据集GaussianNB分类预测
-    </a>
-  </h2>
+  
+    <h1 class="title">
+      <a href="/2021/05/13/LeetCode-J-%E6%A0%88-20.%20%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/">
+        LeetCode-J-栈-20. 有效的括号
+      </a>
+    </h1>
+  
 
 
       
@@ -341,9 +332,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95/' rel="nofollow">
+    <a href='/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>人工智能&nbsp;/&nbsp;机器学习算法</p>
+      <p>数据结构与算法</p>
     </a>
   </div>
 
@@ -354,14 +345,9 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年4月5日</p>
+    <p>发布于：2021年5月13日</p>
   </a>
 </div>
-
-          
-        
-          
-            
 
           
         
@@ -378,87 +364,52 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="本文主要内容"><a href="#本文主要内容" class="headerlink" title="本文主要内容"></a>本文主要内容</h3><p> UC Irvine具有用于存储各种数据的大型存储库。 本文使用<strong>鸢尾花数据集</strong>（<a href="https://archive.ics.uci.edu/ml/datasets/Iris）进行实验。" target="_blank" rel="noopener">https://archive.ics.uci.edu/ml/datasets/Iris）进行实验。</a> 为分类任务实施<strong>朴素贝叶斯分类器</strong>。 这项试验，随机抽取70％的实例进行训练，其余的则进行测试。 重复试验10次并计算平均准确度。 由于特征是连续变量，因此您可能需要在概率计算中使用<strong>高斯模型</strong>。</p>
-      
-      
-        
-          <div class="button readmore">
-            <a href="/2020/04/05/%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86GaussianNB%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B/">
-              Read More <i class="fas fa-chevron-right"></i>
-            </a>
-          </div>
-        
-      
-    </div>
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>栈、括号匹配</p>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个只包括 ‘(‘，’)’，’{‘，’}’，’[‘，’]’ 的字符串 s ，判断字符串是否有效。</p>
+<pre><code>有效字符串需满足：
 
-  
+左括号必须用相同类型的右括号闭合。
+左括号必须以正确的顺序闭合。</code></pre><p>示例1：</p>
+<pre><code>输入：s = &quot;()[]{}&quot;
+输出：true</code></pre><p>示例2：</p>
+<pre><code>输入：s = &quot;([)]&quot;
+输出：false</code></pre><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>思路分析：采用栈数据结构，当出现左括号时，就将其入栈，当出现右括号时判断栈顶是否为其对应左括号，若是，则将左括号出栈；否则，返回false，直至栈空则返回true<br>注意：当字符串长度为奇数时，直接返回False</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isValid</span><span class="params">(self, s: str)</span> -&gt; bool:</span></span><br><span class="line">        <span class="keyword">if</span> len(s)%<span class="number">2</span>==<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        pairs= &#123;<span class="string">"&#125;"</span>:<span class="string">"&#123;"</span>,<span class="string">")"</span>:<span class="string">"("</span>,<span class="string">"]"</span>:<span class="string">"["</span>&#125;</span><br><span class="line">        stack=list()</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> s:</span><br><span class="line">            <span class="keyword">if</span> c <span class="keyword">in</span> pairs:</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> stack <span class="keyword">or</span> stack[<span class="number">-1</span>]!=pairs[c]:</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">                stack.pop()</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                stack.append(c)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">not</span> stack</span><br></pre></td></tr></table></figure>
 
 
-    
-  
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a=Solution()</span><br><span class="line">s=<span class="string">"()"</span></span><br><span class="line">a.isValid(s)</span><br></pre></td></tr></table></figure>
 
-</div>
-<aside class='l_side'>
-  
+
+
+
+<pre><code>True</code></pre>
+          
+            <br>
+            
   
     
     
 
-<section class="widget blogger shadow desktop">
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      <div class='avatar'>
-        <img class='avatar' src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/20210104eastandwest01.jpg'/>
-      </div>
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">fishni</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
+      <blockquote>
         
           
-            <a href="https://fishni.github.io/"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
           
         
           
-        
-          
-            <a href="https://github.com/fishni"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://fishni.github.io/2021/05/13/LeetCode-J-%E6%A0%88-20.%20%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/>https://fishni.github.io/2021/05/13/LeetCode-J-%E6%A0%88-20.%20%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/</a></p>
           
         
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -468,118 +419,209 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/wechat.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/fishni/ImgHosting/Images/A01/qq.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-13T21:21:00+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2021年5月13日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据结构与算法</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%A0%88/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>栈</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fishni.github.io/2021/05/13/LeetCode-J-%E6%A0%88-20.%20%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/&title=LeetCode-J-栈-20. 有效的括号 - fishni&summary=栈、括号匹配"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fishni.github.io/2021/05/13/LeetCode-J-%E6%A0%88-20.%20%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/&title=LeetCode-J-栈-20. 有效的括号 - fishni&summary=栈、括号匹配"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://fishni.github.io/2021/05/13/LeetCode-J-%E6%A0%88-20.%20%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/&title=LeetCode-J-栈-20. 有效的括号 - fishni&summary=栈、括号匹配"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2021/05/11/LeetCode-I-%E5%85%B6%E4%BB%96%E7%AE%97%E6%B3%95-%E5%89%8D%E7%BC%80%E5%92%8C%E6%8A%80%E5%B7%A7-560.%20%E5%92%8C%E4%B8%BAK%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84/'>
+                <p class='title'>LeetCode-I-其他算法-前缀和技巧-560. 和为K的子数组<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>前缀和、哈希表
+
+
+题目给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。
+示例 1 :
+
+输入:nums = [1,1,1], k = 2
+输出: 2 , [1...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true,
+    tags: "ams",
+    macros: {
+      href: "{}"
+    }
+  },
+  options: {
+    ignoreHtmlClass: "tex2jax_ignore|dno",
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+};
+</script>
+
+
+
+
+  <script>
+    window.subData = {
+      title: 'LeetCode-J-栈-20. 有效的括号',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/PapersReading/" href="/categories/PapersReading/"
-            id="categoriesPapersReading"
-            ><div class='name'>PapersReading</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/ReadingBook/" href="/categories/ReadingBook/"
-            id="categoriesReadingBook"
-            ><div class='name'>ReadingBook</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/python/" href="/categories/python/"
-            id="categoriespython"
-            ><div class='name'>python</div><div class='badge'>(14)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/python/Python%E5%9F%BA%E7%A1%80/" href="/categories/python/Python%E5%9F%BA%E7%A1%80/"
-            id="categoriespythonPythonE59FBAE7A180"
-            ><div class='name'>Python基础</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/python/Web%E6%9C%8D%E5%8A%A1%E5%99%A8/" href="/categories/python/Web%E6%9C%8D%E5%8A%A1%E5%99%A8/"
-            id="categoriespythonWebE69C8DE58AA1E599A8"
-            ><div class='name'>Web服务器</div><div class='badge'>(6)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/python/Web%E6%A1%86%E6%9E%B6/" href="/categories/python/Web%E6%A1%86%E6%9E%B6/"
-            id="categoriespythonWebE6A186E69EB6"
-            ><div class='name'>Web框架</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/python/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" href="/categories/python/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"
-            id="categoriespythonpythonE7BD91E7BB9CE7BC96E7A88B"
-            ><div class='name'>python网络编程</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"
-            id="categoriesE4BABAE5B7A5E699BAE883BD"
-            ><div class='name'>人工智能</div><div class='badge'>(9)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95/" href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95/"
-            id="categoriesE4BABAE5B7A5E699BAE883BDE69CBAE599A8E5ADA6E4B9A0E7AE97E6B395"
-            ><div class='name'>机器学习算法</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/"
-            id="categoriesE5AF86E7A081E5ADA6"
-            ><div class='name'>密码学</div><div class='badge'>(5)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"
-            id="categoriesE695B0E68DAEE7BB93E69E84E4B88EE7AE97E6B395"
-            ><div class='name'>数据结构与算法</div><div class='badge'>(45)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%9D%82%E9%A1%B9/" href="/categories/%E6%9D%82%E9%A1%B9/"
-            id="categoriesE69D82E9A1B9"
-            ><div class='name'>杂项</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"
-            id="categoriesE7BD91E7BB9CE5AE89E585A8"
-            ><div class='name'>网络安全</div><div class='badge'>(10)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/Web%E5%AE%89%E5%85%A8/" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/Web%E5%AE%89%E5%85%A8/"
-            id="categoriesE7BD91E7BB9CE5AE89E585A8WebE5AE89E585A8"
-            ><div class='name'>Web安全</div><div class='badge'>(10)</div></a></li>
-        
-      </ul>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#题解"><span class="toc-text">题解</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/Crypto-CTF/" style="font-size: 19px; color: #777">Crypto-CTF</a> <a href="/tags/GaussianNB/" style="font-size: 14px; color: #999">GaussianNB</a> <a href="/tags/HTTP/" style="font-size: 14px; color: #999">HTTP</a> <a href="/tags/PHP/" style="font-size: 19px; color: #777">PHP</a> <a href="/tags/PapersReading/" style="font-size: 14px; color: #999">PapersReading</a> <a href="/tags/RSA/" style="font-size: 16.5px; color: #888">RSA</a> <a href="/tags/ReadingBook/" style="font-size: 14px; color: #999">ReadingBook</a> <a href="/tags/SVM/" style="font-size: 14px; color: #999">SVM</a> <a href="/tags/Web/" style="font-size: 20.25px; color: #6f6f6f">Web</a> <a href="/tags/Web%E6%A1%86%E6%9E%B6/" style="font-size: 16.5px; color: #888">Web框架</a> <a href="/tags/XSS/" style="font-size: 17.75px; color: #808080">XSS</a> <a href="/tags/dfs%E3%80%81%E5%9B%9E%E6%BA%AF/" style="font-size: 17.75px; color: #808080">dfs、回溯</a> <a href="/tags/fileupload/" style="font-size: 20.25px; color: #6f6f6f">fileupload</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/markdown%E5%85%AC%E5%BC%8F/" style="font-size: 14px; color: #999">markdown公式</a> <a href="/tags/python/" style="font-size: 24px; color: #555">python</a> <a href="/tags/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" style="font-size: 15.25px; color: #919191">python网络编程</a> <a href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" style="font-size: 16.5px; color: #888">二分查找</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 21.5px; color: #666">二叉树</a> <a href="/tags/%E4%BA%BA%E9%99%85%E5%85%B3%E7%B3%BB/" style="font-size: 14px; color: #999">人际关系</a> <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" style="font-size: 14px; color: #999">前缀和</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 20.25px; color: #6f6f6f">动态规划</a> <a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" style="font-size: 16.5px; color: #888">双指针</a> <a href="/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/" style="font-size: 19px; color: #777">密码学</a> <a href="/tags/%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/" style="font-size: 14px; color: #999">密钥交换</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 17.75px; color: #808080">排序</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 14px; color: #999">搜索</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 22.75px; color: #5e5e5e">数据结构与算法</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/" style="font-size: 15.25px; color: #919191">数据集</a> <a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 14px; color: #999">杂项</a> <a href="/tags/%E6%A0%88/" style="font-size: 14px; color: #999">栈</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 15.25px; color: #919191">正则表达式</a> <a href="/tags/%E6%B3%9B%E5%8C%96%E8%83%BD%E5%8A%9B/" style="font-size: 14px; color: #999">泛化能力</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 14px; color: #999">神经网络</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 14px; color: #999">算法</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" style="font-size: 14px; color: #999">线性回归</a> <a href="/tags/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/" style="font-size: 19px; color: #777">贪心算法</a> <a href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" style="font-size: 15.25px; color: #919191">逻辑回归</a> <a href="/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 21.5px; color: #666">链表</a>
-    </div>
-  </section>
-
-
-  
 
   
 
